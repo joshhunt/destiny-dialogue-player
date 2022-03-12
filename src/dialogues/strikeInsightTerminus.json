@@ -1,0 +1,973 @@
+{
+  "Collections": [
+    {
+      "ConversationHash": 255069100,
+      "UniqueID": "E82A94A90AAC0000_F340BAC",
+      "Dialogue": {
+        "Type": "DialogueLine",
+        "AudioFile": {
+          "RelativeFilePath": "audio\\12A_BF8.ogg"
+        },
+        "DialogueLineHash": 3162632475,
+        "Caption": "There\u0027s Kargen!",
+        "Narrator": "Ghost"
+      }
+    },
+    {
+      "ConversationHash": 621810072,
+      "UniqueID": "E82A94A90AAC0000_25101198",
+      "Dialogue": {
+        "Type": "DialogueSequence",
+        "Sequence": [
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_BFC.ogg"
+            },
+            "DialogueLineHash": 3446675884,
+            "Caption": "I\u0027m pretty sure he realizes we\u0027re not going to let him get away with stealing the data while we\u0027re here.",
+            "Narrator": "Ghost"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_BFF.ogg"
+            },
+            "DialogueLineHash": 4214039415,
+            "Caption": "You are correct, Friendly Ghost. A massive buildup of energy indicates several Cabal transports are inbound to your position.",
+            "Narrator": "Failsafe"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_C02.ogg"
+            },
+            "DialogueLineHash": 3275331262,
+            "Caption": "You asked for it.",
+            "Narrator": "Failsafe"
+          }
+        ]
+      }
+    },
+    {
+      "ConversationHash": 754863655,
+      "UniqueID": "E82A94A90AAC0000_2CFE4E27",
+      "Dialogue": {
+        "Type": "DialogueSequence",
+        "Sequence": [
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_C05.ogg"
+            },
+            "DialogueLineHash": 1995919869,
+            "Caption": "Guardian, we\u0027ve received limited intel regarding a Vex information depot.",
+            "Narrator": "Zavala"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_C0B.ogg"
+            },
+            "DialogueLineHash": 984072780,
+            "Caption": "I want you to get in there and figure out what they know.",
+            "Narrator": "Zavala"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_C0E.ogg"
+            },
+            "DialogueLineHash": 1198365761,
+            "Caption": "Greetings, Captain! Commander Zavala has requested that I run tactical on this mission.",
+            "Narrator": "Failsafe"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_C14.ogg"
+            },
+            "DialogueLineHash": 1005827666,
+            "Caption": "Please allow me to help you with your invasion of the Insight Terminus.",
+            "Narrator": "Failsafe"
+          },
+          {
+            "Type": "DialogueCollection",
+            "Collection": [
+              {
+                "Type": "DialogueSequence",
+                "Sequence": [
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C18.ogg"
+                    },
+                    "DialogueLineHash": 1817286726,
+                    "Caption": "Hello, Failsafe. You\u0027re familiar with this place?",
+                    "Narrator": "Ghost"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C1B.ogg"
+                    },
+                    "DialogueLineHash": 2161241524,
+                    "Caption": "Oh yes, quite! The Vex were very active there when the Exodus Black first arrived on Nessus.",
+                    "Narrator": "Failsafe"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C1E.ogg"
+                    },
+                    "DialogueLineHash": 2552083656,
+                    "Caption": "The Vex that murdered my crew came from there.",
+                    "Narrator": "Failsafe"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C22.ogg"
+                    },
+                    "DialogueLineHash": 3854459937,
+                    "Caption": "I\u0027m sorry that you have to relive those memories.",
+                    "Narrator": "Ghost"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C25.ogg"
+                    },
+                    "DialogueLineHash": 2621295962,
+                    "Caption": "It\u0027s all right. It\u0027s only taken me a few centuries to suppress them.",
+                    "Narrator": "Failsafe"
+                  }
+                ]
+              },
+              {
+                "Type": "DialogueSequence",
+                "Sequence": [
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C29.ogg"
+                    },
+                    "DialogueLineHash": 3433549329,
+                    "Caption": "Oh, hello, Failsafe. What can you tell us about this Terminus?",
+                    "Narrator": "Ghost"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C2C.ogg"
+                    },
+                    "DialogueLineHash": 1610415988,
+                    "Caption": "I have not detected significant Vex activity in that area since shortly after the Exodus Black arrived.",
+                    "Narrator": "Failsafe"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C30.ogg"
+                    },
+                    "DialogueLineHash": 1283358385,
+                    "Caption": "Well, that\u0027s good news. Maybe we won\u0027t run into much resistance.",
+                    "Narrator": "Ghost"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C33.ogg"
+                    },
+                    "DialogueLineHash": 1111719364,
+                    "Caption": "Yeah, but since Death kinda follows you around, I wouldn\u0027t count on that.",
+                    "Narrator": "Failsafe"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C37.ogg"
+                    },
+                    "DialogueLineHash": 1297947068,
+                    "Caption": "Positive as ever, I see.",
+                    "Narrator": "Ghost"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "ConversationHash": 925690804,
+      "UniqueID": "E82A94A90AAC0000_372CEBB4",
+      "Dialogue": {
+        "Type": "DialogueLine",
+        "AudioFile": {
+          "RelativeFilePath": "audio\\12A_C3A.ogg"
+        },
+        "DialogueLineHash": 4184186443,
+        "Caption": "Here they come again.",
+        "Narrator": "Failsafe"
+      }
+    },
+    {
+      "ConversationHash": 1275377708,
+      "UniqueID": "E82A94A90AAC0000_4C04B82C",
+      "Dialogue": {
+        "Type": "DialogueCollection",
+        "Collection": [
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_C3E.ogg"
+            },
+            "DialogueLineHash": 161265385,
+            "Caption": "Firewall in place. That should slow him down.",
+            "Narrator": "Ghost"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_C42.ogg"
+            },
+            "DialogueLineHash": 1019831123,
+            "Caption": "I injected some bad variables into his decryption process. That should slow him down.",
+            "Narrator": "Ghost"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_C46.ogg"
+            },
+            "DialogueLineHash": 3022727349,
+            "Caption": "One down, two to go\u2026",
+            "Narrator": "Ghost"
+          }
+        ]
+      }
+    },
+    {
+      "ConversationHash": 1514894009,
+      "UniqueID": "E82A94A90AAC0000_5A4B72B9",
+      "Dialogue": {
+        "Type": "DialogueSequence",
+        "Sequence": [
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_C4E.ogg"
+            },
+            "DialogueLineHash": 2811060604,
+            "Caption": "Wow! OK, don\u0027t get hit by that.",
+            "Narrator": "Ghost"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_C55.ogg"
+            },
+            "DialogueLineHash": 524587558,
+            "Caption": "Intercepted communication from the Vex indicates that Kargen has bypassed their initial security protocols.",
+            "Narrator": "Failsafe"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_C59.ogg"
+            },
+            "DialogueLineHash": 2678773720,
+            "Caption": "It looks like Kargen is using that conflux to access the data artifact.",
+            "Narrator": "Ghost"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_C5D.ogg"
+            },
+            "DialogueLineHash": 42146978,
+            "Caption": "Get me over to that Vex plate and I\u0027ll try a counter-hack.",
+            "Narrator": "Ghost"
+          }
+        ]
+      }
+    },
+    {
+      "ConversationHash": 2095895227,
+      "UniqueID": "E82A94A90AAC0000_7CECD2BB",
+      "Dialogue": {
+        "Type": "DialogueSequence",
+        "Sequence": [
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_C60.ogg"
+            },
+            "DialogueLineHash": 2789239171,
+            "Caption": "I have good news\u2026",
+            "Narrator": "Failsafe"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_C63.ogg"
+            },
+            "DialogueLineHash": 1169948026,
+            "Caption": "\u2026and bad news.",
+            "Narrator": "Failsafe"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_C67.ogg"
+            },
+            "DialogueLineHash": 413188311,
+            "Caption": "Give us the good news first.",
+            "Narrator": "Ghost"
+          },
+          {
+            "Type": "DialogueCollection",
+            "Collection": [
+              {
+                "Type": "DialogueSequence",
+                "Sequence": [
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C6A.ogg"
+                    },
+                    "DialogueLineHash": 4099704409,
+                    "Caption": "The good news is that you can expect only a few Vex as you approach the entrance to the Terminus.",
+                    "Narrator": "Failsafe"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C6E.ogg"
+                    },
+                    "DialogueLineHash": 191605294,
+                    "Caption": "That is good news. What\u0027s the bad news?",
+                    "Narrator": "Ghost"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C71.ogg"
+                    },
+                    "DialogueLineHash": 1621733010,
+                    "Caption": "Courtesy of this Kargen guy, the Vex you do encounter will be headless suicide machines.",
+                    "Narrator": "Failsafe"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C74.ogg"
+                    },
+                    "DialogueLineHash": 2598370345,
+                    "Caption": "Have fun.",
+                    "Narrator": "Failsafe"
+                  }
+                ]
+              },
+              {
+                "Type": "DialogueSequence",
+                "Sequence": [
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C77.ogg"
+                    },
+                    "DialogueLineHash": 2364594106,
+                    "Caption": "The good news is that Kargen is killing Vex by the dozen.",
+                    "Narrator": "Failsafe"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C7B.ogg"
+                    },
+                    "DialogueLineHash": 3251678326,
+                    "Caption": "All right. What\u0027s the bad news?",
+                    "Narrator": "Ghost"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C7E.ogg"
+                    },
+                    "DialogueLineHash": 2160851198,
+                    "Caption": "Kargen has almost complete control over the Vex gate network. I predict several detachments of Cabal over the next few minutes.",
+                    "Narrator": "Failsafe"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C82.ogg"
+                    },
+                    "DialogueLineHash": 2698609632,
+                    "Caption": "Wonderful.",
+                    "Narrator": "Ghost"
+                  }
+                ]
+              },
+              {
+                "Type": "DialogueSequence",
+                "Sequence": [
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C85.ogg"
+                    },
+                    "DialogueLineHash": 1174499625,
+                    "Caption": "According to the Vex, Kargen has almost complete control over the local Vex gate network.",
+                    "Narrator": "Failsafe"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C88.ogg"
+                    },
+                    "DialogueLineHash": 430164994,
+                    "Caption": "I predict several detachments of Cabal over the next few minutes.",
+                    "Narrator": "Failsafe"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C8C.ogg"
+                    },
+                    "DialogueLineHash": 3272968697,
+                    "Caption": "No, I said give us the good news first.",
+                    "Narrator": "Ghost"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_C8F.ogg"
+                    },
+                    "DialogueLineHash": 1574453430,
+                    "Caption": "I did.",
+                    "Narrator": "Failsafe"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "ConversationHash": 2523354923,
+      "UniqueID": "E82A94A90AAC0000_9667572B",
+      "Dialogue": {
+        "Type": "DialogueCollection",
+        "Collection": [
+          {
+            "Type": "DialogueSequence",
+            "Sequence": [
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_C93.ogg"
+                },
+                "DialogueLineHash": 1745402933,
+                "Caption": "The psion was wearing commander regalia.",
+                "Narrator": "Ghost"
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_C96.ogg"
+                },
+                "DialogueLineHash": 1071833720,
+                "Caption": "Friendly Ghost, the Vex believe that commander is Kargen, an elite Red Legion psion.",
+                "Narrator": "Failsafe"
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_C99.ogg"
+                },
+                "DialogueLineHash": 612378698,
+                "Caption": "And a particularly murderous one at that.",
+                "Narrator": "Failsafe"
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_C9D.ogg"
+                },
+                "DialogueLineHash": 1241663325,
+                "Caption": "We always get the fun ones.",
+                "Narrator": "Ghost"
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_CA0.ogg"
+                },
+                "DialogueLineHash": 3325334562,
+                "Caption": "They say \u0022like attracts like,\u0022 you know.",
+                "Narrator": "Failsafe"
+              }
+            ]
+          },
+          {
+            "Type": "DialogueSequence",
+            "Sequence": [
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_CA4.ogg"
+                },
+                "DialogueLineHash": 3983684612,
+                "Caption": "That guy looked like a commander of some sort.",
+                "Narrator": "Ghost"
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_CA7.ogg"
+                },
+                "DialogueLineHash": 1649703698,
+                "Caption": "That\u0027s correct, Friendly Ghost!",
+                "Narrator": "Failsafe"
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_CAA.ogg"
+                },
+                "DialogueLineHash": 1335212301,
+                "Caption": "That commander was Kargen, an elite Cabal psion who has caused significant damage to the Vex collective in this timestream.",
+                "Narrator": "Failsafe"
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_CAE.ogg"
+                },
+                "DialogueLineHash": 344140060,
+                "Caption": "This sounds bad.",
+                "Narrator": "Ghost"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "ConversationHash": 2835438190,
+      "UniqueID": "E82A94A90AAC0000_A9015A6E",
+      "Dialogue": {
+        "Type": "DialogueSequence",
+        "Sequence": [
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_CB1.ogg"
+            },
+            "DialogueLineHash": 2091800713,
+            "Caption": "Guardian, I\u0027m making the elimination of Kargen your priority on this operation.",
+            "Narrator": "Zavala"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_CB7.ogg"
+            },
+            "DialogueLineHash": 40898549,
+            "Caption": "His crew has been active all over the system. From our intel, he\u0027s mostly targeting Vex installations.",
+            "Narrator": "Zavala"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_CBA.ogg"
+            },
+            "DialogueLineHash": 879421365,
+            "Caption": "However, removing him can only strengthen our position. Put him down.",
+            "Narrator": "Zavala"
+          }
+        ]
+      }
+    },
+    {
+      "ConversationHash": 3052586982,
+      "UniqueID": "E82A94A90AAC0000_B5F2C7E6",
+      "Dialogue": {
+        "Type": "DialogueCollection",
+        "Collection": [
+          {
+            "Type": "DialogueSequence",
+            "Sequence": [
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_CBE.ogg"
+                },
+                "DialogueLineHash": 352708821,
+                "Caption": "There\u0027s got to be a way to get through here.",
+                "Narrator": "Ghost"
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_CC2.ogg"
+                },
+                "DialogueLineHash": 3645879854,
+                "Caption": "Failsafe, any ideas?",
+                "Narrator": "Ghost"
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_CC5.ogg"
+                },
+                "DialogueLineHash": 611933496,
+                "Caption": "I believe Centurions will possess the means to remove the Vex block and grant you ingress.",
+                "Narrator": "Failsafe"
+              }
+            ]
+          },
+          {
+            "Type": "DialogueSequence",
+            "Sequence": [
+              {
+                "Type": "DialogueCollection",
+                "Collection": [
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_CC9.ogg"
+                    },
+                    "DialogueLineHash": 972025010,
+                    "Caption": "One does have to admire Kargen\u0027s command of Vex technology.",
+                    "Narrator": "Ghost"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_CCD.ogg"
+                    },
+                    "DialogueLineHash": 1990020124,
+                    "Caption": "Kargen is getting dangerously skilled at manipulating this Vex architecture.",
+                    "Narrator": "Ghost"
+                  }
+                ]
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_CD1.ogg"
+                },
+                "DialogueLineHash": 2491465798,
+                "Caption": "Maybe if we catch him, he can give Cayde a lesson or two.",
+                "Narrator": "Ghost"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "ConversationHash": 3247714809,
+      "UniqueID": "E82A94A90AAC0000_C19431F9",
+      "Dialogue": {
+        "Type": "DialogueSequence",
+        "Sequence": [
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_CD5.ogg"
+            },
+            "DialogueLineHash": 508960105,
+            "Caption": "Location secured, Commander Zavala.",
+            "Narrator": "Ghost"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_CD8.ogg"
+            },
+            "DialogueLineHash": 1790252214,
+            "Caption": "Good work, Guardian. What intel did you discover?",
+            "Narrator": "Zavala"
+          },
+          {
+            "Type": "DialogueCollection",
+            "Collection": [
+              {
+                "Type": "DialogueSequence",
+                "Sequence": [
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_CDF.ogg"
+                    },
+                    "DialogueLineHash": 2052221904,
+                    "Caption": "Hmm, there\u0027s only one data artifact here, labeled \u0022OXA,\u0022and it\u0027s seriously corrupted. Metadata says it was last accessed by an \u0022Otzot\u0022 centuries ago.",
+                    "Narrator": "Ghost"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_CE3.ogg"
+                    },
+                    "DialogueLineHash": 871930892,
+                    "Caption": "What is \u0022OXA,\u0022 and who is \u0022Otzot\u0022?",
+                    "Narrator": "Ghost"
+                  }
+                ]
+              },
+              {
+                "Type": "DialogueSequence",
+                "Sequence": [
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_CE7.ogg"
+                    },
+                    "DialogueLineHash": 1246870249,
+                    "Caption": "There\u0027s an almost unreadable data artifact here, labeled \u0022OXA.\u0022",
+                    "Narrator": "Ghost"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_CEB.ogg"
+                    },
+                    "DialogueLineHash": 2566957373,
+                    "Caption": "It\u0027s heavily corrupted, but I\u0027m able to make out \u0022MSund12\u0022 from the access log.",
+                    "Narrator": "Ghost"
+                  },
+                  {
+                    "Type": "DialogueLine",
+                    "AudioFile": {
+                      "RelativeFilePath": "audio\\12A_CEF.ogg"
+                    },
+                    "DialogueLineHash": 3969728072,
+                    "Caption": "What is \u0022OXA,\u0022 and who was \u0022MSund12\u0022?",
+                    "Narrator": "Ghost"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "ConversationHash": 3522341402,
+      "UniqueID": "E82A94A90AAC0000_D1F2AA1A",
+      "Dialogue": {
+        "Type": "DialogueCollection",
+        "Collection": [
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_CF2.ogg"
+            },
+            "DialogueLineHash": 3458638168,
+            "Caption": "You keep doing that and he\u0027s really gonna want you dead. Just saying.",
+            "Narrator": "Failsafe"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_CF6.ogg"
+            },
+            "DialogueLineHash": 4019126610,
+            "Caption": "Second protocol in place, but he\u0027s getting faster.",
+            "Narrator": "Ghost"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_CFA.ogg"
+            },
+            "DialogueLineHash": 1446482754,
+            "Caption": "This guy is good. But we\u0027re better.",
+            "Narrator": "Ghost"
+          }
+        ]
+      }
+    },
+    {
+      "ConversationHash": 3619524002,
+      "UniqueID": "E82A94A90AAC0000_D7BD8DA2",
+      "Dialogue": {
+        "Type": "DialogueLine",
+        "AudioFile": {
+          "RelativeFilePath": "audio\\12A_CFD.ogg"
+        },
+        "DialogueLineHash": 3996083824,
+        "Caption": "Those are questions for another day, I suppose. But for now, well done.",
+        "Narrator": "Zavala"
+      }
+    },
+    {
+      "ConversationHash": 3674017945,
+      "UniqueID": "E82A94A90AAC0000_DAFD1099",
+      "Dialogue": {
+        "Type": "DialogueCollection",
+        "Collection": [
+          {
+            "Type": "DialogueSequence",
+            "Sequence": [
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_D01.ogg"
+                },
+                "DialogueLineHash": 3488131763,
+                "Caption": "Red Legion? What are the Cabal doing here?",
+                "Narrator": "Ghost"
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_D04.ogg"
+                },
+                "DialogueLineHash": 152091407,
+                "Caption": "I am monitoring Vex transmissions. It appears that the Vex are repelling a Cabal incursion at your present location.",
+                "Narrator": "Failsafe"
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_D08.ogg"
+                },
+                "DialogueLineHash": 429874610,
+                "Caption": "Yes, but what are they doing here?",
+                "Narrator": "Ghost"
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_D0B.ogg"
+                },
+                "DialogueLineHash": 3614563265,
+                "Caption": "The Vex are currently calculating probabilities to that question. Response will be forthcoming!",
+                "Narrator": "Failsafe"
+              }
+            ]
+          },
+          {
+            "Type": "DialogueSequence",
+            "Sequence": [
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_D0E.ogg"
+                },
+                "DialogueLineHash": 2201528553,
+                "Caption": "Captain, a word of caution. I have been monitoring Vex transmissions. It appears the Vex are repelling a Cabal incursion at your present location.",
+                "Narrator": "Failsafe"
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_D15.ogg"
+                },
+                "DialogueLineHash": 3930669868,
+                "Caption": "Any idea what they\u0027re doing down here?",
+                "Narrator": "Ghost"
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_D18.ogg"
+                },
+                "DialogueLineHash": 3126169265,
+                "Caption": "The Vex are currently calculating probabilities to that question. Response will be forthcoming!",
+                "Narrator": "Failsafe"
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_D1B.ogg"
+                },
+                "DialogueLineHash": 1093958951,
+                "Caption": "Whatever it is, you just know it\u0027s not good.",
+                "Narrator": "Failsafe"
+              }
+            ]
+          },
+          {
+            "Type": "DialogueSequence",
+            "Sequence": [
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_D1F.ogg"
+                },
+                "DialogueLineHash": 2243541805,
+                "Caption": "Red Legion? Great, the Cabal are here.",
+                "Narrator": "Ghost"
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_D22.ogg"
+                },
+                "DialogueLineHash": 2299600167,
+                "Caption": "Correct. I have been monitoring Vex transmissions.  The Cabal are invading the installation as well.",
+                "Narrator": "Failsafe"
+              },
+              {
+                "Type": "DialogueLine",
+                "AudioFile": {
+                  "RelativeFilePath": "audio\\12A_D25.ogg"
+                },
+                "DialogueLineHash": 786525844,
+                "Caption": "Gotta love coincidence.",
+                "Narrator": "Failsafe"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "ConversationHash": 3739038575,
+      "UniqueID": "E82A94A90AAC0000_DEDD336F",
+      "Dialogue": {
+        "Type": "DialogueCollection",
+        "Collection": [
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_D28.ogg"
+            },
+            "DialogueLineHash": 2178183769,
+            "Caption": "Excellent work, Captain. You are at 50 percent completion of this task.",
+            "Narrator": "Failsafe"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_D2E.ogg"
+            },
+            "DialogueLineHash": 2334695933,
+            "Caption": "Nice work, Captain, but you\u0027re gonna need one more.",
+            "Narrator": "Failsafe"
+          },
+          {
+            "Type": "DialogueLine",
+            "AudioFile": {
+              "RelativeFilePath": "audio\\12A_D35.ogg"
+            },
+            "DialogueLineHash": 1494195313,
+            "Caption": "All right! We need one more. Keep an eye out for another Cabal drop or Centurion.",
+            "Narrator": "Ghost"
+          }
+        ]
+      }
+    }
+  ],
+  "Hash64": "16729347219570556928",
+  "PackageId": 297,
+  "EntryIndex": 4084
+}

@@ -1,13 +1,242 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+* {
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  background: hsl(240, 4.3%, 9%);
+  color: hsl(210 6% 93%);
+  line-height: 1.588;
+  font-weight: 400;
+
+  --fa-inverse: hsl(240, 4.3%, 9%);
+}
+
+#root,
+html,
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+.App {
+  display: flex;
+  height: 100%;
+}
+
+.Main {
+  flex: 1 1 100%;
+  padding: 0 16px 16px 16px;
+  height: 100%;
+  overflow: auto;
+}
+
+.Playback {
+  flex: 0 0 320px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 0 16px;
+  line-height: 1.3;
+
+  height: 100%;
+  overflow: auto;
+}
+
+.inactiveLine {
+  opacity: 0.65;
+}
+
+.activeLine {
+  color: hsl(210 6% 99%);
+}
+
+.playbackLine {
+  margin: 33px 0;
+}
+
+.Narrator {
+  font-size: 14px;
+  font-weight: 500;
+
+  opacity: 0.7;
+  margin: 0;
+  margin-bottom: 4px;
+}
+
+.Caption {
+  font-size: 24.88px;
+  font-weight: 600;
+
+  margin: 0;
+}
+
+.conversation {
+  padding: 8px 0;
+  margin: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* .conversation-nodes,
+.children {
+  margin-left: 16px;
+}
+
+.children {
+  margin-left: 35px;
+  margin-top: 8px;
+} */
+
+.dialogueTable,
+.collection,
+.sequence {
+  margin-left: 25px;
+}
+
+thead,
+tbody,
+table,
+tr,
+td {
+  padding: 0;
+  border: 0;
+  border-collapse: collapse;
+  vertical-align: top;
+}
+
+td + td {
+  padding-left: 8px;
+}
+
+.narratorCell {
+  white-space: nowrap;
+}
+
+.Indent {
+  display: inline-block;
+}
+
+.BigTable {
+  width: 100%;
+  --row-radius: 2px;
+}
+
+.BigTable thead {
+  position: sticky;
+  top: 0;
+  background: hsl(240, 4.3%, 9%);
+  z-index: 2;
+}
+
+.BigTable thead td {
+  padding-top: 16px;
+}
+
+.BigTable td {
+  padding: 2px 8px;
+}
+
+.BigTable tbody tr td {
+  transition: background 50ms ease-in-out;
+}
+
+.BigTable tbody tr td:first-of-type {
+  border-radius: var(--row-radius) 0 0 var(--row-radius);
+}
+
+.BigTable tbody tr td:last-of-type {
+  border-radius: 0 var(--row-radius) var(--row-radius) 0;
+}
+
+.BigTable tbody tr:nth-child(2n + 1) td {
+  background: hsla(240, 4.3%, 50%, 6%);
+}
+
+.BigTable tbody tr:hover td {
+  background: hsla(240, 4.3%, 50%, 8%);
+  transition: background 0ms ease-in-out;
+}
+
+.meta {
+  opacity: 0.5;
+  /* display: contents; */
+}
+
+.toggleButton {
+  appearance: none;
+  border: none;
+  background: none;
+  border-radius: 50px;
+  /* border-radius: 2px; */
+  height: 18px;
+  width: 18px;
+  font-size: 12px;
+  line-height: 1;
+  transition: background 50ms ease-in-out;
+  color: white;
+  cursor: pointer;
+}
+
+.toggleButtonSpacer {
+  width: 18px;
+  display: inline-block;
+}
+
+.toggleButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transition: background 0ms ease-in-out;
+}
+
+.v-align {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* display: contents; */
+}
+
+.Space {
+  width: 0.8ch;
+  display: inline-block;
+}
+
+.actionButton {
+  appearance: none;
+  color: inherit;
+  /* border: 1px solid hsla(210, 6%, 93%, 65%); */
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: hsla(210, 6%, 93%, 90%);
+  /* background: none; */
+  white-space: nowrap;
+  font-size: 12px;
+  border-radius: 2px;
+  padding: 1.5px 6px;
+  transition: background ease-in-out 50ms;
+  cursor: pointer;
+}
+
+.actionButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transition: background ease-in-out 0;
+}
+
+.dialogue-column {
+  width: 100%;
+}
+
+.BigTable tr .actionButton {
+  opacity: 0;
+  transition: opacity ease-in-out 25ms;
+}
+
+.BigTable tr:hover .actionButton {
+  opacity: 1;
+  transition: opacity ease-in-out 0ms;
+}
+
+.dialogue-cell {
+  /* white-space: nowrap; */
+  /* text-overflow: ellipsis; */
+  /* overflow: hidden; */
 }
