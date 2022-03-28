@@ -87,8 +87,6 @@ const Node: React.FC<
     );
   }
 
-  const isOdd = !!(index % 2);
-
   if (!("type" in node)) {
     // DialogueBank
     return (
