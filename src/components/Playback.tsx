@@ -17,9 +17,9 @@ export default function Playback({ lines }: Props) {
           }
         >
           <p className="Narrator">
-            <Coloured text={line.Narrator} />
+            <Coloured text={line.narrator} />
           </p>
-          <p className="Caption">{line.Caption}</p>
+          <p className="Caption">{line.caption}</p>
         </div>
       ))}
     </div>

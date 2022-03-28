@@ -116,52 +116,6 @@ td + td {
   display: inline-block;
 }
 
-.BigTable {
-  width: 100%;
-  --row-radius: 2px;
-}
-
-.BigTable thead {
-  position: sticky;
-  top: 0;
-  background: hsl(240, 4.3%, 9%);
-  z-index: 2;
-}
-
-.BigTable thead td {
-  padding-top: 16px;
-}
-
-.BigTable td {
-  padding: 2px 8px;
-}
-
-.BigTable tbody tr td {
-  transition: background 50ms ease-in-out;
-}
-
-.BigTable tbody tr td:first-of-type {
-  border-radius: var(--row-radius) 0 0 var(--row-radius);
-}
-
-.BigTable tbody tr td:last-of-type {
-  border-radius: 0 var(--row-radius) var(--row-radius) 0;
-}
-
-.BigTable tbody tr:nth-child(2n + 1) td {
-  background: hsla(240, 4.3%, 50%, 6%);
-}
-
-.BigTable tbody tr:hover td {
-  background: hsla(240, 4.3%, 50%, 8%);
-  transition: background 0ms ease-in-out;
-}
-
-.meta {
-  opacity: 0.5;
-  /* display: contents; */
-}
-
 .toggleButton {
   appearance: none;
   border: none;
@@ -223,16 +177,6 @@ td + td {
 
 .dialogue-column {
   width: 100%;
-}
-
-.BigTable tr .actionButton {
-  opacity: 0;
-  transition: opacity ease-in-out 25ms;
-}
-
-.BigTable tr:hover .actionButton {
-  opacity: 1;
-  transition: opacity ease-in-out 0ms;
 }
 
 .dialogue-cell {

@@ -1,11 +1,18 @@
-import ConversationCollection from "../components/ConversationCollection";
+import VirtualDialogueTree from "../components/VirtualDialogueTree";
 import Playback from "../components/Playback";
+import { DialogueBank } from "../types";
 
-export default function MainView() {
+interface MainViewProps {
+  dialogueBanks: DialogueBank[];
+}
+
+export default function MainView(props: MainViewProps) {
+  const { dialogueBanks } = props;
+
   return (
     <div className="App">
       <div className="Main">
-        <ConversationCollection />
+        <VirtualDialogueTree dialogueBanks={dialogueBanks} />
       </div>
 
       <div className="Playback">

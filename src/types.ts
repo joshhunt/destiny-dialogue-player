@@ -1,34 +1,52 @@
-export interface DialogueFile {
-  Collections: DialogueConversation[];
-  Hash64: string;
-  PackageId: number;
-  EntryIndex: number;
+export interface DialogueBank {
+  entryKey: string;
+  contentHash: number;
+  id: string;
+  dialogues: DialogueTree[];
 }
 
-export interface DialogueConversation {
-  ConversationHash: number;
-  UniqueID: string;
-  Dialogue: DialogueNode;
-}
+export type DialogueNode = DialogueLine | DialogueSequence | DialogueBranch;
 
-export type DialogueNode = DialogueLine | DialogueCollection | DialogueSequence;
+export interface DialogueTree {
+  type: "DialogueTree";
+  contentHash: number;
+  id: string;
+
+  dialogue: DialogueNode;
+}
 
 export interface DialogueLine {
-  Type: "DialogueLine";
-  AudioFile: {
-    RelativeFilePath: string;
-  };
-  DialogueLineHash: number;
-  Caption: string;
-  Narrator: string;
-}
+  type: "DialogueLine";
+  contentHash: number;
+  id: string;
 
-export interface DialogueCollection {
-  Type: "DialogueCollection";
-  Collection: DialogueNode[];
+  audioFileName: string;
+  nonUniqueGameHash: number;
+  caption: string;
+  narrator: string;
 }
 
 export interface DialogueSequence {
-  Type: "DialogueSequence";
-  Sequence: DialogueNode[];
+  type: "DialogueSequence";
+  contentHash: number;
+  id: string;
+  sequence: DialogueNode[];
+}
+
+export interface DialogueBranch {
+  type: "DialogueBranch";
+  contentHash: number;
+  id: string;
+  options: DialogueNode[];
+}
+
+export interface DialogueBankManifestEntry {
+  hash: number;
+  jsonHash: number;
+  fileName: string;
+}
+
+export interface DialogueManifest {
+  version: number;
+  dialogueBanks: DialogueBankManifestEntry[];
 }

@@ -2,14 +2,14 @@ import { DialogueLine, DialogueNode } from "../types";
 
 export function collectAllLines(children: DialogueNode[]): DialogueLine[] {
   return children.flatMap((child) => {
-    const type = child.Type;
+    const type = child.type;
 
-    if (child.Type === "DialogueLine") {
+    if (child.type === "DialogueLine") {
       return child;
-    } else if (child.Type === "DialogueCollection") {
-      return collectAllLines(child.Collection);
-    } else if (child.Type === "DialogueSequence") {
-      return collectAllLines(child.Sequence);
+    } else if (child.type === "DialogueBranch") {
+      return collectAllLines(child.options);
+    } else if (child.type === "DialogueSequence") {
+      return collectAllLines(child.sequence);
     }
 
     throw new Error("Unknown type for DialogueNode: " + type);
@@ -22,10 +22,10 @@ export function summarizeLines(children: DialogueNode[]) {
   const narrators: string[] = [];
 
   for (const line of lines) {
-    captions.push(line.Caption);
+    captions.push(line.caption);
 
-    if (!narrators.includes(line.Narrator)) {
-      narrators.push(line.Narrator);
+    if (!narrators.includes(line.narrator)) {
+      narrators.push(line.narrator);
     }
   }
 
