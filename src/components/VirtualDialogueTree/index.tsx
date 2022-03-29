@@ -136,10 +136,17 @@ const Node: React.FC<
 
   if (node.type === "DialogueLine") {
     return (
-      <div data-index={index} className={cx(s.row)} style={style}>
+      <div className={cx(s.row)} style={style}>
         <Indent level={nestingLevel} />
         <span className="toggleButtonSpacer" />
-        <span className={s.narrator}>
+        <span
+          className={s.narrator}
+          style={{
+            color: window.location.href.includes("color")
+              ? pickColor(node.narrator || "unknown")
+              : "",
+          }}
+        >
           {node.narrator || <em>Unknown</em>}:
         </span>{" "}
         {node.caption}
@@ -152,6 +159,18 @@ const Node: React.FC<
 
 interface VirtualDialogueTreeProps {
   dialogueBanks: DialogueBank[];
+}
+
+function hashCode(str: string) {
+  let hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return hash;
+}
+
+function pickColor(str: string) {
+  return `hsl(${hashCode(str) % 360}, 100%, 80%)`;
 }
 
 function makeTreeWalker(dialogueBanks: DialogueBank[]) {
