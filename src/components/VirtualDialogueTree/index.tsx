@@ -139,7 +139,10 @@ const Node: React.FC<
       <div data-index={index} className={cx(s.row)} style={style}>
         <Indent level={nestingLevel} />
         <span className="toggleButtonSpacer" />
-        {node.narrator}: {node.caption}
+        <span className={s.narrator}>
+          {node.narrator || <em>Unknown</em>}:
+        </span>{" "}
+        {node.caption}
       </div>
     );
   }
@@ -227,7 +230,7 @@ const VirtualDialogueTree: React.FC<VirtualDialogueTreeProps> = ({
 }) => {
   const treeWalker = useTreeWalker(dialogueBanks);
 
-  const itemSize = USE_DEFAULT_NODE ? 30 : 22;
+  const itemSize = USE_DEFAULT_NODE ? 30 : 26;
   return (
     <AutoSizer disableWidth>
       {({ height }) => (

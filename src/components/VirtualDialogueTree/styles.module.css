@@ -1,7 +1,16 @@
 .faintRow {
-  color: #808182;
+  color: #949495;
+}
+
+.row {
+  height: 26px;
+  padding-top: 2px;
 }
 
 .row:nth-child(2n + 1) {
   background-color: #1c1c1f;
+}
+
+.narrator {
+  color: #b7b7b7;
 }
