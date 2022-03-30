@@ -1,6 +1,5 @@
 import { Howl } from "howler";
 import sample from "lodash/sample";
-import { useAudioContext } from "../lib/audioContext";
 import { DialogueLine, DialogueNode, DialogueTree } from "../types";
 
 interface Props {
@@ -30,18 +29,13 @@ function getDialoguePlaylist(
 }
 
 export function PlayButton({ node }: Props) {
-  const { audioPlayer } = useAudioContext() ?? {};
-
   const handleClick = async () => {
-    // audioPlayer && audioPlayer.playNode(node);
-
     const playlist = getDialoguePlaylist(node);
     const toLog = playlist.map((v) => ({
       narrator: v.narrator,
       caption: v.caption,
       audioFile: v.audioFileName,
     }));
-    console.log("Going to play:");
     console.table(toLog);
 
     const sounds = playlist.map((line) => {
