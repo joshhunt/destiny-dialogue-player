@@ -34,8 +34,11 @@ async function getAllDialogueBanks() {
   const manifest = await getManifest();
   const limit = pLimit(10);
 
+  const urlParams = new URLSearchParams(window.location.search.slice(1));
+  const specificHash = Number(urlParams.get("hash"));
+
   const promises = manifest.dialogueBanks
-    .slice(0, 500)
+    .filter((entry) => (specificHash > 0 ? entry.hash === specificHash : true))
     .map((entry) => limit(() => getDialogueBank(entry.fileName)));
 
   const data = await Promise.all(promises);

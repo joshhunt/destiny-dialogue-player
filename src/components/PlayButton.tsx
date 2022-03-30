@@ -28,6 +28,9 @@ function getDialoguePlaylist(
   throw new Error("shouldn't be here!");
 }
 
+const wait = (timeout: number) =>
+  new Promise((resolve) => setTimeout(resolve, timeout));
+
 export function PlayButton({ node }: Props) {
   const handleClick = async () => {
     const playlist = getDialoguePlaylist(node);
@@ -59,7 +62,8 @@ export function PlayButton({ node }: Props) {
       });
 
       if (nextSound) {
-        sound.once("end", () => {
+        sound.once("end", async () => {
+          await wait(500);
           nextSound.play();
         });
       }

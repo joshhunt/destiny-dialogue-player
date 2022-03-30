@@ -15,11 +15,16 @@ function hashCode(str: string) {
   for (var i = 0; i < str.length; i++) {
     hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
+
   return hash;
 }
 
+function clampHue(hue: number) {
+  return hue % 360;
+}
+
 function pickColor(str: string) {
-  return `hsl(${hashCode(str) % 360}, 100%, 80%)`;
+  return `hsl(${clampHue(hashCode(str))}, 100%, 80%)`;
 }
 
 const Node: React.FC<
@@ -125,9 +130,7 @@ const Node: React.FC<
           <span
             className={s.narrator}
             style={{
-              color: window.location.href.includes("color")
-                ? pickColor(node.narrator || "unknown")
-                : "",
+              color: node.narrator ? pickColor(node.narrator) : "",
             }}
           >
             {node.narrator || <em>Unknown</em>}:
