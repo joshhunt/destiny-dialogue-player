@@ -1,39 +1,10 @@
 import React, { useState } from "react";
-import { DialogueBank, DialogueNode, DialogueTree } from "../../types";
+import { DialogueBank } from "../../types";
 import AutoSizer from "react-virtualized-auto-sizer";
-import cx from "classnames";
 
-import {
-  FixedSizeNodeData,
-  FixedSizeNodePublicState,
-  FixedSizeTree,
-  TreeWalker,
-  TreeWalkerValue,
-} from "react-vtree";
-
-import { NodeComponentProps } from "react-vtree/dist/es/Tree";
-import Indent from "../Indent";
-import DisclosureButton from "../DisclosureButton";
-import { formattedSummary } from "../../lib/utils";
-
-import s from "./styles.module.css";
-
-type TreeData = FixedSizeNodeData &
-  Readonly<{
-    node: TreeNode;
-    isLeaf: boolean;
-    nestingLevel: number;
-  }>;
-
-const DEFAULT_TEXT_STYLE = { marginLeft: 10 };
-const DEFAULT_BUTTON_STYLE = { fontFamily: "Courier New" };
-
-type TreeNode = DialogueBank | DialogueTree | DialogueNode;
-
-type NodeMeta = Readonly<{
-  nestingLevel: number;
-  node: TreeNode;
-}>;
+import { FixedSizeTree, TreeWalker, TreeWalkerValue } from "react-vtree";
+import { NodeMeta, TreeData, TreeNode } from "./types";
+import Node from "./Node";
 
 const getNodeData = (
   node: TreeNode,
@@ -52,125 +23,8 @@ const getNodeData = (
 
 const USE_DEFAULT_NODE = false;
 
-const Node: React.FC<
-  NodeComponentProps<TreeData, FixedSizeNodePublicState<TreeData>>
-> = ({
-  data: { node, isLeaf, id, nestingLevel },
-  index,
-  isOpen,
-  style,
-  setOpen,
-}) => {
-  if (USE_DEFAULT_NODE) {
-    return (
-      <div
-        style={{
-          ...style,
-          alignItems: "center",
-          display: "flex",
-          marginLeft: nestingLevel * 30 + (isLeaf ? 24 : 0),
-        }}
-      >
-        {!isLeaf && (
-          <div>
-            <button
-              type="button"
-              onClick={() => setOpen(!isOpen)}
-              style={DEFAULT_BUTTON_STYLE}
-            >
-              {isOpen ? "-" : "+"}
-            </button>
-          </div>
-        )}
-        <div style={DEFAULT_TEXT_STYLE}>{id}</div>
-      </div>
-    );
-  }
-
-  if (!("type" in node)) {
-    // DialogueBank
-    return (
-      <div className={cx(s.row, s.faintRow)} style={style}>
-        <Indent level={nestingLevel} />
-        <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
-        <span className="Space" />
-        Dialogue File {node.entryKey} / {node.contentHash}
-      </div>
-    );
-  }
-
-  if (node.type === "DialogueTree") {
-    return (
-      <div className={cx(s.row, s.faintRow)} style={style}>
-        <Indent level={nestingLevel} />
-        <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
-        <span className="Space" />
-        Dialogue Tree {node.contentHash}
-      </div>
-    );
-  }
-
-  if (node.type === "DialogueSequence") {
-    const summary = formattedSummary(node.sequence);
-    return (
-      <div className={cx(s.row, s.faintRow)} style={style}>
-        <Indent level={nestingLevel} />
-        <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
-        <span className="Space" />
-        {isOpen ? "Sequence" : summary}
-      </div>
-    );
-  }
-
-  if (node.type === "DialogueBranch") {
-    const summary = formattedSummary(node.options);
-    return (
-      <div className={cx(s.row, s.faintRow)} style={style}>
-        <Indent level={nestingLevel} />
-        <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
-        <span className="Space" />
-        {isOpen ? "Options" : summary}
-      </div>
-    );
-  }
-
-  if (node.type === "DialogueLine") {
-    return (
-      <div className={cx(s.row)} style={style}>
-        <Indent level={nestingLevel} />
-        <span className="toggleButtonSpacer" />
-        <span
-          className={s.narrator}
-          style={{
-            color: window.location.href.includes("color")
-              ? pickColor(node.narrator || "unknown")
-              : "",
-          }}
-        >
-          {node.narrator || <em>Unknown</em>}:
-        </span>{" "}
-        {node.caption}
-      </div>
-    );
-  }
-
-  return <div style={style}>Unhandled node type</div>;
-};
-
 interface VirtualDialogueTreeProps {
   dialogueBanks: DialogueBank[];
-}
-
-function hashCode(str: string) {
-  let hash = 0;
-  for (var i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return hash;
-}
-
-function pickColor(str: string) {
-  return `hsl(${hashCode(str) % 360}, 100%, 80%)`;
 }
 
 function makeTreeWalker(dialogueBanks: DialogueBank[]) {

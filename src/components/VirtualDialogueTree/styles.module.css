@@ -5,10 +5,17 @@
 .row {
   height: 26px;
   padding-top: 2px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .row:nth-child(2n + 1) {
   background-color: #1c1c1f;
+}
+
+.row:hover {
+  background: hsla(240, 4.3%, 70%, 8%);
+  transition: background 0ms ease-in-out;
 }
 
 .narrator {
