@@ -24,6 +24,11 @@ export interface DialogueLine {
   nonUniqueGameHash: number;
   caption: string;
   narrator: string;
+
+  /**
+   * Total duration this line should be. Can be longer in sequences to account for delay in between lines
+   */
+  duration: number;
 }
 
 export interface DialogueSequence {

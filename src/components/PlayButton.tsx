@@ -34,24 +34,48 @@ const wait = (timeout: number) =>
 export function PlayButton({ node }: Props) {
   const handleClick = async () => {
     const playlist = getDialoguePlaylist(node);
-    const toLog = playlist.map((v) => ({
-      narrator: v.narrator,
-      caption: v.caption,
-      audioFile: v.audioFileName,
-    }));
-    console.table(toLog);
+    // const toLog = playlist.map((v) => ({
+    //   narrator: v.narrator,
+    //   caption: v.caption,
+    //   delayToNextLineMs: v.duration * 100,
+    //   audioFile: v.audioFileName,
+    // }));
+    // console.table(toLog);
 
+    const soundLineMap = new Map<Howl, DialogueLine>();
     const sounds = playlist.map((line) => {
       const url = `https://destiny-dialogue-project.s3.ap-southeast-2.amazonaws.com/audio/${line.audioFileName}`;
-
-      return new Howl({
+      const sound = new Howl({
         src: [url],
       });
+
+      soundLineMap.set(sound, line);
+
+      return {
+        sound,
+        line,
+      };
     });
 
     for (let index = 0; index < sounds.length; index++) {
-      const sound = sounds[index];
-      const nextSound = sounds[index + 1];
+      const { sound, line } = sounds[index];
+      const { sound: nextSound } = sounds[index + 1] ?? {};
+
+      soundLineMap.set(sound, line);
+
+      // sound.once("load", () => {
+      //   const audioDuration = sound.duration();
+      //   const delay = line.duration - audioDuration;
+
+      //   console.log("Line duration", line.duration);
+      //   console.log("  Audio file duration", audioDuration);
+      //   soundDelayMap.set(sound, delay);
+      //   console.log("  Line delay", delay);
+      // });
+
+      sound.once("play", () => {
+        console.log("Playing", line.caption);
+      });
 
       sound.once("playerror", (err: unknown) => {
         console.log("playerror", err);
@@ -63,13 +87,17 @@ export function PlayButton({ node }: Props) {
 
       if (nextSound) {
         sound.once("end", async () => {
-          await wait(500);
+          const thisLine = soundLineMap.get(sound);
+          const delay = ((thisLine?.duration ?? 0) / 10) * 1000; // * 100
+          console.log("Delay", delay, "ms");
+
+          await wait(Math.min(delay, 1000));
           nextSound.play();
         });
       }
     }
 
-    sounds[0].play();
+    sounds[0].sound.play();
   };
 
   return (
