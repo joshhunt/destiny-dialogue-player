@@ -9,23 +9,7 @@ import { formattedSummary } from "../../lib/utils";
 import s from "./styles.module.css";
 import { TreeData, USE_DEFAULT_NODE } from "./types";
 import { PlayButton } from "../PlayButton";
-
-function hashCode(str: string) {
-  let hash = 0;
-  for (var i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  return hash;
-}
-
-function clampHue(hue: number) {
-  return hue % 360;
-}
-
-function pickColor(str: string) {
-  return `hsl(${clampHue(hashCode(str))}, 100%, 80%)`;
-}
+import { pickColor } from "../../lib/color";
 
 const Node: React.FC<
   NodeComponentProps<TreeData, FixedSizeNodePublicState<TreeData>>

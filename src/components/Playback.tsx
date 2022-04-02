@@ -2,16 +2,21 @@ import { DialogueLine } from "../types";
 import Coloured from "./ColoredText";
 
 interface Props {
-  lines: DialogueLine[];
+  currentlyPlayingDialogue: DialogueLine | undefined;
+  playlist: DialogueLine[];
 }
 
-export default function Playback({ lines }: Props) {
+export default function Playback({
+  currentlyPlayingDialogue,
+  playlist,
+}: Props) {
   return (
     <div>
-      {lines.map((line, index) => (
+      {playlist.map((line) => (
         <div
+          key={line.contentHash}
           className={
-            index === 1
+            currentlyPlayingDialogue?.contentHash === line.contentHash
               ? "playbackLine activeLine"
               : "playbackLine inactiveLine"
           }

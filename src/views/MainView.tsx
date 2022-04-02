@@ -1,13 +1,15 @@
 import VirtualDialogueTree from "../components/VirtualDialogueTree";
 import Playback from "../components/Playback";
-import { DialogueBank } from "../types";
+import { DialogueBank, DialogueLine } from "../types";
 
 interface MainViewProps {
   dialogueBanks: DialogueBank[];
+  currentlyPlayingDialogue: DialogueLine | undefined;
+  playlist: DialogueLine[];
 }
 
 export default function MainView(props: MainViewProps) {
-  const { dialogueBanks } = props;
+  const { dialogueBanks, currentlyPlayingDialogue, playlist } = props;
 
   return (
     <div className="App">
@@ -16,7 +18,10 @@ export default function MainView(props: MainViewProps) {
       </div>
 
       <div className="Playback">
-        <Playback lines={[]} />
+        <Playback
+          currentlyPlayingDialogue={currentlyPlayingDialogue}
+          playlist={playlist}
+        />
       </div>
     </div>
   );

@@ -1,28 +1,20 @@
-import { useMemo, useState } from "react";
-
-import AudioPlayer from "./lib/AudioPlayer";
-import { AudioContextProvider } from "./lib/audioContext";
-
 import MainView from "./views/MainView";
 import useDialogueBanks, { LoadingState } from "./lib/useDialogueBanks";
-import { DialogueBank } from "./types";
+import { AudioContextProvider, useAudioState } from "./lib/audioContext";
+import { DialogueBank, DialogueLine } from "./types";
 
 export default function App() {
-  const [audioPlayer] = useState(() => new AudioPlayer());
+  const { audioContext, currentlyPlayingDialogue, playlist } = useAudioState();
   const { dialogueBanks, state } = useDialogueBanks();
 
-  console.log("dialogueBanks", dialogueBanks);
-
-  const contextValue = useMemo(
-    () => ({
-      audioPlayer,
-    }),
-    [audioPlayer]
-  );
-
   return (
-    <AudioContextProvider value={contextValue}>
-      <VisualLoadingState dialogueBanks={dialogueBanks} loadingState={state} />
+    <AudioContextProvider value={audioContext}>
+      <VisualLoadingState
+        dialogueBanks={dialogueBanks}
+        loadingState={state}
+        currentlyPlayingDialogue={currentlyPlayingDialogue}
+        playlist={playlist}
+      />
     </AudioContextProvider>
   );
 }
@@ -30,11 +22,15 @@ export default function App() {
 interface VisualLoadingStateProps {
   dialogueBanks: DialogueBank[];
   loadingState: LoadingState;
+  currentlyPlayingDialogue: DialogueLine | undefined;
+  playlist: DialogueLine[];
 }
 
 const VisualLoadingState: React.FC<VisualLoadingStateProps> = ({
   dialogueBanks,
   loadingState,
+  currentlyPlayingDialogue,
+  playlist,
 }) => {
   switch (loadingState) {
     case LoadingState.NotStarted:
@@ -47,7 +43,13 @@ const VisualLoadingState: React.FC<VisualLoadingStateProps> = ({
     }
 
     case LoadingState.Done: {
-      return <MainView dialogueBanks={dialogueBanks} />;
+      return (
+        <MainView
+          dialogueBanks={dialogueBanks}
+          currentlyPlayingDialogue={currentlyPlayingDialogue}
+          playlist={playlist}
+        />
+      );
     }
 
     default:
