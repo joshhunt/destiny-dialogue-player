@@ -1,22 +1,46 @@
-import { DialogueLine } from "../types";
+import { useEffect, useRef } from "react";
+import { DialogueLine, CurrentDialogueState } from "../types";
 import Coloured from "./ColoredText";
 
 interface Props {
-  currentlyPlayingDialogue: DialogueLine | undefined;
+  nowNextDialogue: CurrentDialogueState | undefined;
   playlist: DialogueLine[];
+  requestScrollTo: (
+    element: HTMLDivElement,
+    dialogue: DialogueLine,
+    delay: number
+  ) => void;
 }
 
 export default function Playback({
-  currentlyPlayingDialogue,
+  nowNextDialogue,
   playlist,
+  requestScrollTo,
 }: Props) {
+  const refMap = useRef(new Map<DialogueLine, HTMLDivElement | null>());
+  const {
+    now: currentDialogue,
+    delay,
+    next: nextDialogue,
+  } = nowNextDialogue ?? {};
+
+  useEffect(() => {
+    if (nextDialogue) {
+      const element = refMap.current.get(nextDialogue);
+      if (element) {
+        requestScrollTo(element, nextDialogue, delay ?? 0);
+      }
+    }
+  }, [requestScrollTo, delay, nextDialogue]);
+
   return (
     <div>
       {playlist.map((line) => (
         <div
+          ref={(ref) => refMap.current.set(line, ref)}
           key={line.contentHash}
           className={
-            currentlyPlayingDialogue?.contentHash === line.contentHash
+            currentDialogue?.contentHash === line.contentHash
               ? "playbackLine activeLine"
               : "playbackLine inactiveLine"
           }

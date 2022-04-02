@@ -1,10 +1,10 @@
 import MainView from "./views/MainView";
 import useDialogueBanks, { LoadingState } from "./lib/useDialogueBanks";
 import { AudioContextProvider, useAudioState } from "./lib/audioContext";
-import { DialogueBank, DialogueLine } from "./types";
+import { DialogueBank, DialogueLine, CurrentDialogueState } from "./types";
 
 export default function App() {
-  const { audioContext, currentlyPlayingDialogue, playlist } = useAudioState();
+  const { audioContext, nowNextDialogue, playlist } = useAudioState();
   const { dialogueBanks, state } = useDialogueBanks();
 
   return (
@@ -12,7 +12,7 @@ export default function App() {
       <VisualLoadingState
         dialogueBanks={dialogueBanks}
         loadingState={state}
-        currentlyPlayingDialogue={currentlyPlayingDialogue}
+        nowNextDialogue={nowNextDialogue}
         playlist={playlist}
       />
     </AudioContextProvider>
@@ -22,14 +22,14 @@ export default function App() {
 interface VisualLoadingStateProps {
   dialogueBanks: DialogueBank[];
   loadingState: LoadingState;
-  currentlyPlayingDialogue: DialogueLine | undefined;
+  nowNextDialogue: CurrentDialogueState | undefined;
   playlist: DialogueLine[];
 }
 
 const VisualLoadingState: React.FC<VisualLoadingStateProps> = ({
   dialogueBanks,
   loadingState,
-  currentlyPlayingDialogue,
+  nowNextDialogue,
   playlist,
 }) => {
   switch (loadingState) {
@@ -46,7 +46,7 @@ const VisualLoadingState: React.FC<VisualLoadingStateProps> = ({
       return (
         <MainView
           dialogueBanks={dialogueBanks}
-          currentlyPlayingDialogue={currentlyPlayingDialogue}
+          nowNextDialogue={nowNextDialogue}
           playlist={playlist}
         />
       );

@@ -21,28 +21,6 @@ body {
   height: 100%;
 }
 
-.App {
-  display: flex;
-  height: 100%;
-}
-
-.Main {
-  flex: 1 1 100%;
-  padding: 0 16px 16px 16px;
-  height: 100%;
-  overflow: auto;
-}
-
-.Playback {
-  flex: 0 0 320px;
-  background: rgba(0, 0, 0, 0.25);
-  padding: 0 16px;
-  line-height: 1.3;
-
-  height: 100%;
-  overflow: auto;
-}
-
 .inactiveLine {
   opacity: 0.65;
 }
@@ -53,6 +31,7 @@ body {
 
 .playbackLine {
   margin: 33px 0;
+  transition: 50ms color ease-in-out;
 }
 
 .Narrator {

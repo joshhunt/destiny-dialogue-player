@@ -55,3 +55,9 @@ export interface DialogueManifest {
   version: number;
   dialogueBanks: DialogueBankManifestEntry[];
 }
+
+export type CurrentDialogueState = {
+  now?: DialogueLine | undefined;
+  delay?: number | undefined;
+  next?: DialogueLine | undefined;
+};

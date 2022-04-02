@@ -74,3 +74,18 @@ export function formattedSummary(children: DialogueNode[]) {
     </>
   );
 }
+
+export function urlParams() {
+  const urlParams = new URLSearchParams(window.location.search.slice(1));
+  const params = Object.fromEntries(urlParams.entries());
+
+  for (const key in params) {
+    if (params[key] === "") {
+      params[key] = "true";
+    }
+  }
+
+  return params;
+}
+
+export const params = urlParams();
