@@ -14,8 +14,28 @@ interface MainViewProps {
   playlist: DialogueLine[];
 }
 
+const pow = Math.pow;
+
 function easeOutCubic(x: number): number {
   return 1 - Math.pow(1 - x, 3);
+}
+
+function easeOutExpo(x: number): number {
+  return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+}
+
+function easeInOutExpo(x: number): number {
+  return x === 0
+    ? 0
+    : x === 1
+    ? 1
+    : x < 0.5
+    ? pow(2, 20 * x - 10) / 2
+    : (2 - pow(2, -20 * x + 10)) / 2;
+}
+
+function easeInOutCubic(x: number): number {
+  return x < 0.5 ? 4 * x * x * x : 1 - pow(-2 * x + 2, 3) / 2;
 }
 
 export default function MainView(props: MainViewProps) {
@@ -51,36 +71,21 @@ export default function MainView(props: MainViewProps) {
 
       let start = 0;
 
-      const duration = Math.min(300, lineDelay);
+      const duration = Math.min(500, lineDelay);
 
       async function springAnimation() {
-        const startTime = Date.now();
-
-        const animationControls = new Animation(
+        new Animation(
           (progress) => {
             if (!scroller) return;
             scroller.scrollTop(progress);
           },
           [currentScrollPos, destinationPos],
-          { easing: spring({ stiffness: 200, damping: 200 }) }
-        );
-
-        await animationControls.finished;
-        const animationDuration = Date.now() - startTime;
-        const msPerPixel = animationDuration / distance;
-        console.log(
-          "Took",
-          animationDuration,
-          "ms to travel",
-          distance,
-          "px - ",
-          msPerPixel,
-          "ms/pixel"
+          { easing: spring({ stiffness: 150, damping: 200 }) }
         );
       }
 
       async function fixedCubicAnimation() {
-        if (params.delayScrollTo) {
+        if (!params.noDelayScrollTo) {
           const animationDelay = Math.max(lineDelay - duration, 0);
           console.log("Delay animation by", animationDelay, "ms");
           await new Promise((resolve) => setTimeout(resolve, animationDelay));
@@ -95,7 +100,20 @@ export default function MainView(props: MainViewProps) {
 
           const timePassed = Date.now() - start;
           const progress = Math.min(timePassed / duration, 1);
-          const easedProgress = easeOutCubic(progress);
+          if (params.easeOutExpo) {
+          }
+
+          let easedProgress = progress;
+
+          if (params.easeOutExpo) {
+            easedProgress = easeOutExpo(progress);
+          } else if (params.easeInOutExpo) {
+            easedProgress = easeInOutExpo(progress);
+          } else if (params.easeInOutCubic) {
+            easedProgress = easeInOutCubic(progress);
+          } else {
+            easedProgress = easeOutCubic(progress);
+          }
 
           const animationValue = easedProgress * distance;
           const newScrollTop = currentScrollPos + animationValue;
@@ -108,14 +126,22 @@ export default function MainView(props: MainViewProps) {
           }
         };
 
-        console.log("Will scroll to", destinationPos, "for", element);
+        console.log(
+          "Will scroll to",
+          destinationPos,
+          "for",
+          element,
+          "over",
+          duration,
+          "ms"
+        );
         tick();
       }
 
-      if (params.spring) {
-        springAnimation();
-      } else {
+      if (params.fixedDuration) {
         fixedCubicAnimation();
+      } else {
+        springAnimation();
       }
     },
     []
@@ -129,16 +155,15 @@ export default function MainView(props: MainViewProps) {
 
       <div className={s.side}>
         <Scrollbars
+          autoHide
           renderThumbVertical={renderThumb}
           ref={(ref) => (scrollerRef.current = ref)}
         >
-          <div className={s.sideInner}>
-            <Playback
-              nowNextDialogue={nowNextDialogue}
-              playlist={playlist}
-              requestScrollTo={onRequestScrollTo}
-            />
-          </div>
+          <Playback
+            nowNextDialogue={nowNextDialogue}
+            playlist={playlist}
+            requestScrollTo={onRequestScrollTo}
+          />
         </Scrollbars>
       </div>
     </div>

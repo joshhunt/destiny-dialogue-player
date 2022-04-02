@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
-import { DialogueLine, CurrentDialogueState } from "../types";
-import Coloured from "./ColoredText";
+import { DialogueLine, CurrentDialogueState } from "../../types";
+import Coloured from "../ColoredText";
+
+import s from "./styles.module.css";
 
 interface Props {
   nowNextDialogue: CurrentDialogueState | undefined;
@@ -34,15 +36,15 @@ export default function Playback({
   }, [requestScrollTo, delay, nextDialogue]);
 
   return (
-    <div>
+    <div className={s.root}>
       {playlist.map((line) => (
         <div
           ref={(ref) => refMap.current.set(line, ref)}
           key={line.contentHash}
           className={
             currentDialogue?.contentHash === line.contentHash
-              ? "playbackLine activeLine"
-              : "playbackLine inactiveLine"
+              ? s.activeLine
+              : s.inactiveLine
           }
         >
           <p className="Narrator">
@@ -51,6 +53,10 @@ export default function Playback({
           <p className="Caption">{line.caption}</p>
         </div>
       ))}
+
+      <div className={s.controls}>
+        <button>Stop!</button>
+      </div>
     </div>
   );
 }

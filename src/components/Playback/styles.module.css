@@ -1,0 +1,35 @@
+.root {
+}
+
+.line {
+  margin: 32px 16px;
+  transition: 50ms color ease-in-out;
+}
+
+.root div:nth-last-child(2) {
+  margin-bottom: 0;
+}
+
+.activeLine {
+  composes: line;
+  color: hsl(210 6% 99%);
+}
+
+.inactiveLine {
+  composes: line;
+  opacity: 0.65;
+}
+
+.controls {
+  position: sticky;
+  bottom: 0;
+  background: hsla(240, 4.3%, 9%, 0.5);
+  background: linear-gradient(
+    to bottom,
+    hsla(240, 4.3%, 9%, 0),
+    hsla(240, 4.3%, 9%, 0.75),
+    hsla(240, 4.3%, 9%, 1)
+  );
+  padding: 16px;
+  padding-top: 32px;
+}
