@@ -19,6 +19,7 @@
     "idb-keyval": "^6.1.0",
     "inter-ui": "^3.19.3",
     "lodash": "^4.17.21",
+    "motion": "^10.7.0",
     "p-limit": "^4.0.0",
     "react": "^17.0.2",
     "react-custom-scrollbars": "^4.2.1",

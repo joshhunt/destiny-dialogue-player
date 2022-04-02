@@ -5,6 +5,8 @@ import s from "./styles.module.css";
 import { Scrollbars } from "react-custom-scrollbars";
 import { useCallback, useRef } from "react";
 import { params } from "../../lib/utils";
+import { spring } from "motion";
+import { Animation } from "@motionone/animation";
 
 interface MainViewProps {
   dialogueBanks: DialogueBank[];
@@ -48,36 +50,73 @@ export default function MainView(props: MainViewProps) {
       const distance = destinationPos - currentScrollPos;
 
       let start = 0;
+
       const duration = Math.min(300, lineDelay);
 
-      if (params.delayScrollTo) {
-        const animationDelay = Math.max(lineDelay - duration, 0);
-        console.log("Delay animation by", animationDelay, "ms");
-        await new Promise((resolve) => setTimeout(resolve, animationDelay));
+      async function springAnimation() {
+        const startTime = Date.now();
+
+        const animationControls = new Animation(
+          (progress) => {
+            if (!scroller) return;
+            scroller.scrollTop(progress);
+          },
+          [currentScrollPos, destinationPos],
+          { easing: spring({ stiffness: 200, damping: 200 }) }
+        );
+
+        await animationControls.finished;
+        const animationDuration = Date.now() - startTime;
+        const msPerPixel = animationDuration / distance;
+        console.log(
+          "Took",
+          animationDuration,
+          "ms to travel",
+          distance,
+          "px - ",
+          msPerPixel,
+          "ms/pixel"
+        );
       }
 
-      const tick = () => {
-        if (start === 0) {
-          start = Date.now();
+      async function fixedCubicAnimation() {
+        if (params.delayScrollTo) {
+          const animationDelay = Math.max(lineDelay - duration, 0);
+          console.log("Delay animation by", animationDelay, "ms");
+          await new Promise((resolve) => setTimeout(resolve, animationDelay));
         }
 
-        const timePassed = Date.now() - start;
-        const progress = Math.min(timePassed / duration, 1);
-        const easedProgress = easeOutCubic(progress);
+        const tick = () => {
+          if (!scroller) return;
 
-        const animationValue = easedProgress * distance;
-        const newScrollTop = currentScrollPos + animationValue;
+          if (start === 0) {
+            start = Date.now();
+          }
 
-        scroller.scrollTop(newScrollTop);
-        if (progress < 1) {
-          requestAnimationFrame(tick);
-        } else {
-          console.log("Done animating");
-        }
-      };
+          const timePassed = Date.now() - start;
+          const progress = Math.min(timePassed / duration, 1);
+          const easedProgress = easeOutCubic(progress);
 
-      console.log("Will scroll to", destinationPos, "for", element);
-      tick();
+          const animationValue = easedProgress * distance;
+          const newScrollTop = currentScrollPos + animationValue;
+
+          scroller.scrollTop(newScrollTop);
+          if (progress < 1) {
+            requestAnimationFrame(tick);
+          } else {
+            console.log("Done animating");
+          }
+        };
+
+        console.log("Will scroll to", destinationPos, "for", element);
+        tick();
+      }
+
+      if (params.spring) {
+        springAnimation();
+      } else {
+        fixedCubicAnimation();
+      }
     },
     []
   );
