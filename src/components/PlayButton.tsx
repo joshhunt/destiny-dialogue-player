@@ -3,9 +3,10 @@ import { DialogueNode } from "../types";
 
 interface Props {
   node: DialogueNode;
+  label?: React.ReactNode;
 }
 
-export function PlayButton({ node }: Props) {
+export function PlayButton({ node, label }: Props) {
   const { playAudioNode } = useAudioPlayer();
   const handleClick = async () => {
     playAudioNode(node);
@@ -13,7 +14,7 @@ export function PlayButton({ node }: Props) {
 
   return (
     <button onClick={handleClick} className="actionButton">
-      <i className="far fa-play" /> Play
+      <i className="far fa-play" /> {label ?? "Play"}
     </button>
   );
 }

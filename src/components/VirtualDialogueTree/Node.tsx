@@ -81,7 +81,7 @@ const Node: React.FC<
         </div>
 
         <div className={s.accessory}>
-          <PlayButton node={node} />
+          <PlayButton node={node} label="Play all" />
         </div>
       </div>
     );
@@ -99,7 +99,7 @@ const Node: React.FC<
         </div>
 
         <div className={s.accessory}>
-          <PlayButton node={node} />
+          <PlayButton node={node} label="Play a branch" />
         </div>
       </div>
     );
