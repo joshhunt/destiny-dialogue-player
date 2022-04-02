@@ -2,7 +2,6 @@ import { Howl } from "howler";
 import sample from "lodash/sample";
 import React, { useCallback, useContext, useMemo, useState } from "react";
 import { DialogueLine, DialogueNode, DialogueTree } from "../types";
-import AudioPlayer from "./AudioPlayer";
 
 interface AudioContext {
   playAudioNode: (node: DialogueNode) => Promise<void>;
