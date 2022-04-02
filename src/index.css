@@ -157,9 +157,3 @@ td + td {
 .dialogue-column {
   width: 100%;
 }
-
-.dialogue-cell {
-  /* white-space: nowrap; */
-  /* text-overflow: ellipsis; */
-  /* overflow: hidden; */
-}

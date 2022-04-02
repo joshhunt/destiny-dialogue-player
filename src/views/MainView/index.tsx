@@ -4,7 +4,6 @@ import { DialogueBank, DialogueLine, CurrentDialogueState } from "../../types";
 import s from "./styles.module.css";
 import { Scrollbars } from "react-custom-scrollbars";
 import { useCallback, useRef } from "react";
-import { SpringEasing } from "spring-easing";
 import { params } from "../../lib/utils";
 
 interface MainViewProps {
