@@ -1,11 +1,13 @@
 import { useEffect, useRef } from "react";
+import { useAudioContext } from "../../lib/audioContext";
 import { DialogueLine, CurrentDialogueState } from "../../types";
 import Coloured from "../ColoredText";
+import { CSSTransition } from "react-transition-group";
 
 import s from "./styles.module.css";
 
 interface Props {
-  nowNextDialogue: CurrentDialogueState | undefined;
+  nowNextDialogue: CurrentDialogueState;
   playlist: DialogueLine[];
   requestScrollTo: (
     element: HTMLDivElement,
@@ -19,6 +21,7 @@ export default function Playback({
   playlist,
   requestScrollTo,
 }: Props) {
+  const { stopPlayback } = useAudioContext();
   const refMap = useRef(new Map<DialogueLine, HTMLDivElement | null>());
   const {
     now: currentDialogue,
@@ -54,9 +57,30 @@ export default function Playback({
         </div>
       ))}
 
-      <div className={s.controls}>
-        <button>Stop!</button>
-      </div>
+      <CSSTransition
+        in={!!(currentDialogue || nextDialogue)}
+        timeout={200}
+        classNames={{
+          appear: s.controlsAppear,
+          appearActive: s.controlsAppearActive,
+          appearDone: s.controlsAppearDone,
+          enter: s.controlsEnter,
+          enterActive: s.controlsEnterActive,
+          enterDone: s.controlsEnterDone,
+          exit: s.controlsExit,
+          exitActive: s.controlsExitActive,
+          exitDone: s.controlsExitDone,
+        }}
+      >
+        <div className={s.controls}>
+          <button className={s.stopButton} onClick={stopPlayback}>
+            <span className={s.stopIcon}>
+              <i className="fa-regular fa-circle-stop"></i>
+            </span>
+            Stop playback
+          </button>
+        </div>
+      </CSSTransition>
     </div>
   );
 }

@@ -1,9 +1,6 @@
-.root {
-}
-
 .line {
   margin: 32px 16px;
-  transition: 50ms color ease-in-out;
+  transition: 50ms all ease-in-out;
 }
 
 .root div:nth-last-child(2) {
@@ -13,23 +10,85 @@
 .activeLine {
   composes: line;
   color: hsl(210 6% 99%);
+  /* The duration to fade a line IN to become ACTIVE */
+  transition: 100ms all ease-in-out;
 }
 
 .inactiveLine {
   composes: line;
   opacity: 0.65;
+  /* The duration to fade a line OUT to become INACTIVE */
+  transition: 200ms all ease-in-out;
 }
 
 .controls {
   position: sticky;
   bottom: 0;
-  background: hsla(240, 4.3%, 9%, 0.5);
   background: linear-gradient(
     to bottom,
-    hsla(240, 4.3%, 9%, 0),
-    hsla(240, 4.3%, 9%, 0.75),
-    hsla(240, 4.3%, 9%, 1)
+    rgba(16, 16, 18, 0),
+    rgba(16, 16, 18, 0.6) 40%,
+    rgba(16, 16, 18, 1) 100%
   );
   padding: 16px;
   padding-top: 32px;
+  opacity: 0;
+}
+
+.controlsEnterActive {
+  opacity: 1;
+}
+
+.controlsEnterDone {
+  opacity: 1;
+  transition: opacity 200ms ease-in-out;
+}
+
+.controlsExit {
+  transition: opacity 200ms ease-in-out;
+}
+
+.controlsExitActive {
+  opacity: 0;
+}
+
+.controlsExitDone {
+  opacity: 0;
+}
+
+.stopButton {
+  position: relative;
+  z-index: 2;
+  background: none;
+  appearance: none;
+  border: none;
+  color: inherit;
+  font-size: 1.5em;
+  opacity: 1;
+  transition: all 200ms ease-in-out;
+  padding: 0;
+  padding: 6px 8px;
+  margin: -6px -8px;
+  border-radius: 3px;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(2px);
+  background: rgba(16, 16, 18, 0.4);
+}
+
+.stopButton:hover {
+  opacity: 1;
+  transition: all 50ms ease-in-out;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.stopButton:active {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 50ms ease-in-out;
+}
+
+.stopIcon {
+  padding-right: 1ch;
+  vertical-align: middle;
 }

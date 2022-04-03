@@ -1,16 +1,23 @@
-import { Howl } from "howler";
+import { Howl, Howler as howler } from "howler";
+import { values } from "lodash";
 import sample from "lodash/sample";
-import React, { useCallback, useContext, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   DialogueLine,
   DialogueNode,
   DialogueTree,
   CurrentDialogueState,
 } from "../types";
-import { params } from "./utils";
 
 interface AudioContext {
   playAudioNode: (node: DialogueNode) => Promise<void>;
+  stopPlayback: () => void;
 }
 
 export const audioContext = React.createContext<AudioContext | null>(null);
@@ -52,20 +59,66 @@ function getDialoguePlaylist(
   throw new Error("shouldn't be here!");
 }
 
+interface Sound {
+  sound: Howl;
+  line: DialogueLine;
+}
+
+// enum PlayingState {
+//   NotStarted,
+//   Playing,
+//   Stopped,
+// }
+
+function getNextSound(currentSound: Sound, soundsPlaylist: Sound[]) {
+  const currentIndex = soundsPlaylist.findIndex((v) => v === currentSound);
+  return soundsPlaylist[currentIndex + 1];
+}
+
 export const useAudioState = () => {
   const [playlistState, setPlaylist] = useState<DialogueLine[]>([]);
+  const soundsPlaylistRef = useRef<Sound[]>();
+  const currentSoundRef = useRef<Sound>();
+  // const playingStateRef = useRef<PlayingState>(PlayingState.NotStarted);
+
   const [nowNextDialogue, setNowNextDialogue] = useState<CurrentDialogueState>(
     {}
   );
 
-  // const currentAudioPlayerRef = useRef();
-
   const playAudioNode = useCallback(async (node: DialogueNode) => {
+    stopPlayback();
+
+    // playingStateRef.current = PlayingState.Playing;
+
     const playlist = getDialoguePlaylist(node);
     setPlaylist(playlist);
 
+    function playSound(sound: Sound) {
+      currentSoundRef.current = sound;
+      sound.sound.play();
+
+      sound.sound.once("play", () => {
+        setNowNextDialogue((v) => ({ ...v, now: sound.line }));
+      });
+
+      sound.sound.once("end", async () => {
+        if (!soundsPlaylistRef.current) return;
+
+        const delay = (sound.line.duration ?? 0) * 100;
+        const nextSound = getNextSound(sound, soundsPlaylistRef.current);
+
+        if (nextSound) {
+          setNowNextDialogue((v) => ({ ...v, delay, next: nextSound.line }));
+          await wait(delay);
+          playSound(nextSound);
+        } else {
+          setNowNextDialogue({});
+        }
+      });
+    }
+
     const soundLineMap = new Map<Howl, DialogueLine>();
-    const sounds = playlist.map((line) => {
+    soundsPlaylistRef.current = playlist.map((line) => {
       const url = `https://destiny-dialogue-project.s3.ap-southeast-2.amazonaws.com/audio/${line.audioFileName}`;
       const sound = new Howl({
         src: [url],
@@ -79,69 +132,27 @@ export const useAudioState = () => {
       };
     });
 
-    for (let index = 0; index < sounds.length; index++) {
-      const { sound, line } = sounds[index];
-      const { sound: nextSound, line: nextLine } = sounds[index + 1] ?? {};
+    const firstSound = soundsPlaylistRef.current[0];
+    setNowNextDialogue((v) => ({ ...v, delay: 0, next: firstSound.line }));
+    playSound(firstSound);
+  }, []);
 
-      soundLineMap.set(sound, line);
-      sound.once("play", () => {
-        console.log("Playing", line.caption);
-
-        setNowNextDialogue((cur) => ({ ...cur, now: line }));
-      });
-
-      sound.once("playerror", (err: unknown) => console.log("playerror", err));
-      sound.once("loaderror", (err: unknown) => console.log("loaderror", err));
-
-      if (nextSound) {
-        sound.once("end", async () => {
-          const thisLine = soundLineMap.get(sound);
-          const delay = ((thisLine?.duration ?? 0) / 10) * 1000; // * 100
-          console.log("Delay", delay, "ms");
-
-          if (params.clearNow) {
-            setNowNextDialogue((cur) => ({
-              ...cur,
-              now: undefined,
-              delay,
-              next: nextLine,
-            }));
-          } else {
-            setNowNextDialogue((cur) => ({
-              ...cur,
-              delay,
-              next: nextLine,
-            }));
-          }
-
-          await wait(Math.min(delay, 1000));
-          nextSound.play();
-        });
-      } else {
-        sound.once("end", async () => {
-          const thisLine = soundLineMap.get(sound);
-          const delay = ((thisLine?.duration ?? 0) / 10) * 1000; // * 100
-          console.log("Delay", delay, "ms");
-
-          setNowNextDialogue((cur) => ({}));
-          await wait(Math.min(delay, 1000));
-        });
-      }
+  const stopPlayback = useCallback(() => {
+    if (currentSoundRef.current) {
+      currentSoundRef.current.sound.stop();
+      setPlaylist([]);
+      setNowNextDialogue({});
+      soundsPlaylistRef.current = undefined;
+      currentSoundRef.current = undefined;
     }
-
-    setNowNextDialogue((cur) => ({
-      ...cur,
-      delay: 0,
-      next: sounds[0].line,
-    }));
-    sounds[0].sound.play();
   }, []);
 
   const audioContextValue = useMemo(
     () => ({
       playAudioNode,
+      stopPlayback,
     }),
-    [playAudioNode]
+    [playAudioNode, stopPlayback]
   );
 
   return {

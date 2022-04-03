@@ -10,7 +10,7 @@ import { Animation } from "@motionone/animation";
 
 interface MainViewProps {
   dialogueBanks: DialogueBank[];
-  nowNextDialogue: CurrentDialogueState | undefined;
+  nowNextDialogue: CurrentDialogueState;
   playlist: DialogueLine[];
 }
 

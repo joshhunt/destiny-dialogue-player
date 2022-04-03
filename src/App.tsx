@@ -22,7 +22,7 @@ export default function App() {
 interface VisualLoadingStateProps {
   dialogueBanks: DialogueBank[];
   loadingState: LoadingState;
-  nowNextDialogue: CurrentDialogueState | undefined;
+  nowNextDialogue: CurrentDialogueState;
   playlist: DialogueLine[];
 }
 
