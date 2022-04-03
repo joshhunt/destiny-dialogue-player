@@ -60,4 +60,6 @@ export type CurrentDialogueState = {
   now?: DialogueLine | undefined;
   delay?: number | undefined;
   next?: DialogueLine | undefined;
+  loading?: boolean;
+  playing?: boolean;
 };

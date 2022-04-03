@@ -3,7 +3,7 @@ import Playback from "../../components/Playback";
 import { DialogueBank, DialogueLine, CurrentDialogueState } from "../../types";
 import s from "./styles.module.css";
 import { Scrollbars } from "react-custom-scrollbars";
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { params } from "../../lib/utils";
 import { spring } from "motion";
 import { Animation } from "@motionone/animation";
@@ -41,6 +41,7 @@ function easeInOutCubic(x: number): number {
 export default function MainView(props: MainViewProps) {
   const scrollerRef = useRef<Scrollbars | null>();
   const { dialogueBanks, nowNextDialogue, playlist } = props;
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
   const renderThumb = useCallback(({ style, ...props }) => {
     return <div className={s.scrollerThumb} style={style} {...props} />;
@@ -74,20 +75,25 @@ export default function MainView(props: MainViewProps) {
       const duration = Math.min(500, lineDelay);
 
       async function springAnimation() {
-        new Animation(
+        setIsAnimating(true);
+
+        const animationProgress = new Animation(
           (progress) => {
+            setIsAnimating(true);
             if (!scroller) return;
             scroller.scrollTop(progress);
           },
           [currentScrollPos, destinationPos],
           { easing: spring({ stiffness: 150, damping: 200 }) }
         );
+
+        await animationProgress.finished;
+        setIsAnimating(false);
       }
 
       async function fixedCubicAnimation() {
         if (!params.noDelayScrollTo) {
           const animationDelay = Math.max(lineDelay - duration, 0);
-          console.log("Delay animation by", animationDelay, "ms");
           await new Promise((resolve) => setTimeout(resolve, animationDelay));
         }
 
@@ -121,20 +127,8 @@ export default function MainView(props: MainViewProps) {
           scroller.scrollTop(newScrollTop);
           if (progress < 1) {
             requestAnimationFrame(tick);
-          } else {
-            console.log("Done animating");
           }
         };
-
-        console.log(
-          "Will scroll to",
-          destinationPos,
-          "for",
-          element,
-          "over",
-          duration,
-          "ms"
-        );
         tick();
       }
 
@@ -164,6 +158,7 @@ export default function MainView(props: MainViewProps) {
             nowNextDialogue={nowNextDialogue}
             playlist={playlist}
             requestScrollTo={onRequestScrollTo}
+            isAnimating={isAnimating}
           />
         </Scrollbars>
       </div>

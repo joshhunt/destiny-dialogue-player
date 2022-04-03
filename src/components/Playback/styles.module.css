@@ -7,11 +7,9 @@
   margin-bottom: 0;
 }
 
-.activeLine {
-  composes: line;
-  color: hsl(210 6% 99%);
-  /* The duration to fade a line IN to become ACTIVE */
-  transition: 100ms all ease-in-out;
+.lastLine {
+  height: calc(100vh - 71px - 32px);
+  height: calc(100dvh - 71px - 32px);
 }
 
 .inactiveLine {
@@ -19,6 +17,22 @@
   opacity: 0.65;
   /* The duration to fade a line OUT to become INACTIVE */
   transition: 200ms all ease-in-out;
+  /* filter: blur(1px);
+  transform: scale(0.98);
+  transform-origin: top center; */
+}
+
+.activeLine {
+  composes: line;
+  color: hsl(210 6% 99%);
+  /* The duration to fade a line IN to become ACTIVE */
+  transition: 100ms all ease-in-out;
+}
+
+.restLine {
+  composes: line;
+  /* The duration to fade a line IN to become ACTIVE */
+  transition: 100ms all ease-in-out;
 }
 
 .controls {
@@ -35,12 +49,17 @@
   opacity: 0;
 }
 
+.controlsInactive {
+  composes: controls;
+  pointer-events: none;
+}
+
 .controlsEnterActive {
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 .controlsEnterDone {
-  opacity: 1;
+  opacity: 1 !important;
   transition: opacity 200ms ease-in-out;
 }
 
@@ -49,11 +68,23 @@
 }
 
 .controlsExitActive {
-  opacity: 0;
+  opacity: 0 !important;
 }
 
 .controlsExitDone {
+  opacity: 0 !important;
+}
+
+.loading {
+  font-size: 1.5em;
+  padding: 0 16px;
+  margin-top: 32px;
+  color: rgba(255, 255, 255, 0.75);
   opacity: 0;
+}
+
+.loading svg {
+  margin-right: 1ch;
 }
 
 .stopButton {

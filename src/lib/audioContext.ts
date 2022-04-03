@@ -98,8 +98,6 @@ export const useAudioState = () => {
     async (node: DialogueNode) => {
       stopPlayback();
 
-      // playingStateRef.current = PlayingState.Playing;
-
       const playlist = getDialoguePlaylist(node);
       setPlaylist(playlist);
 
@@ -108,7 +106,12 @@ export const useAudioState = () => {
         sound.sound.play();
 
         sound.sound.once("play", () => {
-          setNowNextDialogue((v) => ({ ...v, now: sound.line }));
+          setNowNextDialogue((v) => ({
+            ...v,
+            loading: false,
+            playing: true,
+            now: sound.line,
+          }));
         });
 
         sound.sound.once("end", async () => {
@@ -116,25 +119,28 @@ export const useAudioState = () => {
 
           const delay = (sound.line.duration ?? 0) * 100;
           const nextSound = getNextSound(sound, soundsPlaylistRef.current);
+          await wait(delay);
 
           if (nextSound) {
             setNowNextDialogue((v) => ({ ...v, delay, next: nextSound.line }));
-            await wait(delay);
             playSound(nextSound);
           } else {
-            setNowNextDialogue({});
+            setNowNextDialogue({
+              next: soundsPlaylistRef.current[0].line,
+              playing: true,
+            });
+
+            // We delay playing:false to give us a change to animate back to pos:0
+            requestAnimationFrame(() => setNowNextDialogue({ playing: false }));
           }
         });
       }
 
-      const soundLineMap = new Map<Howl, DialogueLine>();
       soundsPlaylistRef.current = playlist.map((line) => {
         const url = `https://destiny-dialogue-project.s3.ap-southeast-2.amazonaws.com/audio/${line.audioFileName}`;
         const sound = new Howl({
           src: [url],
         });
-
-        soundLineMap.set(sound, line);
 
         return {
           sound,
@@ -143,7 +149,12 @@ export const useAudioState = () => {
       });
 
       const firstSound = soundsPlaylistRef.current[0];
-      setNowNextDialogue((v) => ({ ...v, delay: 0, next: firstSound.line }));
+      setNowNextDialogue((v) => ({
+        ...v,
+        delay: 0,
+        loading: true,
+        next: firstSound.line,
+      }));
       playSound(firstSound);
     },
     [stopPlayback]

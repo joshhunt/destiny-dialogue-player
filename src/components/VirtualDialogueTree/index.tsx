@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useCallback, useState } from "react";
 import { DialogueBank } from "../../types";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Scrollbars } from "react-custom-scrollbars";
@@ -6,6 +6,8 @@ import { Scrollbars } from "react-custom-scrollbars";
 import { FixedSizeTree, TreeWalker, TreeWalkerValue } from "react-vtree";
 import { NodeMeta, TreeData, TreeNode } from "./types";
 import Node from "./Node";
+
+import s from "./styles.module.css";
 
 const getNodeData = (
   node: TreeNode,
@@ -122,10 +124,22 @@ console.log("getScrollbarWidth:", getScrollbarWidth());
 
 const outerElementType = forwardRef<HTMLDivElement, any>(
   ({ style, ...rest }, ref) => {
+    const renderThumb = useCallback(({ style, ...props }) => {
+      return <div className={s.scrollerThumb} style={style} {...props} />;
+    }, []);
+
+    const renderTrack = useCallback(({ style, ...props }) => {
+      return <div className={s.scrollerTrack} style={style} {...props} />;
+    }, []);
+
     return (
       <Scrollbars
         ref={ref}
         style={{ ...style, overflow: "hidden" }}
+        className={s.scrollRoot}
+        autoHide
+        renderThumbVertical={renderThumb}
+        renderTrackVertical={renderTrack}
         {...rest}
       />
     );

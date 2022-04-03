@@ -45,10 +45,12 @@ const Node: React.FC<
   if (!("type" in node)) {
     // DialogueBank
     return (
-      <div className={cx(s.row, s.faintRow)} style={style}>
+      <div className={cx(s.row, s.bank)} style={style}>
         <div className={s.rowMain}>
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
+          <span className="Space" />
+          <i className="fa-duotone fa-file"></i>
           <span className="Space" />
           Dialogue File {node.entryKey} / {node.contentHash}
         </div>
@@ -113,6 +115,7 @@ const Node: React.FC<
           <span className="toggleButtonSpacer" />
           <span
             className={s.narrator}
+            data-color={pickColor(node.narrator)}
             style={{
               color: node.narrator ? pickColor(node.narrator) : "",
             }}

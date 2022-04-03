@@ -4,20 +4,50 @@
 
 .row {
   height: 26px;
-  padding-top: 2px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  transition: background 10ms ease-in-out;
+  border-radius: 2px;
+  padding-right: 16px;
 }
 
 .row:nth-child(2n + 1) {
-  background-color: #1c1c1f;
+  /* background-color: #1c1c1f; */
+  background: hsl(240, 4.3%, 10%);
 }
 
 .row:hover {
-  background: hsla(240, 4.3%, 70%, 8%);
+  background: hsl(240, 4.3%, 13%);
   transition: background 0ms ease-in-out;
 }
 
 .narrator {
   color: #b7b7b7;
+}
+
+.scrollerThumb {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 100px;
+  width: 8px !important;
+}
+
+.scrollerRoot:hover .scrollerThumb {
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 100px;
+}
+
+.scrollerTrack {
+  right: 4px;
+  bottom: 2px;
+  top: 2px;
+  border-radius: 3px;
+}
+
+.scrollerRoot:hover .scrollerTrack {
+  opacity: 1 !important;
+}
+
+.bank {
+  font-weight: 500;
 }
