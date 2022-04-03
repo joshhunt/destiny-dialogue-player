@@ -43,11 +43,11 @@ export default function MainView(props: MainViewProps) {
   const { dialogueBanks, nowNextDialogue, playlist } = props;
 
   const renderThumb = useCallback(({ style, ...props }) => {
-    const thumbStyle = {
-      backgroundColor: "rgba(255,255,255,.75)",
-      borderRadius: 100,
-    };
-    return <div style={{ ...style, ...thumbStyle }} {...props} />;
+    return <div className={s.scrollerThumb} style={style} {...props} />;
+  }, []);
+
+  const renderTrack = useCallback(({ style, ...props }) => {
+    return <div className={s.scrollerTrack} style={style} {...props} />;
   }, []);
 
   const onRequestScrollTo = useCallback(
@@ -157,6 +157,7 @@ export default function MainView(props: MainViewProps) {
         <Scrollbars
           autoHide
           renderThumbVertical={renderThumb}
+          renderTrackVertical={renderTrack}
           ref={(ref) => (scrollerRef.current = ref)}
         >
           <Playback

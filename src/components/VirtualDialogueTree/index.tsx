@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import { DialogueBank } from "../../types";
 import AutoSizer from "react-virtualized-auto-sizer";
+import { Scrollbars } from "react-custom-scrollbars";
 
 import { FixedSizeTree, TreeWalker, TreeWalkerValue } from "react-vtree";
 import { NodeMeta, TreeData, TreeNode } from "./types";
@@ -98,6 +99,39 @@ function useTreeWalker(dialogueBanks: DialogueBank[]) {
   return treeWalker;
 }
 
+function getScrollbarWidth() {
+  const outer = document.createElement("div");
+  outer.style.visibility = "hidden";
+  outer.style.width = "100px";
+  document.body.appendChild(outer);
+
+  const widthNoScroll = outer.offsetWidth;
+  outer.style.overflow = "scroll";
+
+  const inner = document.createElement("div");
+  inner.style.width = "100%";
+  outer.appendChild(inner);
+
+  const widthWithScroll = inner.offsetWidth;
+  outer.parentNode?.removeChild(outer);
+
+  return widthNoScroll - widthWithScroll;
+}
+
+console.log("getScrollbarWidth:", getScrollbarWidth());
+
+const outerElementType = forwardRef<HTMLDivElement, any>(
+  ({ style, ...rest }, ref) => {
+    return (
+      <Scrollbars
+        ref={ref}
+        style={{ ...style, overflow: "hidden" }}
+        {...rest}
+      />
+    );
+  }
+);
+
 const VirtualDialogueTree: React.FC<VirtualDialogueTreeProps> = ({
   dialogueBanks,
 }) => {
@@ -112,6 +146,7 @@ const VirtualDialogueTree: React.FC<VirtualDialogueTreeProps> = ({
           itemSize={itemSize}
           height={height}
           width="100%"
+          outerElementType={outerElementType}
         >
           {Node}
         </FixedSizeTree>

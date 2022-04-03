@@ -17,3 +17,24 @@
   height: 100%;
   overflow: hidden;
 }
+
+.scrollerThumb {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 100px;
+}
+
+.side:hover .scrollerThumb {
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 100px;
+}
+
+.scrollerTrack {
+  right: 2px;
+  bottom: 2px;
+  top: 2px;
+  border-radius: 3px;
+}
+
+.side:hover .scrollerTrack {
+  opacity: 1 !important;
+}
