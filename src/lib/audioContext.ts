@@ -137,7 +137,7 @@ export const useAudioState = () => {
       }
 
       soundsPlaylistRef.current = playlist.map((line) => {
-        const url = `https://destiny-dialogue-project.s3.ap-southeast-2.amazonaws.com/audio/${line.audioFileName}`;
+        const url = `https://destiny-dialogue-project.s3.ap-southeast-2.amazonaws.com/audio/${line.audioFileName}.mp3`;
         const sound = new Howl({
           src: [url],
         });

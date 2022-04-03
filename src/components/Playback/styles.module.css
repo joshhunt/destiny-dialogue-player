@@ -73,6 +73,7 @@
 
 .controlsExitDone {
   opacity: 0 !important;
+  display: none;
 }
 
 .loading {
