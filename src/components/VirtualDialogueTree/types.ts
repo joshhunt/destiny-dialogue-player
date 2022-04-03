@@ -1,14 +1,19 @@
-import { FixedSizeNodeData } from "react-vtree";
+import { VariableSizeNodeData } from "@joshhunt/react-vtree";
 import { DialogueBank, DialogueNode, DialogueTree } from "../../types";
 
-export type TreeData = FixedSizeNodeData &
+interface Header {
+  type: "Header";
+  id: "$$header";
+}
+
+export type TreeData = VariableSizeNodeData &
   Readonly<{
     node: TreeNode;
     isLeaf: boolean;
     nestingLevel: number;
   }>;
 
-export type TreeNode = DialogueBank | DialogueTree | DialogueNode;
+export type TreeNode = DialogueBank | DialogueTree | DialogueNode | Header;
 
 export type NodeMeta = Readonly<{
   nestingLevel: number;
@@ -16,3 +21,8 @@ export type NodeMeta = Readonly<{
 }>;
 
 export const USE_DEFAULT_NODE = false;
+
+export const HEADER_NODE: Header = {
+  type: "Header",
+  id: "$$header",
+};

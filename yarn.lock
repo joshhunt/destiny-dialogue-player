@@ -1330,6 +1330,14 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
+"@joshhunt/react-vtree@3.0.0-beta.3-fork":
+  version "3.0.0-beta.3-fork"
+  resolved "https://registry.yarnpkg.com/@joshhunt/react-vtree/-/react-vtree-3.0.0-beta.3-fork.tgz#1d3c8498e3c60e99dfaa7f2b8b9e59d95f44346f"
+  integrity sha512-LM0VV9dsLl5zgfL1l18nRVbMHe+V6UAfHWJtZgTnS0T4cb9qrfV54IUFx1lZuu6HAwYwGcNdiiJ2ukXMozqqWQ==
+  dependencies:
+    "@babel/runtime" "^7.11.0"
+    react-merge-refs "^1.1.0"
+
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/@jridgewell/resolve-uri/-/resolve-uri-3.0.5.tgz#68eb521368db76d040a6315cdb24bf2483037b9c"
@@ -7367,14 +7375,6 @@ react-virtualized@^9.22.3:
     loose-envify "^1.4.0"
     prop-types "^15.7.2"
     react-lifecycles-compat "^3.0.4"
-
-react-vtree@3.0.0-beta.3:
-  version "3.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/react-vtree/-/react-vtree-3.0.0-beta.3.tgz#9a2dfc31fa730c39d19b0dff7a9df81ead816bd5"
-  integrity sha512-BGC8kOT2Ti3rne0Nwu+n90TAo8lbYiWT36Cu47aj6bz+Bs7k5p3EVgBTinyuCdU5+n4a9wJOXHAdop/zsR1RAA==
-  dependencies:
-    "@babel/runtime" "^7.11.0"
-    react-merge-refs "^1.1.0"
 
 react-window@^1.8.6:
   version "1.8.6"

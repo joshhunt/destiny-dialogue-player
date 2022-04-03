@@ -13,12 +13,11 @@
   padding-left: 8px;
 }
 
-.row:nth-child(2n + 1) {
-  /* background-color: #1c1c1f; */
+.alternateRow {
   background: hsl(240, 4.3%, 9%);
 }
 
-.row:hover {
+.row:not(.stickyHeader):hover {
   background: hsl(240, 4.3%, 11%);
   transition: background 0ms ease-in-out;
 }
@@ -49,6 +48,7 @@
   bottom: 2px;
   top: 2px;
   border-radius: 3px;
+  z-index: 20;
 }
 
 .scrollerRoot:hover .scrollerTrack {

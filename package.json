@@ -30,7 +30,7 @@
     "react-virtualized": "^9.22.3",
     "react-virtualized-auto-sizer": "^1.0.6",
     "react-virtualized-tree": "^3.4.1",
-    "react-vtree": "3.0.0-beta.3",
+    "@joshhunt/react-vtree": "3.0.0-beta.3-fork",
     "react-window": "^1.8.6",
     "spring-easing": "^1.1.0",
     "typescript": "^4.4.2",

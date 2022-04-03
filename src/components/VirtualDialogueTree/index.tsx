@@ -3,11 +3,19 @@ import { DialogueBank } from "../../types";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Scrollbars } from "react-custom-scrollbars";
 
-import { FixedSizeTree, TreeWalker, TreeWalkerValue } from "react-vtree";
-import { NodeMeta, TreeData, TreeNode } from "./types";
+import {
+  VariableSizeTree,
+  TreeWalker,
+  TreeWalkerValue,
+} from "@joshhunt/react-vtree";
+import { HEADER_NODE, NodeMeta, TreeData, TreeNode } from "./types";
 import Node from "./Node";
 
 import s from "./styles.module.css";
+import Header from "../Header";
+
+const ROW_HEIGHT = 26;
+const HEADER_ROW_HEIGHT = 47;
 
 const getNodeData = (
   node: TreeNode,
@@ -19,12 +27,12 @@ const getNodeData = (
     isOpenByDefault: nestingLevel < 3,
     nestingLevel,
     node,
+    defaultHeight:
+      "type" in node && node.type === "Header" ? HEADER_ROW_HEIGHT : ROW_HEIGHT,
   },
   nestingLevel,
   node,
 });
-
-const USE_DEFAULT_NODE = false;
 
 interface VirtualDialogueTreeProps {
   dialogueBanks: DialogueBank[];
@@ -32,6 +40,8 @@ interface VirtualDialogueTreeProps {
 
 function makeTreeWalker(dialogueBanks: DialogueBank[]) {
   function* treeWalker(): ReturnType<TreeWalker<TreeData, NodeMeta>> {
+    yield getNodeData(HEADER_NODE, 0);
+
     for (let i = 0; i < dialogueBanks.length; i++) {
       yield getNodeData(dialogueBanks[i], 0);
     }
@@ -51,6 +61,11 @@ function makeTreeWalker(dialogueBanks: DialogueBank[]) {
 
           yield getNodeData(dialogueTree, parentMeta.nestingLevel + 1);
         }
+      }
+
+      // Custom header node, doesnt yield any children
+      if ("type" in parentNode && parentNode.type === "Header") {
+        handled = true;
       }
 
       // It's a DialogueTree
@@ -146,24 +161,38 @@ const outerElementType = forwardRef<HTMLDivElement, any>(
   }
 );
 
+const innerElementType = forwardRef<HTMLDivElement>(
+  ({ children, ...rest }, ref) => {
+    return (
+      <div ref={ref} {...rest}>
+        <Header />
+
+        {children}
+      </div>
+    );
+  }
+);
+
 const VirtualDialogueTree: React.FC<VirtualDialogueTreeProps> = ({
   dialogueBanks,
 }) => {
   const treeWalker = useTreeWalker(dialogueBanks);
 
-  const itemSize = USE_DEFAULT_NODE ? 30 : 26;
   return (
     <AutoSizer disableWidth>
       {({ height }) => (
-        <FixedSizeTree
+        <VariableSizeTree
           treeWalker={treeWalker}
-          itemSize={itemSize}
+          itemSize={(index: any) =>
+            index === 0 ? HEADER_ROW_HEIGHT : ROW_HEIGHT
+          }
           height={height}
           width="100%"
           outerElementType={outerElementType}
+          innerElementType={innerElementType}
         >
           {Node}
-        </FixedSizeTree>
+        </VariableSizeTree>
       )}
     </AutoSizer>
   );

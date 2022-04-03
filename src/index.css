@@ -3,9 +3,11 @@
 }
 
 html {
+  --bg-color: hsl(240, 4.3%, 7%);
+
   font-family: "Inter", sans-serif;
   font-size: 14px;
-  background: hsl(240, 4.3%, 7%);
+  background: var(--bg-color);
   color: hsl(210 6% 93%);
   line-height: 1.588;
   font-weight: 400;
@@ -143,11 +145,13 @@ td + td {
   color: hsla(210, 6%, 93%, 90%);
   /* background: none; */
   white-space: nowrap;
-  font-size: 12px;
+  font-size: 13px;
   border-radius: 2px;
-  padding: 1.5px 6px;
+  padding: 2px 6px;
   transition: background ease-in-out 50ms;
   cursor: pointer;
+  font-weight: 500;
+  font-family: inherit;
 }
 
 .actionButton:hover {

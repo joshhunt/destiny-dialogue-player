@@ -1,5 +1,5 @@
-import { FixedSizeNodePublicState } from "react-vtree";
-import { NodeComponentProps } from "react-vtree/dist/es/Tree";
+import { FixedSizeNodePublicState } from "@joshhunt/react-vtree";
+import { NodeComponentProps } from "@joshhunt/react-vtree/dist/es/Tree";
 import cx from "classnames";
 
 import Indent from "../Indent";
@@ -45,7 +45,10 @@ const Node: React.FC<
   if (!("type" in node)) {
     // DialogueBank
     return (
-      <div className={cx(s.row, s.bank)} style={style}>
+      <div
+        className={cx(s.row, s.bank, index % 2 && s.alternateRow)}
+        style={style}
+      >
         <div className={s.rowMain}>
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
@@ -58,9 +61,17 @@ const Node: React.FC<
     );
   }
 
+  // We don't render the header here, it's rendered separately
+  if (node.type === "Header") {
+    return null;
+  }
+
   if (node.type === "DialogueTree") {
     return (
-      <div className={cx(s.row, s.faintRow)} style={style}>
+      <div
+        className={cx(s.row, s.faintRow, index % 2 && s.alternateRow)}
+        style={style}
+      >
         <div className={s.rowMain}>
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
@@ -74,7 +85,10 @@ const Node: React.FC<
   if (node.type === "DialogueSequence") {
     const summary = formattedSummary(node.sequence);
     return (
-      <div className={cx(s.row, s.faintRow)} style={style}>
+      <div
+        className={cx(s.row, s.faintRow, index % 2 && s.alternateRow)}
+        style={style}
+      >
         <div className={s.rowMain}>
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
@@ -92,7 +106,10 @@ const Node: React.FC<
   if (node.type === "DialogueBranch") {
     const summary = formattedSummary(node.options);
     return (
-      <div className={cx(s.row, s.faintRow)} style={style}>
+      <div
+        className={cx(s.row, s.faintRow, index % 2 && s.alternateRow)}
+        style={style}
+      >
         <div className={s.rowMain}>
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
@@ -101,7 +118,7 @@ const Node: React.FC<
         </div>
 
         <div className={s.accessory}>
-          <PlayButton node={node} label="Play a branch" />
+          <PlayButton node={node} label="Branch" />
         </div>
       </div>
     );
@@ -109,13 +126,12 @@ const Node: React.FC<
 
   if (node.type === "DialogueLine") {
     return (
-      <div className={cx(s.row)} style={style}>
+      <div className={cx(s.row, index % 2 && s.alternateRow)} style={style}>
         <div className={s.rowMain}>
           <Indent level={nestingLevel} />
           <span className="toggleButtonSpacer" />
           <span
             className={s.narrator}
-            data-color={pickColor(node.narrator)}
             style={{
               color: node.narrator ? pickColor(node.narrator) : "",
             }}
