@@ -1,5 +1,4 @@
-import { Howl, Howler as howler } from "howler";
-import { values } from "lodash";
+import { Howl } from "howler";
 import sample from "lodash/sample";
 import React, {
   useCallback,
@@ -85,58 +84,6 @@ export const useAudioState = () => {
     {}
   );
 
-  const playAudioNode = useCallback(async (node: DialogueNode) => {
-    stopPlayback();
-
-    // playingStateRef.current = PlayingState.Playing;
-
-    const playlist = getDialoguePlaylist(node);
-    setPlaylist(playlist);
-
-    function playSound(sound: Sound) {
-      currentSoundRef.current = sound;
-      sound.sound.play();
-
-      sound.sound.once("play", () => {
-        setNowNextDialogue((v) => ({ ...v, now: sound.line }));
-      });
-
-      sound.sound.once("end", async () => {
-        if (!soundsPlaylistRef.current) return;
-
-        const delay = (sound.line.duration ?? 0) * 100;
-        const nextSound = getNextSound(sound, soundsPlaylistRef.current);
-
-        if (nextSound) {
-          setNowNextDialogue((v) => ({ ...v, delay, next: nextSound.line }));
-          await wait(delay);
-          playSound(nextSound);
-        } else {
-          setNowNextDialogue({});
-        }
-      });
-    }
-
-    const soundLineMap = new Map<Howl, DialogueLine>();
-    soundsPlaylistRef.current = playlist.map((line) => {
-      const url = `https://destiny-dialogue-project.s3.ap-southeast-2.amazonaws.com/audio/${line.audioFileName}`;
-      const sound = new Howl({
-        src: [url],
-      });
-
-      soundLineMap.set(sound, line);
-
-      return {
-        sound,
-        line,
-      };
-    });
-
-    const firstSound = soundsPlaylistRef.current[0];
-    setNowNextDialogue((v) => ({ ...v, delay: 0, next: firstSound.line }));
-    playSound(firstSound);
-  }, []);
-
   const stopPlayback = useCallback(() => {
     if (currentSoundRef.current) {
       currentSoundRef.current.sound.stop();
@@ -146,6 +93,61 @@ export const useAudioState = () => {
       currentSoundRef.current = undefined;
     }
   }, []);
+
+  const playAudioNode = useCallback(
+    async (node: DialogueNode) => {
+      stopPlayback();
+
+      // playingStateRef.current = PlayingState.Playing;
+
+      const playlist = getDialoguePlaylist(node);
+      setPlaylist(playlist);
+
+      function playSound(sound: Sound) {
+        currentSoundRef.current = sound;
+        sound.sound.play();
+
+        sound.sound.once("play", () => {
+          setNowNextDialogue((v) => ({ ...v, now: sound.line }));
+        });
+
+        sound.sound.once("end", async () => {
+          if (!soundsPlaylistRef.current) return;
+
+          const delay = (sound.line.duration ?? 0) * 100;
+          const nextSound = getNextSound(sound, soundsPlaylistRef.current);
+
+          if (nextSound) {
+            setNowNextDialogue((v) => ({ ...v, delay, next: nextSound.line }));
+            await wait(delay);
+            playSound(nextSound);
+          } else {
+            setNowNextDialogue({});
+          }
+        });
+      }
+
+      const soundLineMap = new Map<Howl, DialogueLine>();
+      soundsPlaylistRef.current = playlist.map((line) => {
+        const url = `https://destiny-dialogue-project.s3.ap-southeast-2.amazonaws.com/audio/${line.audioFileName}`;
+        const sound = new Howl({
+          src: [url],
+        });
+
+        soundLineMap.set(sound, line);
+
+        return {
+          sound,
+          line,
+        };
+      });
+
+      const firstSound = soundsPlaylistRef.current[0];
+      setNowNextDialogue((v) => ({ ...v, delay: 0, next: firstSound.line }));
+      playSound(firstSound);
+    },
+    [stopPlayback]
+  );
 
   const audioContextValue = useMemo(
     () => ({
