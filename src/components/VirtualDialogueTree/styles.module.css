@@ -10,6 +10,7 @@
   transition: background 10ms ease-in-out;
   border-radius: 2px;
   padding-right: 16px;
+  padding-left: 8px;
 }
 
 .row:nth-child(2n + 1) {
