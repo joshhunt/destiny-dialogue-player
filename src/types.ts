@@ -6,6 +6,13 @@ export interface DialogueBank {
 }
 
 export type DialogueNode = DialogueLine | DialogueSequence | DialogueBranch;
+export type AnyDialogueNode = DialogueNode | DialogueBank;
+
+export interface SearchResults {
+  type: "SearchResults";
+  id: string;
+  results: DialogueLine[];
+}
 
 export interface DialogueTree {
   type: "DialogueTree";

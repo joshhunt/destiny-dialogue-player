@@ -3,10 +3,11 @@ import Playback from "../../components/Playback";
 import { DialogueBank, DialogueLine, CurrentDialogueState } from "../../types";
 import s from "./styles.module.css";
 import { Scrollbars } from "react-custom-scrollbars";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { params } from "../../lib/utils";
 import { spring } from "motion";
 import { Animation } from "@motionone/animation";
+import useNarratorFilter, { SearchContextProvider } from "./useNarratorFilter";
 
 interface MainViewProps {
   dialogueBanks: DialogueBank[];
@@ -41,6 +42,14 @@ function easeInOutCubic(x: number): number {
 export default function MainView(props: MainViewProps) {
   const scrollerRef = useRef<Scrollbars | null>();
   const { dialogueBanks, nowNextDialogue, playlist } = props;
+  const { narrators, selectedNarrator, filteredDialogue, setSelectedNarrator } =
+    useNarratorFilter(dialogueBanks);
+
+  const searchContextValue = useMemo(
+    () => ({ narrators, selectedNarrator, setSelectedNarrator }),
+    [narrators, selectedNarrator, setSelectedNarrator]
+  );
+
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
   const renderThumb = useCallback(({ style, ...props }) => {
@@ -141,27 +150,31 @@ export default function MainView(props: MainViewProps) {
     []
   );
 
-  return (
-    <div className={s.root}>
-      <div className={s.main}>
-        <VirtualDialogueTree dialogueBanks={dialogueBanks} />
-      </div>
+  const dialogueToUse = filteredDialogue ?? dialogueBanks;
 
-      <div className={s.side}>
-        <Scrollbars
-          autoHide
-          renderThumbVertical={renderThumb}
-          renderTrackVertical={renderTrack}
-          ref={(ref) => (scrollerRef.current = ref)}
-        >
-          <Playback
-            nowNextDialogue={nowNextDialogue}
-            playlist={playlist}
-            requestScrollTo={onRequestScrollTo}
-            isAnimating={isAnimating}
-          />
-        </Scrollbars>
+  return (
+    <SearchContextProvider value={searchContextValue}>
+      <div className={s.root}>
+        <div className={s.main}>
+          <VirtualDialogueTree dialogueBanks={dialogueToUse} />
+        </div>
+
+        <div className={s.side}>
+          <Scrollbars
+            autoHide
+            renderThumbVertical={renderThumb}
+            renderTrackVertical={renderTrack}
+            ref={(ref) => (scrollerRef.current = ref)}
+          >
+            <Playback
+              nowNextDialogue={nowNextDialogue}
+              playlist={playlist}
+              requestScrollTo={onRequestScrollTo}
+              isAnimating={isAnimating}
+            />
+          </Scrollbars>
+        </div>
       </div>
-    </div>
+    </SearchContextProvider>
   );
 }

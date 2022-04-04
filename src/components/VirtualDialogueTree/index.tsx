@@ -1,5 +1,5 @@
-import React, { forwardRef, useCallback, useState } from "react";
-import { DialogueBank } from "../../types";
+import React, { forwardRef, useCallback, useMemo } from "react";
+import { DialogueBank, DialogueLine, SearchResults } from "../../types";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Scrollbars } from "react-custom-scrollbars";
 
@@ -35,15 +35,21 @@ const getNodeData = (
 });
 
 interface VirtualDialogueTreeProps {
-  dialogueBanks: DialogueBank[];
+  dialogueBanks: DialogueBank[] | DialogueLine[] | SearchResults;
 }
 
-function makeTreeWalker(dialogueBanks: DialogueBank[]) {
+function makeTreeWalker(
+  dialogueBanks: DialogueBank[] | DialogueLine[] | SearchResults
+) {
   function* treeWalker(): ReturnType<TreeWalker<TreeData, NodeMeta>> {
     yield getNodeData(HEADER_NODE, 0);
 
-    for (let i = 0; i < dialogueBanks.length; i++) {
-      yield getNodeData(dialogueBanks[i], 0);
+    if ("type" in dialogueBanks) {
+      yield getNodeData(dialogueBanks, 0);
+    } else {
+      for (let i = 0; i < dialogueBanks.length; i++) {
+        yield getNodeData(dialogueBanks[i], 0);
+      }
     }
 
     while (true) {
@@ -66,6 +72,15 @@ function makeTreeWalker(dialogueBanks: DialogueBank[]) {
       // Custom header node, doesnt yield any children
       if ("type" in parentNode && parentNode.type === "Header") {
         handled = true;
+      }
+
+      // Custom search results node
+      if ("type" in parentNode && parentNode.type === "SearchResults") {
+        handled = true;
+        const searchResults = parentNode;
+        for (const childNode of searchResults.results) {
+          yield getNodeData(childNode, parentMeta.nestingLevel + 1);
+        }
       }
 
       // It's a DialogueTree
@@ -110,8 +125,13 @@ function makeTreeWalker(dialogueBanks: DialogueBank[]) {
   return treeWalker;
 }
 
-function useTreeWalker(dialogueBanks: DialogueBank[]) {
-  const [treeWalker] = useState(() => makeTreeWalker(dialogueBanks));
+function useTreeWalker(
+  dialogueBanks: DialogueBank[] | DialogueLine[] | SearchResults
+) {
+  const treeWalker = useMemo(
+    () => makeTreeWalker(dialogueBanks),
+    [dialogueBanks]
+  );
 
   return treeWalker;
 }

@@ -66,6 +66,24 @@ const Node: React.FC<
     return null;
   }
 
+  if (node.type === "SearchResults") {
+    return (
+      <div
+        className={cx(s.row, s.bank, index % 2 && s.alternateRow)}
+        style={style}
+      >
+        <div className={s.rowMain}>
+          <Indent level={nestingLevel} />
+          <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
+          <span className="Space" />
+          <i className="fa-regular fa-magnifying-glass"></i>
+          <span className="Space" />
+          Search Results
+        </div>
+      </div>
+    );
+  }
+
   if (node.type === "DialogueTree") {
     return (
       <div

@@ -1,5 +1,10 @@
 import { VariableSizeNodeData } from "@joshhunt/react-vtree";
-import { DialogueBank, DialogueNode, DialogueTree } from "../../types";
+import {
+  DialogueBank,
+  DialogueNode,
+  DialogueTree,
+  SearchResults,
+} from "../../types";
 
 interface Header {
   type: "Header";
@@ -13,7 +18,12 @@ export type TreeData = VariableSizeNodeData &
     nestingLevel: number;
   }>;
 
-export type TreeNode = DialogueBank | DialogueTree | DialogueNode | Header;
+export type TreeNode =
+  | DialogueBank
+  | DialogueTree
+  | DialogueNode
+  | Header
+  | SearchResults;
 
 export type NodeMeta = Readonly<{
   nestingLevel: number;
