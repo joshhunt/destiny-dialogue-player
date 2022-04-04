@@ -118,6 +118,8 @@ const Node: React.FC<
         </div>
 
         <div className={s.accessory}>
+          <PlayButton node={node} label="Play All" playAllBranches />
+          <span className="Space" />
           <PlayButton node={node} label="Branch" />
         </div>
       </div>

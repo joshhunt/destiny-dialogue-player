@@ -13,10 +13,18 @@ import {
   DialogueTree,
   CurrentDialogueState,
 } from "../types";
+import { getMP3URL } from "./dialogueAPI";
 
 interface AudioContext {
-  playAudioNode: (node: DialogueNode) => Promise<void>;
+  playAudioNode: (
+    node: DialogueNode,
+    options?: PlayAudioOptions
+  ) => Promise<void>;
   stopPlayback: () => void;
+}
+
+interface PlayAudioOptions {
+  playAllBranches?: boolean;
 }
 
 export const audioContext = React.createContext<AudioContext | null>(null);
@@ -36,13 +44,18 @@ export const useAudioContext = () => {
 };
 
 function getDialoguePlaylist(
-  node: DialogueNode | DialogueTree
+  node: DialogueNode | DialogueTree,
+  playAllBranches?: boolean
 ): DialogueLine[] {
   if (node.type === "DialogueLine") {
     return [node];
   } else if (node.type === "DialogueSequence") {
     return node.sequence.flatMap((v) => getDialoguePlaylist(v));
   } else if (node.type === "DialogueBranch") {
+    if (playAllBranches) {
+      return node.options.flatMap((v) => getDialoguePlaylist(v));
+    }
+
     const randomChild = sample(node.options);
 
     if (!randomChild) {
@@ -95,10 +108,10 @@ export const useAudioState = () => {
   }, []);
 
   const playAudioNode = useCallback(
-    async (node: DialogueNode) => {
+    async (node: DialogueNode, options?: PlayAudioOptions) => {
       stopPlayback();
 
-      const playlist = getDialoguePlaylist(node);
+      const playlist = getDialoguePlaylist(node, options?.playAllBranches);
       setPlaylist(playlist);
 
       function playSound(sound: Sound) {
@@ -137,10 +150,8 @@ export const useAudioState = () => {
       }
 
       soundsPlaylistRef.current = playlist.map((line) => {
-        const url = `https://destiny-dialogue-project.s3.ap-southeast-2.amazonaws.com/audio/${line.audioFileName}.mp3`;
-        const sound = new Howl({
-          src: [url],
-        });
+        const url = getMP3URL(line.audioFileName);
+        const sound = new Howl({ src: [url] });
 
         return {
           sound,

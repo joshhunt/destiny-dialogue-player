@@ -4,12 +4,13 @@ import { DialogueNode } from "../types";
 interface Props {
   node: DialogueNode;
   label?: React.ReactNode;
+  playAllBranches?: boolean;
 }
 
-export function PlayButton({ node, label }: Props) {
+export function PlayButton({ node, label, playAllBranches }: Props) {
   const { playAudioNode } = useAudioPlayer();
   const handleClick = async () => {
-    playAudioNode(node);
+    playAudioNode(node, { playAllBranches });
   };
 
   return (

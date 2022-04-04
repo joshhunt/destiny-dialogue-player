@@ -1,29 +1,29 @@
-import { get as idbGet, set as idbSet } from "idb-keyval";
+import { delMany, get as idbGet, keys, set as idbSet } from "idb-keyval";
 import pLimit from "p-limit";
 import { useEffect, useState } from "react";
 import { DialogueBank, DialogueManifest } from "../types";
+import { getDialogueBankURL, getManifestURL } from "./dialogueAPI";
 
 async function getManifest() {
-  const resp = await fetch(
-    "https://destiny-dialogue-project.s3.ap-southeast-2.amazonaws.com/manifest.json"
-  );
+  const resp = await fetch(getManifestURL());
   const data = await resp.json();
 
   return data as DialogueManifest;
 }
 
-async function getDialogueBank(fileName: string) {
-  const idbKey = `dialogue-bank-${fileName}`;
+function getIDBKey(fileName: string) {
+  return `dialogue-bank-${fileName}`;
+}
 
+async function getDialogueBank(fileName: string) {
+  const idbKey = getIDBKey(fileName);
   const cached = await idbGet<DialogueBank>(idbKey);
 
   if (cached) {
     return cached;
   }
 
-  const resp = await fetch(
-    `https://destiny-dialogue-project.s3.ap-southeast-2.amazonaws.com/dialogue-banks/${fileName}`
-  );
+  const resp = await fetch(getDialogueBankURL(fileName));
   const data = await resp.json();
   await idbSet(idbKey, data);
 
@@ -37,11 +37,22 @@ async function getAllDialogueBanks() {
   const urlParams = new URLSearchParams(window.location.search.slice(1));
   const specificHash = Number(urlParams.get("hash"));
 
+  const latestIDBKeys = manifest.dialogueBanks.map((v) =>
+    getIDBKey(v.fileName)
+  );
+
   const promises = manifest.dialogueBanks
     .filter((entry) => (specificHash > 0 ? entry.hash === specificHash : true))
     .map((entry) => limit(() => getDialogueBank(entry.fileName)));
 
   const data = await Promise.all(promises);
+
+  const allKeysInIDB = await keys<string>();
+  const keysToDelete = allKeysInIDB.filter(
+    (key) => !latestIDBKeys.includes(key)
+  );
+  await delMany(keysToDelete);
+
   return data;
 }
 
@@ -62,7 +73,8 @@ export default function useDialogueBanks() {
         setDialogueBanks(allData);
         setState(LoadingState.Done);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error(err);
         setState(LoadingState.Error);
       });
   }, []);
