@@ -7,12 +7,12 @@ import DisclosureButton from "../DisclosureButton";
 import { formattedSummary } from "../../lib/utils";
 
 import s from "./styles.module.css";
-import { TreeData, USE_DEFAULT_NODE } from "./types";
+import { TreeNodeData, USE_DEFAULT_NODE } from "./types";
 import { PlayButton } from "../PlayButton";
 import { pickColor } from "../../lib/color";
 
 const Node: React.FC<
-  NodeComponentProps<TreeData, FixedSizeNodePublicState<TreeData>>
+  NodeComponentProps<TreeNodeData, FixedSizeNodePublicState<TreeNodeData>>
 > = ({
   data: { node, isLeaf, id, nestingLevel },
   index,

@@ -1,58 +1,36 @@
-import MainView from "./views/MainView";
-import useDialogueBanks, { LoadingState } from "./lib/useDialogueBanks";
+import { MainViewLoadingStates } from "./views/MainView";
+import useDialogueBanks from "./lib/useDialogueBanks";
 import { AudioContextProvider, useAudioState } from "./lib/audioContext";
-import { DialogueBank, DialogueLine, CurrentDialogueState } from "./types";
+import useNarratorFilter, {
+  SearchContextProvider,
+} from "./views/MainView/useNarratorFilter";
+import { useMemo } from "react";
 
 export default function App() {
   const { audioContext, nowNextDialogue, playlist } = useAudioState();
-  const { dialogueBanks, state } = useDialogueBanks();
+  const { dialogueBanks, progress, state } = useDialogueBanks();
+
+  const { narrators, selectedNarrator, filteredDialogue, setSelectedNarrator } =
+    useNarratorFilter(dialogueBanks);
+
+  const searchContextValue = useMemo(
+    () => ({ narrators, selectedNarrator, setSelectedNarrator }),
+    [narrators, selectedNarrator, setSelectedNarrator]
+  );
+
+  const dialogueToUse = filteredDialogue ?? dialogueBanks;
 
   return (
-    <AudioContextProvider value={audioContext}>
-      <VisualLoadingState
-        dialogueBanks={dialogueBanks}
-        loadingState={state}
-        nowNextDialogue={nowNextDialogue}
-        playlist={playlist}
-      />
-    </AudioContextProvider>
-  );
-}
-
-interface VisualLoadingStateProps {
-  dialogueBanks: DialogueBank[];
-  loadingState: LoadingState;
-  nowNextDialogue: CurrentDialogueState;
-  playlist: DialogueLine[];
-}
-
-const VisualLoadingState: React.FC<VisualLoadingStateProps> = ({
-  dialogueBanks,
-  loadingState,
-  nowNextDialogue,
-  playlist,
-}) => {
-  switch (loadingState) {
-    case LoadingState.NotStarted:
-    case LoadingState.Loading: {
-      return <div>Loading...</div>;
-    }
-
-    case LoadingState.Error: {
-      return <div>Error</div>;
-    }
-
-    case LoadingState.Done: {
-      return (
-        <MainView
-          dialogueBanks={dialogueBanks}
+    <SearchContextProvider value={searchContextValue}>
+      <AudioContextProvider value={audioContext}>
+        <MainViewLoadingStates
+          dialogueBanks={dialogueToUse}
+          progress={progress}
+          loadingState={state}
           nowNextDialogue={nowNextDialogue}
           playlist={playlist}
         />
-      );
-    }
-
-    default:
-      return <div>Unhandled state {loadingState}</div>;
-  }
-};
+      </AudioContextProvider>
+    </SearchContextProvider>
+  );
+}

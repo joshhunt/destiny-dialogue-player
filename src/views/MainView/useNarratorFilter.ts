@@ -1,5 +1,10 @@
 import { createContext, useContext, useMemo, useState } from "react";
-import { AnyDialogueNode, DialogueBank, DialogueLine } from "../../types";
+import {
+  AnyDialogueNode,
+  DialogueBank,
+  DialogueLine,
+  DialogueNode,
+} from "../../types";
 import uniq from "lodash/uniq";
 
 interface SearchContext {
@@ -19,6 +24,57 @@ export function useSearchContext() {
   }
 
   return value;
+}
+
+function filterDialogue<TNode extends AnyDialogueNode>(
+  node: TNode,
+  filterFn: (line: DialogueLine) => boolean
+): TNode | undefined {
+  if (!("type" in node)) {
+    const children = node.dialogues
+      .map((child) => filterDialogue(child.dialogue, filterFn))
+      .filter(Boolean);
+
+    return children.length
+      ? {
+          ...node,
+          options: children,
+        }
+      : undefined;
+  }
+
+  const type = node.type;
+
+  if (node.type === "DialogueBranch") {
+    const children = node.options
+      .map((child) => filterDialogue(child, filterFn))
+      .filter(Boolean);
+
+    return children.length
+      ? {
+          ...node,
+          options: children,
+        }
+      : undefined;
+  }
+
+  if (node.type === "DialogueSequence") {
+    const children = node.sequence
+      .map((child) => filterDialogue(child, filterFn))
+      .filter(Boolean);
+
+    return children.length
+      ? {
+          ...node,
+          sequence: children,
+        }
+      : undefined;
+  }
+
+  if (node.type === "DialogueLine") {
+    const result = filterFn(node);
+    return result ? node : undefined;
+  }
 }
 
 function flatMapDialogue<ReturnValue>(
@@ -73,18 +129,27 @@ export default function useNarratorFilter(dialogueBanks: DialogueBank[]) {
       return null;
     }
 
-    const matchingLines = flatMapDialogue(dialogueBanks, (line) => {
-      return line.narrator === selectedNarrator ? line : null;
-    });
+    const matchingBanks: DialogueBank[] = [];
 
-    return matchingLines.length
-      ? {
-          type: "SearchResults" as const,
-          id: "$$searchResults",
-          results: matchingLines,
-        }
-      : null;
+    for (const dialogueBank of dialogueBanks) {
+      const match = filterDialogue(
+        dialogueBank,
+        (line) => line.narrator === selectedNarrator
+      );
+
+      if (match) {
+        matchingBanks.push(match);
+      }
+    }
+
+    // const matchingLines = flatMapDialogue(dialogueBanks, (line) => {
+    //   return line.narrator === selectedNarrator ? line : null;
+    // });
+
+    return matchingBanks.length ? matchingBanks : null;
   }, [dialogueBanks, selectedNarrator]);
+
+  console.log(filteredDialogue);
 
   return { narrators, filteredDialogue, selectedNarrator, setSelectedNarrator };
 }

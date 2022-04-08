@@ -22,13 +22,15 @@ const Header: React.FC<HeaderProps> = () => {
     <div className={s.stickyHeader}>
       <div className={s.title}>Destiny Dialgoue Archive</div>
 
-      <select value={selectedNarrator} onChange={handleNarratorChange}>
-        {narrators.map((narrator) => (
-          <option key={narrator} value={narrator}>
-            {narrator}
-          </option>
-        ))}
-      </select>
+      {narrators.length > 0 && (
+        <select value={selectedNarrator} onChange={handleNarratorChange}>
+          {narrators.map((narrator) => (
+            <option key={narrator} value={narrator}>
+              {narrator}
+            </option>
+          ))}
+        </select>
+      )}
     </div>
   );
 };

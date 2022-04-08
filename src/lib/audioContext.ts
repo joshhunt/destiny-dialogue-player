@@ -76,12 +76,6 @@ interface Sound {
   line: DialogueLine;
 }
 
-// enum PlayingState {
-//   NotStarted,
-//   Playing,
-//   Stopped,
-// }
-
 function getNextSound(currentSound: Sound, soundsPlaylist: Sound[]) {
   const currentIndex = soundsPlaylist.findIndex((v) => v === currentSound);
   return soundsPlaylist[currentIndex + 1];

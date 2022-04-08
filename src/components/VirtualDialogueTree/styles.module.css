@@ -11,15 +11,19 @@
   border-radius: 2px;
   padding-right: 16px;
   padding-left: 8px;
+  background: hsl(240, 4.3%, 9%);
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 
 .alternateRow {
-  background: hsl(240, 4.3%, 9%);
+  background: none;
 }
 
 .row:not(.stickyHeader):hover {
   background: hsl(240, 4.3%, 11%);
   transition: background 0ms ease-in-out;
+  border-radius: 0;
 }
 
 .rowMain {

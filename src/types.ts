@@ -11,7 +11,7 @@ export type AnyDialogueNode = DialogueNode | DialogueBank;
 export interface SearchResults {
   type: "SearchResults";
   id: string;
-  results: DialogueLine[];
+  results: AnyDialogueNode[];
 }
 
 export interface DialogueTree {

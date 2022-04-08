@@ -8,6 +8,9 @@ import { params } from "../../lib/utils";
 import { spring } from "motion";
 import { Animation } from "@motionone/animation";
 import useNarratorFilter, { SearchContextProvider } from "./useNarratorFilter";
+import _MainViewLoadingStates from "./LoadingStates";
+
+export const MainViewLoadingStates = _MainViewLoadingStates;
 
 interface MainViewProps {
   dialogueBanks: DialogueBank[];
@@ -42,13 +45,6 @@ function easeInOutCubic(x: number): number {
 export default function MainView(props: MainViewProps) {
   const scrollerRef = useRef<Scrollbars | null>();
   const { dialogueBanks, nowNextDialogue, playlist } = props;
-  const { narrators, selectedNarrator, filteredDialogue, setSelectedNarrator } =
-    useNarratorFilter(dialogueBanks);
-
-  const searchContextValue = useMemo(
-    () => ({ narrators, selectedNarrator, setSelectedNarrator }),
-    [narrators, selectedNarrator, setSelectedNarrator]
-  );
 
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
@@ -150,31 +146,27 @@ export default function MainView(props: MainViewProps) {
     []
   );
 
-  const dialogueToUse = filteredDialogue ?? dialogueBanks;
-
   return (
-    <SearchContextProvider value={searchContextValue}>
-      <div className={s.root}>
-        <div className={s.main}>
-          <VirtualDialogueTree dialogueBanks={dialogueToUse} />
-        </div>
-
-        <div className={s.side}>
-          <Scrollbars
-            autoHide
-            renderThumbVertical={renderThumb}
-            renderTrackVertical={renderTrack}
-            ref={(ref) => (scrollerRef.current = ref)}
-          >
-            <Playback
-              nowNextDialogue={nowNextDialogue}
-              playlist={playlist}
-              requestScrollTo={onRequestScrollTo}
-              isAnimating={isAnimating}
-            />
-          </Scrollbars>
-        </div>
+    <div className={s.root}>
+      <div className={s.main}>
+        <VirtualDialogueTree dialogueBanks={dialogueBanks} />
       </div>
-    </SearchContextProvider>
+
+      <div className={s.side}>
+        <Scrollbars
+          autoHide
+          renderThumbVertical={renderThumb}
+          renderTrackVertical={renderTrack}
+          ref={(ref) => (scrollerRef.current = ref)}
+        >
+          <Playback
+            nowNextDialogue={nowNextDialogue}
+            playlist={playlist}
+            requestScrollTo={onRequestScrollTo}
+            isAnimating={isAnimating}
+          />
+        </Scrollbars>
+      </div>
+    </div>
   );
 }

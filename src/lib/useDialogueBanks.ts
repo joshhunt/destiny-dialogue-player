@@ -25,12 +25,14 @@ async function getDialogueBank(fileName: string) {
 
   const resp = await fetch(getDialogueBankURL(fileName));
   const data = await resp.json();
-  await idbSet(idbKey, data);
+  // await idbSet(idbKey, data);
 
   return data as DialogueBank;
 }
 
-async function getAllDialogueBanks() {
+async function getAllDialogueBanks(
+  dispatchProgress: (p: LoadingProgress) => void
+) {
   const manifest = await getManifest();
   const limit = pLimit(10);
 
@@ -41,9 +43,27 @@ async function getAllDialogueBanks() {
     getIDBKey(v.fileName)
   );
 
-  const promises = manifest.dialogueBanks
+  const banksToLoad = manifest.dialogueBanks
     .filter((entry) => (specificHash > 0 ? entry.hash === specificHash : true))
-    .map((entry) => limit(() => getDialogueBank(entry.fileName)));
+    .slice(0, 3000);
+
+  let loaded = 0;
+  dispatchProgress({
+    progress: loaded,
+    total: banksToLoad.length,
+  });
+
+  const promises = banksToLoad.map((entry) =>
+    limit(async () => {
+      const bank = await getDialogueBank(entry.fileName);
+      loaded += 1;
+      dispatchProgress({
+        progress: loaded,
+        total: banksToLoad.length,
+      });
+      return bank;
+    })
+  );
 
   const data = await Promise.all(promises);
 
@@ -63,24 +83,34 @@ export enum LoadingState {
   Error,
 }
 
+export interface LoadingProgress {
+  progress: number;
+  total: number;
+}
+
 export default function useDialogueBanks() {
   const [state, setState] = useState(LoadingState.NotStarted);
+  const [error, setError] = useState<any>();
+  const [progress, setProgress] = useState<LoadingProgress>();
   const [dialogueBanks, setDialogueBanks] = useState<DialogueBank[]>([]);
 
   useEffect(() => {
-    getAllDialogueBanks()
+    getAllDialogueBanks(setProgress)
       .then((allData) => {
         setDialogueBanks(allData);
         setState(LoadingState.Done);
       })
       .catch((err) => {
         console.error(err);
+        setError(err);
         setState(LoadingState.Error);
       });
   }, []);
 
   return {
+    progress,
     dialogueBanks,
     state,
+    error,
   };
 }
