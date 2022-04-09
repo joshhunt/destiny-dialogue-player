@@ -45,27 +45,6 @@ export default function Playback({
 
   return (
     <div className={s.root}>
-      {/* <CSSTransition
-        in={loading}
-        timeout={200}
-        classNames={{
-          appear: s.controlsAppear,
-          appearActive: s.controlsAppearActive,
-          appearDone: s.controlsAppearDone,
-          enter: s.controlsEnter,
-          enterActive: s.controlsEnterActive,
-          enterDone: s.controlsEnterDone,
-          exit: s.controlsExit,
-          exitActive: s.controlsExitActive,
-          exitDone: s.controlsExitDone,
-        }}
-      >
-        <div className={s.loading}>
-          <i className="fa-solid fa-spinner-third fa-spin"></i>
-          Loading...
-        </div>
-      </CSSTransition> */}
-
       {playlist.map((line, index) => (
         <div
           ref={(ref) => refMap.current.set(line, ref)}
@@ -82,7 +61,7 @@ export default function Playback({
           )}
         >
           <p className="Narrator">
-            {line.narrator ? (
+            {line.narrator?.trim() ? (
               <Coloured text={line.narrator} />
             ) : (
               <em style={{ color: "#b7b7b7" }}>Unknown</em>

@@ -3,7 +3,7 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { Scrollbars } from "react-custom-scrollbars";
 
 import { VariableSizeTree } from "@joshhunt/react-vtree";
-import { HEADER_ROW_HEIGHT, ROW_HEIGHT, VirtualizedTree } from "./types";
+import { HEADER_ROW_HEIGHT, ROW_HEIGHT, RootDialogueCollection } from "./types";
 import Node from "./Node";
 
 import s from "./styles.module.css";
@@ -11,7 +11,7 @@ import Header from "../Header";
 import useTreeWalker from "./useTreeWalker";
 
 interface VirtualDialogueTreeProps {
-  dialogueBanks: VirtualizedTree;
+  dialogueBanks: RootDialogueCollection;
 }
 
 const outerElementType = forwardRef<HTMLDivElement, any>(

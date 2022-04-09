@@ -1,11 +1,12 @@
 import MainView from ".";
+import { RootDialogueCollection } from "../../components/VirtualDialogueTree/types";
 import { LoadingProgress, LoadingState } from "../../lib/useDialogueBanks";
-import { DialogueBank, CurrentDialogueState, DialogueLine } from "../../types";
+import { CurrentDialogueState, DialogueLine } from "../../types";
 import ErrorView from "../ErrorView";
 import LoadingView from "../LoadingView";
 
 interface MainViewLoadingStatesProps {
-  dialogueBanks: DialogueBank[];
+  dialogueBanks: RootDialogueCollection;
   error: any;
   progress: LoadingProgress | undefined;
   loadingState: LoadingState;

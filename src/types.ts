@@ -8,10 +8,12 @@ export interface DialogueBank {
 export type DialogueNode = DialogueLine | DialogueSequence | DialogueBranch;
 export type AnyDialogueNode = DialogueNode | DialogueBank;
 
-export interface SearchResults {
-  type: "SearchResults";
+export interface FilteredDialogueBank {
+  type: "FilteredDialogueBank";
+  entryKey: string;
+  contentHash: number;
   id: string;
-  results: AnyDialogueNode[];
+  lines: DialogueLine[];
 }
 
 export interface DialogueTree {

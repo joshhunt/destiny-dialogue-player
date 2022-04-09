@@ -1,6 +1,6 @@
 import VirtualDialogueTree from "../../components/VirtualDialogueTree";
 import Playback from "../../components/Playback";
-import { DialogueBank, DialogueLine, CurrentDialogueState } from "../../types";
+import { DialogueLine, CurrentDialogueState } from "../../types";
 import s from "./styles.module.css";
 import { Scrollbars } from "react-custom-scrollbars";
 import { useCallback, useRef, useState } from "react";
@@ -8,11 +8,12 @@ import { params } from "../../lib/utils";
 import { spring } from "motion";
 import { Animation } from "@motionone/animation";
 import _MainViewLoadingStates from "./LoadingStates";
+import { RootDialogueCollection } from "../../components/VirtualDialogueTree/types";
 
 export const MainViewLoadingStates = _MainViewLoadingStates;
 
 interface MainViewProps {
-  dialogueBanks: DialogueBank[];
+  dialogueBanks: RootDialogueCollection;
   nowNextDialogue: CurrentDialogueState;
   playlist: DialogueLine[];
 }

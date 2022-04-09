@@ -6,7 +6,7 @@ import {
   NodeMeta,
   TreeNodeData,
   TreeNode,
-  VirtualizedTree,
+  RootDialogueCollection,
   HEADER_ROW_HEIGHT,
   ROW_HEIGHT,
 } from "./types";
@@ -28,7 +28,7 @@ const getNodeData = (
   node,
 });
 
-function makeTreeWalker(dialogueBanks: VirtualizedTree) {
+function makeTreeWalker(dialogueBanks: RootDialogueCollection) {
   function* treeWalker(): ReturnType<TreeWalker<TreeNodeData, NodeMeta>> {
     yield getNodeData(HEADER_NODE, 0);
 
@@ -63,10 +63,10 @@ function makeTreeWalker(dialogueBanks: VirtualizedTree) {
       }
 
       // Custom search results node
-      if ("type" in parentNode && parentNode.type === "SearchResults") {
+      if ("type" in parentNode && parentNode.type === "FilteredDialogueBank") {
         handled = true;
-        const searchResults = parentNode;
-        for (const childNode of searchResults.results) {
+        const dialogueBank = parentNode;
+        for (const childNode of dialogueBank.lines) {
           yield getNodeData(childNode, parentMeta.nestingLevel + 1);
         }
       }
@@ -101,7 +101,7 @@ function makeTreeWalker(dialogueBanks: VirtualizedTree) {
       // It's a DialogueLine
       if ("type" in parentNode && parentNode.type === "DialogueLine") {
         handled = true;
-        // We don't need to yield anything for DialogueLines
+        // We don't need to yield anything for DialogueLines becasue they don't have children
       }
 
       if (!handled) {
@@ -113,7 +113,7 @@ function makeTreeWalker(dialogueBanks: VirtualizedTree) {
   return treeWalker;
 }
 
-export default function useTreeWalker(dialogueBanks: VirtualizedTree) {
+export default function useTreeWalker(dialogueBanks: RootDialogueCollection) {
   const treeWalker = useMemo(
     () => makeTreeWalker(dialogueBanks),
     [dialogueBanks]

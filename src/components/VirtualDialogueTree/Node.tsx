@@ -66,7 +66,8 @@ const Node: React.FC<
     return null;
   }
 
-  if (node.type === "SearchResults") {
+  if (node.type === "FilteredDialogueBank") {
+    // DialogueBank
     return (
       <div
         className={cx(s.row, s.bank, index % 2 && s.alternateRow)}
@@ -76,9 +77,9 @@ const Node: React.FC<
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
           <span className="Space" />
-          <i className="fa-regular fa-magnifying-glass"></i>
+          <i className="fa-duotone fa-file-magnifying-glass"></i>
           <span className="Space" />
-          Search Results
+          Dialogue File {node.entryKey} / {node.contentHash}
         </div>
       </div>
     );
@@ -145,6 +146,8 @@ const Node: React.FC<
   }
 
   if (node.type === "DialogueLine") {
+    const narrator = node.narrator?.trim();
+
     return (
       <div className={cx(s.row, index % 2 && s.alternateRow)} style={style}>
         <div className={s.rowMain}>
@@ -153,10 +156,10 @@ const Node: React.FC<
           <span
             className={s.narrator}
             style={{
-              color: node.narrator ? pickColor(node.narrator) : "",
+              color: narrator ? pickColor(node.narrator) : "",
             }}
           >
-            {node.narrator || <em>Unknown</em>}:
+            {narrator || <em>Unknown</em>}:
           </span>{" "}
           {node.caption}
         </div>{" "}

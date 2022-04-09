@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = () => {
         <select value={selectedNarrator} onChange={handleNarratorChange}>
           {narrators.map((narrator) => (
             <option key={narrator} value={narrator}>
-              {narrator}
+              {narrator || "Unknown"}
             </option>
           ))}
         </select>

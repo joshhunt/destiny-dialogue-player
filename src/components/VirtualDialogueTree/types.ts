@@ -3,7 +3,7 @@ import {
   DialogueBank,
   DialogueNode,
   DialogueTree,
-  SearchResults,
+  FilteredDialogueBank,
 } from "../../types";
 
 interface Header {
@@ -18,14 +18,14 @@ export type TreeNodeData = VariableSizeNodeData &
     nestingLevel: number;
   }>;
 
-export type VirtualizedTree = DialogueBank[] | SearchResults;
+export type RootDialogueCollection = DialogueBank[] | FilteredDialogueBank[];
 
 export type TreeNode =
   | DialogueBank
+  | FilteredDialogueBank
   | DialogueTree
   | DialogueNode
-  | Header
-  | SearchResults;
+  | Header;
 
 export type NodeMeta = Readonly<{
   nestingLevel: number;
