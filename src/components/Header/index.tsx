@@ -36,28 +36,41 @@ const Header: React.FC<HeaderProps> = () => {
     <div className={s.stickyHeader}>
       <div className={s.title}>Destiny Dialgoue Archive</div>
 
-      <div>
-        <input
-          type="text"
-          value={searchText ?? ""}
-          onChange={handleSearchChange}
-          className={s.search}
-        />
+      {narrators.length > 0 && (
+        <div className={s.extraItems}>
+          <div className={s.searchBox}>
+            <i className="fa-regular fa-magnifying-glass" />
 
-        <span className="Space" />
-        <span className="Space" />
-        <span className="Space" />
+            <input
+              type="text"
+              value={searchText ?? ""}
+              onChange={handleSearchChange}
+              className={s.searchInput}
+            />
+          </div>
 
-        {narrators.length > 0 && (
-          <select value={selectedNarrator} onChange={handleNarratorChange}>
-            {narrators.map((narrator) => (
-              <option key={narrator} value={narrator}>
-                {narrator || "Unknown"}
-              </option>
-            ))}
-          </select>
-        )}
-      </div>
+          <span className="Space" />
+          <span className="Space" />
+          <span className="Space" />
+
+          <>
+            <label htmlFor="narrator-select">Narrator:</label>
+            <select
+              id="narrator-select"
+              className={s.narratorSelect}
+              value={selectedNarrator}
+              onChange={handleNarratorChange}
+            >
+              <option>All</option>
+              {narrators.map((narrator) => (
+                <option key={narrator} value={narrator}>
+                  {narrator || "Unknown"}
+                </option>
+              ))}
+            </select>
+          </>
+        </div>
+      )}
     </div>
   );
 };

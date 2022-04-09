@@ -12,9 +12,9 @@ const DisclosureButton: React.FC<DisclosureButtonProps> = ({
   return (
     <button className="toggleButton" onClick={onClick}>
       {isOpen ? (
-        <i className="far fa-chevron-down" />
+        <i className="fa-regular fa-chevron-down" />
       ) : (
-        <i className="far fa-chevron-right" />
+        <i className="fa-regular fa-chevron-right" />
       )}
     </button>
   );

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-pro": "^6.1.1",
     "@joshhunt/react-vtree": "3.0.0-beta.3-fork",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
