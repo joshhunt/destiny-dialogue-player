@@ -53,7 +53,9 @@ function getDialoguePlaylist(
     return node.sequence.flatMap((v) => getDialoguePlaylist(v));
   } else if (node.type === "DialogueBranch") {
     if (playAllBranches) {
-      return node.options.flatMap((v) => getDialoguePlaylist(v));
+      return node.options.flatMap((v) =>
+        getDialoguePlaylist(v, playAllBranches)
+      );
     }
 
     const randomChild = sample(node.options);
