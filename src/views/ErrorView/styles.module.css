@@ -21,7 +21,7 @@
   /* width: 90vw; */
   /* max-width: 500px; */
   background-color: rgba(255, 150, 150, 0.2);
-  color: hsl(24deg 100% 90%);
+  color: hsl(24deg 80% 85%);
   padding: 24px;
 
   width: 90vw;
@@ -30,7 +30,7 @@
 }
 
 .title {
-  color: hsl(24deg 100% 85%);
+  color: hsl(24deg 100% 90%);
   font-size: 18px;
   font-weight: 500;
   margin: 0;
@@ -51,6 +51,6 @@
 }
 
 .exception {
-  color: hsl(24deg 65% 90%);
+  /* color: hsl(24deg 65% 90%); */
   overflow: auto;
 }
