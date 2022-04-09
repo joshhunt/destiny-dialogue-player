@@ -100,7 +100,7 @@ export default function Playback({
 
         <button className={s.closeButton} onClick={clearDialogue}>
           <span className={s.stopIcon}>
-            <i className="fa-regular fa-circle-stop"></i>
+            <i className="fa-regular fa-xmark"></i>
           </span>
           Close
         </button>
