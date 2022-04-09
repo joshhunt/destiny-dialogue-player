@@ -41,7 +41,12 @@ const Header: React.FC<HeaderProps> = () => {
           type="text"
           value={searchText ?? ""}
           onChange={handleSearchChange}
+          className={s.search}
         />
+
+        <span className="Space" />
+        <span className="Space" />
+        <span className="Space" />
 
         {narrators.length > 0 && (
           <select value={selectedNarrator} onChange={handleNarratorChange}>
