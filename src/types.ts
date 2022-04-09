@@ -6,7 +6,11 @@ export interface DialogueBank {
 }
 
 export type DialogueNode = DialogueLine | DialogueSequence | DialogueBranch;
-export type AnyDialogueNode = DialogueNode | DialogueBank;
+export type AnyDialogueNode =
+  | DialogueNode
+  | DialogueBank
+  | FilteredDialogueBank;
+export type LineType = string | number;
 
 export interface FilteredDialogueBank {
   type: "FilteredDialogueBank";
@@ -27,7 +31,7 @@ export interface DialogueTree {
 export interface DialogueLine {
   type: "DialogueLine";
   contentHash: number;
-  id: string;
+  id: LineType;
 
   audioFileName: string;
   nonUniqueGameHash: number;

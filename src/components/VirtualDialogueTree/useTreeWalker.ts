@@ -16,7 +16,7 @@ const getNodeData = (
   nestingLevel: number
 ): TreeWalkerValue<TreeNodeData, NodeMeta> => ({
   data: {
-    id: node.id,
+    id: typeof node.id === "number" ? node.id.toString() : node.id,
     isLeaf: "type" in node && node.type === "DialogueLine",
     isOpenByDefault: nestingLevel < 3,
     nestingLevel,

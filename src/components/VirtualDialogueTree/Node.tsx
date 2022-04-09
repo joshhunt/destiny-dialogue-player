@@ -49,7 +49,7 @@ const Node: React.FC<
         className={cx(s.row, s.bank, index % 2 && s.alternateRow)}
         style={style}
       >
-        <div className={s.rowMain}>
+        <div className={s.rowMain} key="file">
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
           <span className="Space" />
@@ -73,7 +73,7 @@ const Node: React.FC<
         className={cx(s.row, s.bank, index % 2 && s.alternateRow)}
         style={style}
       >
-        <div className={s.rowMain}>
+        <div className={s.rowMain} key="glass">
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
           <span className="Space" />

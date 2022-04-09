@@ -1,33 +1,14 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   AnyDialogueNode,
-  DialogueBank,
   DialogueLine,
   FilteredDialogueBank,
 } from "../../types";
 import uniq from "lodash/uniq";
+import { RootDialogueCollection } from "../../components/VirtualDialogueTree/types";
 
-interface SearchContext {
-  narrators: string[];
-  selectedNarrator: string | undefined;
-  setSelectedNarrator: (narrator: string) => void;
-}
-
-const searchContext = createContext<SearchContext | undefined>(undefined);
-export const SearchContextProvider = searchContext.Provider;
-
-export function useSearchContext() {
-  const value = useContext(searchContext);
-
-  if (!value) {
-    throw new Error("Search context not set");
-  }
-
-  return value;
-}
-
-function flatMapDialogue<ReturnValue>(
-  node: AnyDialogueNode | DialogueBank[],
+export function flatMapDialogue<ReturnValue>(
+  node: AnyDialogueNode | RootDialogueCollection,
   mapFn: (dialogueLine: DialogueLine) => ReturnValue
 ): Exclude<ReturnValue, null | undefined>[] {
   if (Array.isArray(node)) {
@@ -43,6 +24,10 @@ function flatMapDialogue<ReturnValue>(
   const type = node.type;
   if (node.type === "DialogueBranch") {
     return node.options.flatMap((child) => flatMapDialogue(child, mapFn));
+  }
+
+  if (node.type === "FilteredDialogueBank") {
+    return node.lines.flatMap((child) => flatMapDialogue(child, mapFn));
   }
 
   if (node.type === "DialogueSequence") {
@@ -66,7 +51,9 @@ function fixNarrator(narrator: string | undefined) {
   return narrator?.trim() ?? "";
 }
 
-export default function useNarratorFilter(dialogueBanks: DialogueBank[]) {
+export default function useNarratorFilter(
+  dialogueBanks: RootDialogueCollection
+) {
   const [selectedNarrator, setSelectedNarrator] = useState<string>();
 
   const narrators = useMemo(() => {
@@ -78,8 +65,6 @@ export default function useNarratorFilter(dialogueBanks: DialogueBank[]) {
   }, [dialogueBanks]);
 
   const filteredDialogue = useMemo(() => {
-    console.log({ selectedNarrator });
-
     if (selectedNarrator === undefined) {
       return null;
     }
