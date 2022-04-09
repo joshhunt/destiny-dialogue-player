@@ -82,7 +82,11 @@ export default function Playback({
           )}
         >
           <p className="Narrator">
-            <Coloured text={line.narrator} />
+            {line.narrator ? (
+              <Coloured text={line.narrator} />
+            ) : (
+              <em style={{ color: "#b7b7b7" }}>Unknown</em>
+            )}
           </p>
           <p className="Caption">{line.caption}</p>
         </div>
