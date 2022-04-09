@@ -151,21 +151,23 @@ export default function MainView(props: MainViewProps) {
         <VirtualDialogueTree dialogueBanks={dialogueBanks} />
       </div>
 
-      <div className={s.side}>
-        <Scrollbars
-          autoHide
-          renderThumbVertical={renderThumb}
-          renderTrackVertical={renderTrack}
-          ref={(ref) => (scrollerRef.current = ref)}
-        >
-          <Playback
-            nowNextDialogue={nowNextDialogue}
-            playlist={playlist}
-            requestScrollTo={onRequestScrollTo}
-            isAnimating={isAnimating}
-          />
-        </Scrollbars>
-      </div>
+      {playlist.length > 0 && (
+        <div className={s.side}>
+          <Scrollbars
+            autoHide
+            renderThumbVertical={renderThumb}
+            renderTrackVertical={renderTrack}
+            ref={(ref) => (scrollerRef.current = ref)}
+          >
+            <Playback
+              nowNextDialogue={nowNextDialogue}
+              playlist={playlist}
+              requestScrollTo={onRequestScrollTo}
+              isAnimating={isAnimating}
+            />
+          </Scrollbars>
+        </div>
+      )}
     </div>
   );
 }

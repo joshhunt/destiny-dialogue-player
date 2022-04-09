@@ -94,7 +94,7 @@ export const useAudioState = () => {
   const stopPlayback = useCallback(() => {
     if (currentSoundRef.current) {
       currentSoundRef.current.sound.stop();
-      setPlaylist([]);
+      // setPlaylist([]);
       setNowNextDialogue({});
       soundsPlaylistRef.current = undefined;
       currentSoundRef.current = undefined;
