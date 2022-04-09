@@ -13,6 +13,10 @@
   border-bottom: 1px solid hsla(24deg, 1%, 50%, 0.25);
 }
 
+.main {
+  display: flex;
+}
+
 .title {
   font-size: 20px;
   font-weight: bold;
@@ -40,6 +44,7 @@
 .extraItems {
   display: flex;
   align-items: center;
+  gap: 16px;
 }
 
 .searchBox {
@@ -67,4 +72,92 @@
 .searchBox:focus-within {
   background-color: rgba(255, 255, 255, 0.17);
   box-shadow: rgba(255, 255, 255, 0.33) 0px 0px 0px 1px;
+}
+
+.aboutButton {
+  all: unset;
+  opacity: 0.85;
+  cursor: pointer;
+  padding: 2px 16px;
+}
+
+.modalOverlay {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  inset: 0px;
+  backdrop-filter: blur(1px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  border-radius: 6px;
+
+  /* width: 90vw; */
+  /* max-width: 500px; */
+  background-color: var(--bg-color);
+  padding: 24px;
+
+  width: 90vw;
+  max-width: 700px;
+  /* max-width: 90vw; */
+}
+
+.modalTitle {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.desc {
+  margin-bottom: 20px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.desc a {
+  color: inherit;
+}
+
+.closeButton {
+  position: relative;
+  z-index: 2;
+  background: none;
+  appearance: none;
+  border: none;
+  color: inherit;
+  font-size: 1.5em;
+  opacity: 1;
+  transition: all 200ms ease-in-out;
+  padding: 0;
+  padding: 6px 8px;
+  /* margin: -6px -8px; */
+  border-radius: 3px;
+  line-height: 1;
+  cursor: pointer;
+  background: rgba(16, 16, 18, 0.4);
+}
+
+.closeButton:hover {
+  opacity: 1;
+  transition: all 50ms ease-in-out;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.closeButton:active {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 50ms ease-in-out;
+}
+
+.stopIcon {
+  padding-right: 1ch;
+  vertical-align: middle;
+}
+
+.altDesc {
+  composes: desc;
+  opacity: 0.85;
+  font-size: 0.98em;
 }
