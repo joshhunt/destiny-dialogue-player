@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import MainView from ".";
 import { RootDialogueCollection } from "../../components/VirtualDialogueTree/types";
 import { LoadingProgress, LoadingState } from "../../lib/useDialogueBanks";
