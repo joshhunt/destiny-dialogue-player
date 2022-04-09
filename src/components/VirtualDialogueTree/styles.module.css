@@ -21,7 +21,7 @@
 }
 
 .row:not(.stickyHeader):hover {
-  background-color: hsl(24, 1%, 12%);
+  background-color: hsl(20, 1%, 13%);
   transition: background 0ms ease-in-out;
 }
 

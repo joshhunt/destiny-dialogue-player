@@ -2,10 +2,8 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: hsl(24deg 1% 14%);
-  /* background: hsl(24deg, 2%, 13%); */
+  background: hsl(13deg 1% 14%);
   color: hsl(210 6% 99%);
-  /* backdrop-filter: blur(10px); */
   height: 46px;
   padding: 8px 16px;
   line-height: 1;
