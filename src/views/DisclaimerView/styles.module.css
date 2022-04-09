@@ -1,0 +1,92 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex: 1 1 auto;
+  font-size: 16px;
+  margin: 0 16px;
+}
+
+.box {
+  border-radius: 6px;
+
+  /* width: 90vw; */
+  /* max-width: 500px; */
+  background-color: rgba(255, 255, 255, 0.1);
+  /* color: hsl(24deg 80% 85%); */
+  padding: 24px;
+
+  width: 90vw;
+  max-width: 700px;
+  /* max-width: 90vw; */
+}
+
+.title {
+  /* color: hsl(24deg 100% 90%); */
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.desc {
+  margin-bottom: 20px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.desc strong {
+  font-weight: 500;
+  color: white;
+}
+
+.desc a {
+  color: inherit;
+}
+
+.exception {
+  /* color: hsl(24deg 65% 90%); */
+  overflow: auto;
+}
+
+.button {
+  position: relative;
+  z-index: 2;
+  background: none;
+  appearance: none;
+  border: none;
+  color: inherit;
+  font-size: 21px;
+  opacity: 1;
+  transition: all 200ms ease-in-out;
+  padding: 0;
+  padding: 6px 8px;
+  /* margin: -6px -8px; */
+  border-radius: 3px;
+  line-height: 1;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.button:hover {
+  opacity: 1;
+  transition: all 50ms ease-in-out;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.button:active {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 50ms ease-in-out;
+}
+
+.stopIcon {
+  padding-right: 1ch;
+  vertical-align: middle;
+}

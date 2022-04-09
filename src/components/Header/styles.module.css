@@ -127,7 +127,7 @@
   appearance: none;
   border: none;
   color: inherit;
-  font-size: 1.5em;
+  font-size: 21px;
   opacity: 1;
   transition: all 200ms ease-in-out;
   padding: 0;
@@ -136,7 +136,7 @@
   border-radius: 3px;
   line-height: 1;
   cursor: pointer;
-  background: rgba(16, 16, 18, 0.4);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .closeButton:hover {

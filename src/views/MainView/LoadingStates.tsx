@@ -1,7 +1,9 @@
+import { useCallback, useEffect, useState } from "react";
 import MainView from ".";
 import { RootDialogueCollection } from "../../components/VirtualDialogueTree/types";
 import { LoadingProgress, LoadingState } from "../../lib/useDialogueBanks";
 import { CurrentDialogueState, DialogueLine } from "../../types";
+import DisclaimerView from "../DisclaimerView";
 import ErrorView from "../ErrorView";
 import LoadingView from "../LoadingView";
 
@@ -14,6 +16,9 @@ interface MainViewLoadingStatesProps {
   playlist: DialogueLine[];
 }
 
+const DISCLAIMER_APPROVAL_KEY = "disclaimer-approval";
+const DISCLAIMER_APPROVAL_VALUE = "I agree to spoilers";
+
 const MainViewLoadingState: React.FC<MainViewLoadingStatesProps> = ({
   dialogueBanks,
   progress,
@@ -22,6 +27,19 @@ const MainViewLoadingState: React.FC<MainViewLoadingStatesProps> = ({
   nowNextDialogue,
   playlist,
 }) => {
+  const [agreed, setAgreed] = useState(() =>
+    localStorage.getItem(DISCLAIMER_APPROVAL_KEY)
+  );
+
+  const handleDisclaimerApprove = useCallback(() => {
+    setAgreed(DISCLAIMER_APPROVAL_VALUE);
+    localStorage.setItem(DISCLAIMER_APPROVAL_KEY, DISCLAIMER_APPROVAL_VALUE);
+  }, []);
+
+  if (agreed !== DISCLAIMER_APPROVAL_VALUE) {
+    return <DisclaimerView onApprove={handleDisclaimerApprove} />;
+  }
+
   switch (loadingState) {
     case LoadingState.Loading:
     case LoadingState.NotStarted: {

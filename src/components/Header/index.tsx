@@ -5,9 +5,11 @@ import { useSearchContext } from "../../views/MainView/searchContext";
 
 import s from "./styles.module.css";
 
-interface HeaderProps {}
+interface HeaderProps {
+  hideControls?: boolean;
+}
 
-const Header: React.FC<HeaderProps> = () => {
+const Header: React.FC<HeaderProps> = ({ hideControls }) => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
   const {
@@ -55,7 +57,7 @@ const Header: React.FC<HeaderProps> = () => {
         </button>
       </div>
 
-      {narrators.length > 0 && (
+      {!hideControls && narrators.length > 0 && (
         <div className={s.extraItems}>
           <div className={s.searchBox}>
             <i className="fa-regular fa-magnifying-glass" />

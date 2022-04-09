@@ -13,7 +13,7 @@ const LoadingView: React.FC<LoadingViewProps> = ({ progress }) => {
 
   return (
     <div className={s.root}>
-      <Header />
+      <Header hideControls={true} />
 
       <div className={s.main}>
         <p>Loading...</p>
