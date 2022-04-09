@@ -8,7 +8,7 @@ import { useMemo } from "react";
 
 export default function App() {
   const { audioContext, nowNextDialogue, playlist } = useAudioState();
-  const { dialogueBanks, progress, state } = useDialogueBanks();
+  const { dialogueBanks, progress, state, error } = useDialogueBanks();
 
   const { narrators, selectedNarrator, filteredDialogue, setSelectedNarrator } =
     useNarratorFilter(dialogueBanks);
@@ -24,6 +24,7 @@ export default function App() {
     <SearchContextProvider value={searchContextValue}>
       <AudioContextProvider value={audioContext}>
         <MainViewLoadingStates
+          error={error}
           dialogueBanks={dialogueToUse}
           progress={progress}
           loadingState={state}

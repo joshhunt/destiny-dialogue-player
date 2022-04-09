@@ -11,7 +11,7 @@
   border-radius: 2px;
   padding-right: 16px;
   padding-left: 8px;
-  background: hsl(240, 4.3%, 9%);
+  background-color: hsl(240, 2%, 9%);
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
 }
@@ -21,9 +21,8 @@
 }
 
 .row:not(.stickyHeader):hover {
-  background: hsl(240, 4.3%, 11%);
+  background-color: hsl(24, 1%, 12%);
   transition: background 0ms ease-in-out;
-  border-radius: 0;
 }
 
 .rowMain {

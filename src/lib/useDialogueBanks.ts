@@ -15,9 +15,10 @@ function getIDBKey(fileName: string) {
   return `dialogue-bank-${fileName}`;
 }
 
-async function getDialogueBank(fileName: string) {
+async function getDialogueBank(fileName: string): Promise<DialogueBank> {
   const idbKey = getIDBKey(fileName);
   const cached = await idbGet<DialogueBank>(idbKey);
+  // throw new Error("Weird IndexedDB error");
 
   if (cached) {
     return cached;
@@ -25,7 +26,7 @@ async function getDialogueBank(fileName: string) {
 
   const resp = await fetch(getDialogueBankURL(fileName));
   const data = await resp.json();
-  // await idbSet(idbKey, data);
+  await idbSet(idbKey, data);
 
   return data as DialogueBank;
 }

@@ -1,0 +1,56 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex: 1 1 auto;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 16px;
+}
+
+.box {
+  border-radius: 6px;
+
+  /* width: 90vw; */
+  /* max-width: 500px; */
+  background-color: rgba(255, 150, 150, 0.2);
+  color: hsl(24deg 100% 90%);
+  padding: 24px;
+
+  width: 90vw;
+  max-width: 700px;
+  /* max-width: 90vw; */
+}
+
+.title {
+  color: hsl(24deg 100% 85%);
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.desc {
+  margin-bottom: 20px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.desc a {
+  color: inherit;
+}
+
+.desc:last-of-type {
+  margin-bottom: 0;
+}
+
+.exception {
+  color: hsl(24deg 65% 90%);
+  overflow: auto;
+}

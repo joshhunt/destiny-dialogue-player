@@ -1,10 +1,12 @@
 import MainView from ".";
 import { LoadingProgress, LoadingState } from "../../lib/useDialogueBanks";
 import { DialogueBank, CurrentDialogueState, DialogueLine } from "../../types";
+import ErrorView from "../ErrorView";
 import LoadingView from "../LoadingView";
 
 interface MainViewLoadingStatesProps {
   dialogueBanks: DialogueBank[];
+  error: any;
   progress: LoadingProgress | undefined;
   loadingState: LoadingState;
   nowNextDialogue: CurrentDialogueState;
@@ -14,6 +16,7 @@ interface MainViewLoadingStatesProps {
 const MainViewLoadingState: React.FC<MainViewLoadingStatesProps> = ({
   dialogueBanks,
   progress,
+  error,
   loadingState,
   nowNextDialogue,
   playlist,
@@ -35,7 +38,7 @@ const MainViewLoadingState: React.FC<MainViewLoadingStatesProps> = ({
     }
 
     case LoadingState.Error: {
-      return <div>Error</div>;
+      return <ErrorView error={error} />;
     }
 
     default:

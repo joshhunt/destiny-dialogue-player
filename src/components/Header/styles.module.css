@@ -2,7 +2,8 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: hsla(240, 4.3%, 15%, 100%);
+  background: hsl(24deg 1% 14%);
+  /* background: hsl(24deg, 2%, 13%); */
   color: hsl(210 6% 99%);
   /* backdrop-filter: blur(10px); */
   height: 46px;
@@ -11,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid hsla(240, 4.3%, 20%, 95%);
+  border-bottom: 1px solid hsla(24deg, 1%, 50%, 0.25);
 }
 
 .title {

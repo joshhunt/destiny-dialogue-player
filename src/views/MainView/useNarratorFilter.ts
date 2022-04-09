@@ -1,10 +1,5 @@
 import { createContext, useContext, useMemo, useState } from "react";
-import {
-  AnyDialogueNode,
-  DialogueBank,
-  DialogueLine,
-  DialogueNode,
-} from "../../types";
+import { AnyDialogueNode, DialogueBank, DialogueLine } from "../../types";
 import uniq from "lodash/uniq";
 
 interface SearchContext {
@@ -43,7 +38,7 @@ function filterDialogue<TNode extends AnyDialogueNode>(
       : undefined;
   }
 
-  const type = node.type;
+  // const type = node.type;
 
   if (node.type === "DialogueBranch") {
     const children = node.options

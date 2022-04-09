@@ -4,6 +4,7 @@
 
 html {
   --bg-color: hsl(240, 4.3%, 7%);
+  --bg-color: hsl(240, 3.7%, 7%);
 
   font-family: "Inter", sans-serif;
   font-size: 14px;
