@@ -24,7 +24,7 @@ export default function Playback({
   isAnimating,
   requestScrollTo,
 }: Props) {
-  const { stopPlayback } = useAudioContext();
+  const { stopPlayback, clearDialogue } = useAudioContext();
   const refMap = useRef(new Map<DialogueLine, HTMLDivElement | null>());
   const {
     now: currentDialogue,
@@ -71,30 +71,40 @@ export default function Playback({
         </div>
       ))}
 
-      <CSSTransition
-        in={playing}
-        timeout={200}
-        classNames={{
-          appear: s.controlsAppear,
-          appearActive: s.controlsAppearActive,
-          appearDone: s.controlsAppearDone,
-          enter: s.controlsEnter,
-          enterActive: s.controlsEnterActive,
-          enterDone: s.controlsEnterDone,
-          exit: s.controlsExit,
-          exitActive: s.controlsExitActive,
-          exitDone: s.controlsExitDone,
-        }}
-      >
-        <div className={cx(playing ? s.controls : s.controlsInactive)}>
-          <button className={s.stopButton} onClick={stopPlayback}>
+      <div className={s.controls}>
+        <CSSTransition
+          in={playing}
+          timeout={200}
+          classNames={{
+            appear: s.controlsAppear,
+            appearActive: s.controlsAppearActive,
+            appearDone: s.controlsAppearDone,
+            enter: s.controlsEnter,
+            enterActive: s.controlsEnterActive,
+            enterDone: s.controlsEnterDone,
+            exit: s.controlsExit,
+            exitActive: s.controlsExitActive,
+            exitDone: s.controlsExitDone,
+          }}
+        >
+          <button
+            className={cx(playing ? s.stopButton : s.stopButtonInactive)}
+            onClick={stopPlayback}
+          >
             <span className={s.stopIcon}>
               <i className="fa-regular fa-circle-stop"></i>
             </span>
             Stop playback
           </button>
-        </div>
-      </CSSTransition>
+        </CSSTransition>
+
+        <button className={s.closeButton} onClick={clearDialogue}>
+          <span className={s.stopIcon}>
+            <i className="fa-regular fa-circle-stop"></i>
+          </span>
+          Close
+        </button>
+      </div>
     </div>
   );
 }

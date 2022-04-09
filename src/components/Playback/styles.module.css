@@ -46,12 +46,8 @@
   );
   padding: 16px;
   padding-top: 32px;
-  opacity: 0;
-}
-
-.controlsInactive {
-  composes: controls;
-  pointer-events: none;
+  display: flex;
+  justify-content: space-between;
 }
 
 .controlsEnterActive {
@@ -108,6 +104,11 @@
   background: rgba(16, 16, 18, 0.4);
 }
 
+.stopButtonInactive {
+  composes: stopButton;
+  pointer-events: none;
+}
+
 .stopButton:hover {
   opacity: 1;
   transition: all 50ms ease-in-out;
@@ -123,4 +124,22 @@
 .stopIcon {
   padding-right: 1ch;
   vertical-align: middle;
+}
+
+.closeButtonContainer {
+  padding: 16px;
+  position: fixed;
+  top: 0;
+}
+
+.closeButton {
+  composes: stopButton;
+  justify-self: flex-end;
+  display: none;
+}
+
+@media only screen and (max-width: 1050px) {
+  .closeButton {
+    display: unset;
+  }
 }

@@ -153,21 +153,25 @@ export default function MainView(props: MainViewProps) {
       </div>
 
       {playlist.length > 0 && (
-        <div className={s.side}>
-          <Scrollbars
-            autoHide
-            renderThumbVertical={renderThumb}
-            renderTrackVertical={renderTrack}
-            ref={(ref) => (scrollerRef.current = ref)}
-          >
-            <Playback
-              nowNextDialogue={nowNextDialogue}
-              playlist={playlist}
-              requestScrollTo={onRequestScrollTo}
-              isAnimating={isAnimating}
-            />
-          </Scrollbars>
-        </div>
+        <>
+          <div className={s.side}>
+            <Scrollbars
+              autoHide
+              renderThumbVertical={renderThumb}
+              renderTrackVertical={renderTrack}
+              ref={(ref) => (scrollerRef.current = ref)}
+            >
+              <Playback
+                nowNextDialogue={nowNextDialogue}
+                playlist={playlist}
+                requestScrollTo={onRequestScrollTo}
+                isAnimating={isAnimating}
+              />
+            </Scrollbars>
+          </div>
+
+          <div className={s.backdrop} />
+        </>
       )}
     </div>
   );

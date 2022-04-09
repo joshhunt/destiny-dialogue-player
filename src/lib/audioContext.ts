@@ -21,6 +21,7 @@ interface AudioContext {
     options?: PlayAudioOptions
   ) => Promise<void>;
   stopPlayback: () => void;
+  clearDialogue: () => void;
 }
 
 interface PlayAudioOptions {
@@ -87,7 +88,6 @@ export const useAudioState = () => {
   const [playlistState, setPlaylist] = useState<DialogueLine[]>([]);
   const soundsPlaylistRef = useRef<Sound[]>();
   const currentSoundRef = useRef<Sound>();
-  // const playingStateRef = useRef<PlayingState>(PlayingState.NotStarted);
 
   const [nowNextDialogue, setNowNextDialogue] = useState<CurrentDialogueState>(
     {}
@@ -102,6 +102,11 @@ export const useAudioState = () => {
       currentSoundRef.current = undefined;
     }
   }, []);
+
+  const clearDialogue = useCallback(() => {
+    stopPlayback();
+    setPlaylist([]);
+  }, [stopPlayback]);
 
   const playAudioNode = useCallback(
     async (node: DialogueNode, options?: PlayAudioOptions) => {
@@ -171,8 +176,9 @@ export const useAudioState = () => {
     () => ({
       playAudioNode,
       stopPlayback,
+      clearDialogue,
     }),
-    [playAudioNode, stopPlayback]
+    [playAudioNode, stopPlayback, clearDialogue]
   );
 
   return {
