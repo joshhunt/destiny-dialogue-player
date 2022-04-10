@@ -9,15 +9,15 @@ import { SearchContextProvider } from "./views/MainView/searchContext";
 export default function App() {
   const { audioContext, nowNextDialogue, playlist } = useAudioState();
   const { dialogueBanks, progress, state, error } = useDialogueBanks();
-  const { searchResults, searchText, setSearchText } =
+  const { searchResultsDialogue, searchText, setSearchText } =
     useTextSearch(dialogueBanks);
 
   const {
     narrators,
     selectedNarrator,
-    filteredDialogue: narratorFiltered,
+    narratorFilteredDialogue,
     setSelectedNarrator,
-  } = useNarratorFilter(searchResults ?? dialogueBanks);
+  } = useNarratorFilter(searchResultsDialogue);
 
   const searchContextValue = useMemo(
     () => ({
@@ -36,7 +36,7 @@ export default function App() {
     ]
   );
 
-  const dialogueToUse = narratorFiltered ?? searchResults ?? dialogueBanks;
+  const dialogueToUse = narratorFilteredDialogue;
 
   return (
     <SearchContextProvider value={searchContextValue}>

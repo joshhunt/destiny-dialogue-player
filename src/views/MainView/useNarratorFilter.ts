@@ -85,8 +85,13 @@ export default function useNarratorFilter(
       }
     }
 
-    return matchingBanks.length ? matchingBanks : null;
+    return matchingBanks;
   }, [dialogueBanks, selectedNarrator]);
 
-  return { narrators, filteredDialogue, selectedNarrator, setSelectedNarrator };
+  return {
+    narrators,
+    narratorFilteredDialogue: filteredDialogue ?? dialogueBanks,
+    selectedNarrator,
+    setSelectedNarrator,
+  };
 }

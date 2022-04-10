@@ -6,7 +6,6 @@ import { flatMapDialogue } from "../views/MainView/useNarratorFilter";
 
 export default function useTextSearch(dialogueBanks: DialogueBank[]) {
   const [searchText, setSearchText] = useState<string>();
-
   const [searchResults, setSearchResults] = useState<FilteredDialogueBank[]>();
 
   const lastId = useRef(0);
@@ -47,9 +46,6 @@ export default function useTextSearch(dialogueBanks: DialogueBank[]) {
       for (const dialogueLine of flatLines) {
         flexsearch.add(dialogueLine);
       }
-
-      /// @ts-ignore
-      window.__search = flexsearch;
     }
 
     main();
@@ -86,18 +82,14 @@ export default function useTextSearch(dialogueBanks: DialogueBank[]) {
         }
       }
 
-      if (results.length) {
-        setSearchResults(results);
-      } else {
-        setSearchResults(undefined);
-      }
+      setSearchResults(results);
     }
 
     run();
   }, [dialogueBanks, searchText]);
 
   return {
-    searchResults,
+    searchResultsDialogue: searchResults ?? dialogueBanks,
     searchText,
     setSearchText,
   };
