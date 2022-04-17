@@ -18,7 +18,8 @@ export interface FilteredDialogueBank {
   entryKey: string;
   contentHash: number;
   id: string;
-  lines: DialogueLine[];
+  lines: DialogueLine[] | DialogueTree[];
+  contentPath?: string;
 }
 
 export interface DialogueTree {

@@ -1,8 +1,26 @@
 import { delMany, get as idbGet, keys, set as idbSet } from "idb-keyval";
+import { orderBy } from "lodash";
 import pLimit from "p-limit";
 import { useEffect, useState } from "react";
 import { DialogueBank, DialogueManifest } from "../types";
 import { getDialogueBankURL, getManifestURL } from "./dialogueAPI";
+
+const maxVersion = 9999999;
+
+function getVersionNumberFromPath(contentPath?: string) {
+  if (!contentPath) {
+    return maxVersion;
+  }
+
+  const matches = Array.from(contentPath.matchAll(/(d|v)(\d+)\\/g) ?? []);
+  const lastMatch = matches.at(-1);
+
+  if (!lastMatch) {
+    return maxVersion;
+  }
+
+  return parseInt(lastMatch[2]);
+}
 
 async function getManifest() {
   const resp = await fetch(getManifestURL());
@@ -18,7 +36,6 @@ function getIDBKey(fileName: string) {
 async function getDialogueBank(fileName: string): Promise<DialogueBank> {
   const idbKey = getIDBKey(fileName);
   const cached = await idbGet<DialogueBank>(idbKey);
-  // throw new Error("Weird IndexedDB error");
 
   if (cached) {
     return cached;
@@ -74,7 +91,22 @@ async function getAllDialogueBanks(
   );
   await delMany(keysToDelete);
 
-  return data;
+  return orderBy(
+    data.map((bank) => {
+      return {
+        ...bank,
+        entryKey: bank.entryKey.replace(/0x/g, ""),
+        contentPath: bank.contentPath
+          ?.replace(/^content\\dialog\\/, "")
+          .replace(/\.dialog_table\.tft$/, ""),
+      };
+    }),
+    (v) => {
+      const version = getVersionNumberFromPath(v.contentPath);
+      console.log(version, v.contentPath);
+      return version;
+    }
+  );
 }
 
 export enum LoadingState {

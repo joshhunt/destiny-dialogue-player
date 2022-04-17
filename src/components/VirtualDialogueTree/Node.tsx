@@ -10,6 +10,7 @@ import s from "./styles.module.css";
 import { TreeNodeData, USE_DEFAULT_NODE } from "./types";
 import { PlayButton } from "../PlayButton";
 import { pickColor } from "../../lib/color";
+import DialogueBankNode from "./DialogueBankNode";
 
 const Node: React.FC<
   NodeComponentProps<TreeNodeData, FixedSizeNodePublicState<TreeNodeData>>
@@ -52,20 +53,7 @@ const Node: React.FC<
         <div className={s.rowMain} key="file">
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
-          <span className="Space" />
-          <i className="fa-duotone fa-file"></i>
-          <span className="Space" />
-          Dialogue File {node.entryKey.replace(/0x/g, "")}
-          <span className="Space" />/<span className="Space" />
-          {node.contentHash}
-          {node.contentPath && (
-            <>
-              <span className="Space" />
-              <span className={s.selectBoundry}> </span>
-              <span className={s.faint}>{node.contentPath}</span>
-              <span className={s.selectBoundry}> </span>
-            </>
-          )}
+          <DialogueBankNode node={node} />
         </div>
       </div>
     );
@@ -86,10 +74,7 @@ const Node: React.FC<
         <div className={s.rowMain} key="glass">
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
-          <span className="Space" />
-          <i className="fa-duotone fa-file-magnifying-glass"></i>
-          <span className="Space" />
-          Dialogue File {node.entryKey} / {node.contentHash}
+          <DialogueBankNode node={node} />
         </div>
       </div>
     );

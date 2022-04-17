@@ -19,6 +19,7 @@ const getNodeData = (
     id: typeof node.id === "number" ? node.id.toString() : node.id,
     isLeaf: "type" in node && node.type === "DialogueLine",
     isOpenByDefault: nestingLevel < 3,
+    //isOpenByDefault: false,
     nestingLevel,
     node,
     defaultHeight:

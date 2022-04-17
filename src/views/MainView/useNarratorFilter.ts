@@ -2,13 +2,14 @@ import { useMemo, useState } from "react";
 import {
   AnyDialogueNode,
   DialogueLine,
+  DialogueTree,
   FilteredDialogueBank,
 } from "../../types";
 import uniq from "lodash/uniq";
 import { RootDialogueCollection } from "../../components/VirtualDialogueTree/types";
 
 export function flatMapDialogue<ReturnValue>(
-  node: AnyDialogueNode | RootDialogueCollection,
+  node: AnyDialogueNode | RootDialogueCollection | DialogueTree,
   mapFn: (dialogueLine: DialogueLine) => ReturnValue
 ): Exclude<ReturnValue, null | undefined>[] {
   if (Array.isArray(node)) {
@@ -24,6 +25,10 @@ export function flatMapDialogue<ReturnValue>(
   const type = node.type;
   if (node.type === "DialogueBranch") {
     return node.options.flatMap((child) => flatMapDialogue(child, mapFn));
+  }
+
+  if (node.type === "DialogueTree") {
+    return flatMapDialogue(node.dialogue, mapFn);
   }
 
   if (node.type === "FilteredDialogueBank") {
