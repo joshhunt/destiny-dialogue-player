@@ -11,6 +11,7 @@ import { TreeNodeData, USE_DEFAULT_NODE } from "./types";
 import { PlayButton } from "../PlayButton";
 import { pickColor } from "../../lib/color";
 import DialogueBankNode from "./DialogueBankNode";
+import { DownloadButton } from "../DownloadButton";
 
 const Node: React.FC<
   NodeComponentProps<TreeNodeData, FixedSizeNodePublicState<TreeNodeData>>
@@ -159,6 +160,8 @@ const Node: React.FC<
           {node.caption}
         </div>{" "}
         <div className={s.accessory}>
+          <DownloadButton className={s.downloadButton} node={node} />
+          <span className="Space" />
           <PlayButton node={node} />
         </div>
       </div>

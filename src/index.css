@@ -152,6 +152,7 @@ td + td {
   cursor: pointer;
   font-weight: 500;
   font-family: inherit;
+  text-decoration: none;
 }
 
 .actionButton:hover {
