@@ -3,6 +3,7 @@ export interface DialogueBank {
   contentHash: number;
   id: string;
   dialogues: DialogueTree[];
+  contentPath?: string;
 }
 
 export type DialogueNode = DialogueLine | DialogueSequence | DialogueBranch;
@@ -38,9 +39,7 @@ export interface DialogueLine {
   caption: string;
   narrator: string;
 
-  /**
-   * Total duration this line should be. Can be longer in sequences to account for delay in between lines
-   */
+  // This is actually the delay in between lines in a
   duration: number;
 }
 

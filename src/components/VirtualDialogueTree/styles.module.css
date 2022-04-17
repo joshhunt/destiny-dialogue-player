@@ -1,5 +1,9 @@
-.faintRow {
+.faint {
   color: #949495;
+}
+
+.selectBoundry {
+  user-select: none;
 }
 
 .row {

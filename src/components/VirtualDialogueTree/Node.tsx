@@ -55,7 +55,17 @@ const Node: React.FC<
           <span className="Space" />
           <i className="fa-duotone fa-file"></i>
           <span className="Space" />
-          Dialogue File {node.entryKey} / {node.contentHash}
+          Dialogue File {node.entryKey.replace(/0x/g, "")}
+          <span className="Space" />/<span className="Space" />
+          {node.contentHash}
+          {node.contentPath && (
+            <>
+              <span className="Space" />
+              <span className={s.selectBoundry}> </span>
+              <span className={s.faint}>{node.contentPath}</span>
+              <span className={s.selectBoundry}> </span>
+            </>
+          )}
         </div>
       </div>
     );
@@ -88,7 +98,7 @@ const Node: React.FC<
   if (node.type === "DialogueTree") {
     return (
       <div
-        className={cx(s.row, s.faintRow, index % 2 && s.alternateRow)}
+        className={cx(s.row, s.faint, index % 2 && s.alternateRow)}
         style={style}
       >
         <div className={s.rowMain}>
@@ -105,7 +115,7 @@ const Node: React.FC<
     const summary = formattedSummary(node.sequence);
     return (
       <div
-        className={cx(s.row, s.faintRow, index % 2 && s.alternateRow)}
+        className={cx(s.row, s.faint, index % 2 && s.alternateRow)}
         style={style}
       >
         <div className={s.rowMain}>
@@ -126,7 +136,7 @@ const Node: React.FC<
     const summary = formattedSummary(node.options);
     return (
       <div
-        className={cx(s.row, s.faintRow, index % 2 && s.alternateRow)}
+        className={cx(s.row, s.faint, index % 2 && s.alternateRow)}
         style={style}
       >
         <div className={s.rowMain}>
