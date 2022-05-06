@@ -1,10 +1,13 @@
-export const URL_BASE = "https://d2xuwv4utasxju.cloudfront.net";
+const LOCAL_API = true;
 
-// export const URL_BASE = "http://localhost:3333/";
+export const URL_BASE = LOCAL_API
+  ? "http://localhost:3333"
+  : "https://d2xuwv4utasxju.cloudfront.net";
 
 export function getMP3URL(file: string) {
-  return `${URL_BASE}/audio/${file}.mp3`;
-  // return `${URL_BASE}/audio/${file}`;
+  return LOCAL_API
+    ? `${URL_BASE}/audio/${file}`
+    : `${URL_BASE}/audio/${file}.mp3`;
 }
 
 export function getDialogueBankURL(file: string) {

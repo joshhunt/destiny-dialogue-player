@@ -1,7 +1,7 @@
 import React from "react";
 import { DialogueTable, FilteredDialogueTable } from "../../types";
 import s from "./styles.module.css";
-import { useGoTo } from "./useGoToNode";
+// import { useGoTo } from "./useGoToNode";
 
 interface DialogueBankNodeProps {
   node: DialogueTable | FilteredDialogueTable;
@@ -9,7 +9,7 @@ interface DialogueBankNodeProps {
 }
 
 const DialogueBankNode: React.FC<DialogueBankNodeProps> = ({ node, id }) => {
-  const goTo = useGoTo();
+  // const goTo = useGoTo();
 
   let icon =
     node.type === "FilteredDialogueTable"
