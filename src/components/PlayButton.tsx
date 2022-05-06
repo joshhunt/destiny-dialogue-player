@@ -1,5 +1,6 @@
 import { useAudioPlayer } from "../lib/audioContext";
 import { DialogueNode } from "../types";
+import Button from "./Button";
 
 interface Props {
   node: DialogueNode;
@@ -14,8 +15,8 @@ export function PlayButton({ node, label, playAllBranches }: Props) {
   };
 
   return (
-    <button onClick={handleClick} className="actionButton">
-      <i className="far fa-play" /> {label ?? "Play"}
-    </button>
+    <Button onClick={handleClick} icon="far fa-play">
+      {label ?? "Play"}
+    </Button>
   );
 }

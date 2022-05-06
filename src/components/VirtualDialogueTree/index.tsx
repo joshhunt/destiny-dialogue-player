@@ -65,19 +65,23 @@ const VirtualDialogueTree: React.FC<VirtualDialogueTreeProps> = ({
   const treeWalker = useTreeWalker(dialogueBanks);
   const { setSelectedNarrator, setSearchText } = useSearchContext();
 
+  (window as any).treeRef = treeRef;
+
   const goTo = useCallback(
     (node: AnyDialogueStructure, id: string) => {
-      console.log("go to", { id, node });
       setSelectedNarrator(undefined);
       setSearchText(undefined);
 
       setTimeout(() => {
         if (treeRef.current) {
-          // const id = typeof node.id === "number" ? node.id.toString() : node.id;
-          console.log("trying to scroll to", id);
-          treeRef.current.scrollToItem(id, "center");
+          const itemIndex = treeRef.current.state.order?.indexOf(id) ?? -1;
+          if (itemIndex > -1) {
+            treeRef.current.scrollTo((itemIndex - 1) * ROW_HEIGHT);
+          } else {
+            treeRef.current.scrollToItem(id, "start");
+          }
         }
-      }, 1000);
+      }, 1);
     },
     [setSelectedNarrator, setSearchText]
   );
@@ -94,7 +98,6 @@ const VirtualDialogueTree: React.FC<VirtualDialogueTreeProps> = ({
             }
             height={height}
             width="100%"
-            outerElementType={outerElementType}
             innerElementType={innerElementType}
           >
             {Node}

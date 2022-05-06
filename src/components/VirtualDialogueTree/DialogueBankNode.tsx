@@ -1,7 +1,8 @@
 import React from "react";
 import { DialogueTable, FilteredDialogueTable } from "../../types";
+import Button from "../Button";
 import s from "./styles.module.css";
-// import { useGoTo } from "./useGoToNode";
+import { useGoTo } from "./useGoToNode";
 
 interface DialogueBankNodeProps {
   node: DialogueTable | FilteredDialogueTable;
@@ -9,7 +10,7 @@ interface DialogueBankNodeProps {
 }
 
 const DialogueBankNode: React.FC<DialogueBankNodeProps> = ({ node, id }) => {
-  // const goTo = useGoTo();
+  const goTo = useGoTo();
 
   let icon =
     node.type === "FilteredDialogueTable"
@@ -30,7 +31,17 @@ const DialogueBankNode: React.FC<DialogueBankNodeProps> = ({ node, id }) => {
           <span className={s.selectBoundry}> </span>
         </>
       )}
-      {/* <button onClick={() => goTo(node, id)}>Go to</button> */}
+      {node.type === "FilteredDialogueTable" && (
+        <>
+          <span className="Space" />
+          <Button
+            icon="fa-regular fa-arrow-right-to-arc"
+            onClick={() => goTo(node, id)}
+          >
+            Go to
+          </Button>
+        </>
+      )}
     </>
   );
 };

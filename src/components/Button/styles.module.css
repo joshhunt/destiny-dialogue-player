@@ -1,0 +1,30 @@
+.button {
+  appearance: none;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: hsla(210, 6%, 93%, 90%);
+  white-space: nowrap;
+  font-size: 13px;
+  border-radius: 2px;
+  padding: 2px 6px;
+  transition: background ease-in-out 50ms;
+  cursor: pointer;
+  font-weight: 500;
+  font-family: inherit;
+  text-decoration: none;
+}
+
+.withIcon {
+  padding-left: calc(6px - 0.4ch);
+}
+
+.button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transition: background ease-in-out 0;
+}
+
+.icon {
+  margin-right: 0.4ch;
+  margin-left: 0.4ch;
+}

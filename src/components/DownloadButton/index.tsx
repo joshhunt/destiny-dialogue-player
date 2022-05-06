@@ -1,6 +1,6 @@
 import { DialogueLine } from "../../types";
-import cx from "classnames";
 import { getMP3URL } from "../../lib/dialogueAPI";
+import { Link } from "../Button";
 
 interface Props {
   node: DialogueLine;
@@ -9,13 +9,14 @@ interface Props {
 
 export function DownloadButton({ node, className }: Props) {
   return (
-    <a
+    <Link
       href={getMP3URL(node.audioFileName)}
-      className={cx("actionButton", className)}
       target="_blank"
       rel="noreferrer"
+      icon="fa-duotone fa-download"
+      className={className}
     >
-      <i className="fa-duotone fa-download" /> Download
-    </a>
+      Download
+    </Link>
   );
 }

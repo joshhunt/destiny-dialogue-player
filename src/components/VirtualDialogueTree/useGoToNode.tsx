@@ -8,6 +8,7 @@ export const GoToProvider = goToContext.Provider;
 
 export function useGoTo() {
   const value = useContext(goToContext);
+
   if (!value) {
     throw new Error("GoTo Context value not provided");
   }
