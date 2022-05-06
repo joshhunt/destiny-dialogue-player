@@ -1,4 +1,4 @@
-const LOCAL_API = true;
+const LOCAL_API = false;
 
 export const URL_BASE = LOCAL_API
   ? "http://localhost:3333"
