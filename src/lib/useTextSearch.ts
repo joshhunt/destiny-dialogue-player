@@ -2,16 +2,16 @@ import { Document as DocumentSearch } from "flexsearch";
 import { keyBy } from "lodash";
 import uniq from "lodash/uniq";
 import { useEffect, useRef, useState } from "react";
-import { DialogueBank, DialogueLine, FilteredDialogueBank } from "../types";
+import { DialogueTable, DialogueLine, FilteredDialogueTable } from "../types";
 import { flatMapDialogue } from "../views/MainView/useNarratorFilter";
 
-export default function useTextSearch(dialogueBanks: DialogueBank[]) {
+export default function useTextSearch(dialogueBanks: DialogueTable[]) {
   const [searchText, setSearchText] = useState<string>();
-  const [searchResults, setSearchResults] = useState<FilteredDialogueBank[]>();
+  const [searchResults, setSearchResults] = useState<FilteredDialogueTable[]>();
 
   const lastId = useRef(0);
   const idMap = useRef(new Map<string | number, number>());
-  const flexsearchRef = useRef<DocumentSearch<DialogueLine | DialogueBank>>();
+  const flexsearchRef = useRef<DocumentSearch<DialogueLine | DialogueTable>>();
 
   useEffect(() => {
     async function main() {
@@ -83,13 +83,13 @@ export default function useTextSearch(dialogueBanks: DialogueBank[]) {
 
       dialogueLineResults = uniq(dialogueLineResults);
 
-      const results: FilteredDialogueBank[] = [];
+      const results: FilteredDialogueTable[] = [];
 
       for (const dialogueBank of dialogueBanks) {
         if (contentBankResults.includes(dialogueBank.id)) {
           results.push({
             ...dialogueBank,
-            type: "FilteredDialogueBank",
+            type: "FilteredDialogueTable",
             lines: dialogueBank.dialogues,
           });
 
@@ -104,7 +104,7 @@ export default function useTextSearch(dialogueBanks: DialogueBank[]) {
         if (match?.length) {
           results.push({
             ...dialogueBank,
-            type: "FilteredDialogueBank",
+            type: "FilteredDialogueTable",
             lines: match,
           });
         }

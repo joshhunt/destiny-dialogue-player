@@ -1,47 +1,47 @@
-export interface DialogueBank {
-  entryKey: string;
-  contentHash: number;
+export interface DialogueTable {
+  type: "ArchivedDialogueTable";
+  hash: number;
   id: string;
-  dialogues: DialogueTree[];
   contentPath?: string;
+
+  dialogues: DialogueTree[];
 }
 
-export type DialogueNode = DialogueLine | DialogueSequence | DialogueBranch;
-export type AnyDialogueNode =
-  | DialogueNode
-  | DialogueBank
-  | FilteredDialogueBank;
-export type LineType = string | number;
-
-export interface FilteredDialogueBank {
-  type: "FilteredDialogueBank";
-  entryKey: string;
-  contentHash: number;
+export interface FilteredDialogueTable {
+  type: "FilteredDialogueTable";
+  hash: number;
   id: string;
-  lines: DialogueLine[] | DialogueTree[];
   contentPath?: string;
+
+  lines: DialogueLine[] | DialogueTree[];
 }
 
 export interface DialogueTree {
-  type: "DialogueTree";
-  contentHash: number;
-  id: string;
-
+  type: "ArchivedDialogueTree";
+  versions: string[];
   dialogue: DialogueNode;
+  hash: number;
+  id: string;
 }
+
+export type DialogueNode = DialogueLine | DialogueSequence | DialogueBranch;
+
+export type AnyDialogueStructure =
+  | DialogueTable
+  | DialogueTree
+  | DialogueNode
+  | FilteredDialogueTable;
+
+export type LineID = string | number;
 
 export interface DialogueLine {
   type: "DialogueLine";
-  contentHash: number;
-  id: LineType;
-
   audioFileName: string;
-  nonUniqueGameHash: number;
+  contentHash: number;
   caption: string;
   narrator: string;
-
-  // This is actually the delay in between lines in a
-  duration: number;
+  postLineDelay: number;
+  id: LineID;
 }
 
 export interface DialogueSequence {

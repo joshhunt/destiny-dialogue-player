@@ -67,7 +67,7 @@ function getDialoguePlaylist(
       );
     }
     return getDialoguePlaylist(randomChild);
-  } else if (node.type === "DialogueTree") {
+  } else if (node.type === "ArchivedDialogueTree") {
     return getDialoguePlaylist(node.dialogue);
   }
 
@@ -131,7 +131,7 @@ export const useAudioState = () => {
         sound.sound.once("end", async () => {
           if (!soundsPlaylistRef.current) return;
 
-          const delay = (sound.line.duration ?? 0) * 100;
+          const delay = (sound.line.postLineDelay ?? 0) * 100;
           const nextSound = getNextSound(sound, soundsPlaylistRef.current);
           await wait(delay);
 

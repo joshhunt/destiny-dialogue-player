@@ -14,20 +14,30 @@ import {
 const getNodeData = (
   node: TreeNode,
   nestingLevel: number
-): TreeWalkerValue<TreeNodeData, NodeMeta> => ({
-  data: {
-    id: typeof node.id === "number" ? node.id.toString() : node.id,
-    isLeaf: "type" in node && node.type === "DialogueLine",
-    isOpenByDefault: nestingLevel < 3,
-    //isOpenByDefault: false,
+): TreeWalkerValue<TreeNodeData, NodeMeta> => {
+  const data = {
+    data: {
+      id: typeof node.id === "number" ? node.id.toString() : node.id,
+      isLeaf: "type" in node && node.type === "DialogueLine",
+      isOpenByDefault: nestingLevel < 3,
+      //isOpenByDefault: false,
+      nestingLevel,
+      node,
+      defaultHeight:
+        "type" in node && node.type === "Header"
+          ? HEADER_ROW_HEIGHT
+          : ROW_HEIGHT,
+    },
     nestingLevel,
     node,
-    defaultHeight:
-      "type" in node && node.type === "Header" ? HEADER_ROW_HEIGHT : ROW_HEIGHT,
-  },
-  nestingLevel,
-  node,
-});
+  };
+
+  if (data.data.id === "iOtuxg9p") {
+    console.log("here's the node", data);
+  }
+
+  return data;
+};
 
 function makeTreeWalker(dialogueBanks: RootDialogueCollection) {
   function* treeWalker(): ReturnType<TreeWalker<TreeNodeData, NodeMeta>> {
@@ -47,7 +57,7 @@ function makeTreeWalker(dialogueBanks: RootDialogueCollection) {
       let handled = false;
 
       // It's a DialogueBank
-      if (!("type" in parentNode)) {
+      if (parentNode.type === "ArchivedDialogueTable") {
         handled = true;
         const dialogueBank = parentNode;
 
@@ -59,12 +69,12 @@ function makeTreeWalker(dialogueBanks: RootDialogueCollection) {
       }
 
       // Custom header node, doesnt yield any children
-      if ("type" in parentNode && parentNode.type === "Header") {
+      if (parentNode.type === "Header") {
         handled = true;
       }
 
       // Custom search results node
-      if ("type" in parentNode && parentNode.type === "FilteredDialogueBank") {
+      if (parentNode.type === "FilteredDialogueTable") {
         handled = true;
         const dialogueBank = parentNode;
         for (const childNode of dialogueBank.lines) {
@@ -73,14 +83,14 @@ function makeTreeWalker(dialogueBanks: RootDialogueCollection) {
       }
 
       // It's a DialogueTree
-      if ("type" in parentNode && parentNode.type === "DialogueTree") {
+      if (parentNode.type === "ArchivedDialogueTree") {
         handled = true;
         const dialogueTree = parentNode;
         yield getNodeData(dialogueTree.dialogue, parentMeta.nestingLevel + 1);
       }
 
       // It's a DialogueSequence
-      if ("type" in parentNode && parentNode.type === "DialogueSequence") {
+      if (parentNode.type === "DialogueSequence") {
         handled = true;
         const dialogueSequence = parentNode;
 
@@ -90,7 +100,7 @@ function makeTreeWalker(dialogueBanks: RootDialogueCollection) {
       }
 
       // It's a DialogueBranch
-      if ("type" in parentNode && parentNode.type === "DialogueBranch") {
+      if (parentNode.type === "DialogueBranch") {
         handled = true;
         const dialogueBranch = parentNode;
 
@@ -100,7 +110,7 @@ function makeTreeWalker(dialogueBanks: RootDialogueCollection) {
       }
 
       // It's a DialogueLine
-      if ("type" in parentNode && parentNode.type === "DialogueLine") {
+      if (parentNode.type === "DialogueLine") {
         handled = true;
         // We don't need to yield anything for DialogueLines becasue they don't have children
       }

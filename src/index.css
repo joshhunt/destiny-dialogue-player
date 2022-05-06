@@ -11,6 +11,7 @@ html {
   color: hsl(210 6% 93%);
   line-height: 1.588;
   font-weight: 400;
+  font-feature-settings: "tnum" 1;
 
   --fa-inverse: hsl(240, 4.3%, 9%);
   --fa-animation-duration: 2.5s;

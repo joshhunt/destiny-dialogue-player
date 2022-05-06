@@ -2,9 +2,9 @@ import { MainViewLoadingStates } from "./views/MainView";
 import useDialogueBanks from "./lib/useDialogueBanks";
 import { AudioContextProvider, useAudioState } from "./lib/audioContext";
 import useNarratorFilter from "./views/MainView/useNarratorFilter";
-import { useMemo } from "react";
 import useTextSearch from "./lib/useTextSearch";
 import { SearchContextProvider } from "./views/MainView/searchContext";
+import { useMemo } from "react";
 
 export default function App() {
   const { audioContext, nowNextDialogue, playlist } = useAudioState();

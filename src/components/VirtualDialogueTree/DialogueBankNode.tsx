@@ -1,14 +1,18 @@
 import React from "react";
-import { DialogueBank, FilteredDialogueBank } from "../../types";
+import { DialogueTable, FilteredDialogueTable } from "../../types";
 import s from "./styles.module.css";
+import { useGoTo } from "./useGoToNode";
 
 interface DialogueBankNodeProps {
-  node: DialogueBank | FilteredDialogueBank;
+  node: DialogueTable | FilteredDialogueTable;
+  id: string;
 }
 
-const DialogueBankNode: React.FC<DialogueBankNodeProps> = ({ node }) => {
+const DialogueBankNode: React.FC<DialogueBankNodeProps> = ({ node, id }) => {
+  const goTo = useGoTo();
+
   let icon =
-    "type" in node && node.type === "FilteredDialogueBank"
+    node.type === "FilteredDialogueTable"
       ? "fa-file-magnifying-glass"
       : "fa-file";
 
@@ -17,9 +21,7 @@ const DialogueBankNode: React.FC<DialogueBankNodeProps> = ({ node }) => {
       <span className="Space" />
       <i className={`fa-duotone ${icon}`}></i>
       <span className="Space" />
-      Dialogue File {node.entryKey}
-      <span className="Space" />/<span className="Space" />
-      {node.contentHash}
+      Dialogue File {node.hash}
       {node.contentPath && (
         <>
           <span className="Space" />
@@ -28,6 +30,7 @@ const DialogueBankNode: React.FC<DialogueBankNodeProps> = ({ node }) => {
           <span className={s.selectBoundry}> </span>
         </>
       )}
+      {/* <button onClick={() => goTo(node, id)}>Go to</button> */}
     </>
   );
 };

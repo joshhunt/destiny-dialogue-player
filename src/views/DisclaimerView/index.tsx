@@ -17,10 +17,18 @@ const DisclaimerView: React.FC<DisclaimerViewProps> = ({ onApprove }) => {
           <h2 className={s.title}>First, just one thing!</h2>
 
           <p className={s.desc}>
-            <strong>Destiny Definition Archive</strong> is a fan-made archive of
-            Destiny's dialogue that's been removed from the game. Currently, it
-            only contains dialogue from Destiny 2 3.4.0.4 (before Witch Queen).
+            <strong>Destiny Dialogue Archive</strong> is a fan-made archive of
+            Destiny's dialogue from multiple versions. The intent for this site
+            is to archive dialogue as it is removed from the game, not to
+            "datamine" or share spoilers. Currently it contains dialogue from
+            the releases:
           </p>
+          <ul>
+            <li>2.6.1.1 (Undying/Shadowkeep)</li>
+            <li>2.9.2.1 (Arrivals)</li>
+            <li>3.4.0.4 (Lost/30th Anniversary)</li>
+            <li>4.0.1.2 (Risen/Witch Queen)</li>
+          </ul>
 
           <p className={s.desc}>
             This website should not contain spoilers, however no guarentees can

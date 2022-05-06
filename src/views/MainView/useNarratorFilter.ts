@@ -1,38 +1,39 @@
 import { useMemo, useState } from "react";
 import {
-  AnyDialogueNode,
+  AnyDialogueStructure,
   DialogueLine,
   DialogueTree,
-  FilteredDialogueBank,
+  FilteredDialogueTable,
 } from "../../types";
 import uniq from "lodash/uniq";
 import { RootDialogueCollection } from "../../components/VirtualDialogueTree/types";
 
 export function flatMapDialogue<ReturnValue>(
-  node: AnyDialogueNode | RootDialogueCollection | DialogueTree,
+  node: AnyDialogueStructure | RootDialogueCollection | DialogueTree,
   mapFn: (dialogueLine: DialogueLine) => ReturnValue
 ): Exclude<ReturnValue, null | undefined>[] {
   if (Array.isArray(node)) {
     return node.flatMap((child) => flatMapDialogue(child, mapFn));
   }
 
-  if (!("type" in node)) {
+  const type = node.type;
+
+  if (node.type === "ArchivedDialogueTable") {
     return node.dialogues.flatMap((tree) =>
       flatMapDialogue(tree.dialogue, mapFn)
     );
   }
 
-  const type = node.type;
-  if (node.type === "DialogueBranch") {
-    return node.options.flatMap((child) => flatMapDialogue(child, mapFn));
+  if (node.type === "FilteredDialogueTable") {
+    return node.lines.flatMap((child) => flatMapDialogue(child, mapFn));
   }
 
-  if (node.type === "DialogueTree") {
+  if (node.type === "ArchivedDialogueTree") {
     return flatMapDialogue(node.dialogue, mapFn);
   }
 
-  if (node.type === "FilteredDialogueBank") {
-    return node.lines.flatMap((child) => flatMapDialogue(child, mapFn));
+  if (node.type === "DialogueBranch") {
+    return node.options.flatMap((child) => flatMapDialogue(child, mapFn));
   }
 
   if (node.type === "DialogueSequence") {
@@ -74,7 +75,7 @@ export default function useNarratorFilter(
       return null;
     }
 
-    const matchingBanks: FilteredDialogueBank[] = [];
+    const matchingBanks: FilteredDialogueTable[] = [];
 
     for (const dialogueBank of dialogueBanks) {
       const match = flatMapDialogue(dialogueBank, (line) =>
@@ -84,7 +85,7 @@ export default function useNarratorFilter(
       if (match?.length) {
         matchingBanks.push({
           ...dialogueBank,
-          type: "FilteredDialogueBank",
+          type: "FilteredDialogueTable",
           lines: match,
         });
       }

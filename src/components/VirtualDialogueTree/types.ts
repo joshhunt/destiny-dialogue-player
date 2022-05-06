@@ -1,9 +1,8 @@
 import { VariableSizeNodeData } from "@joshhunt/react-vtree";
 import {
-  DialogueBank,
-  DialogueNode,
-  DialogueTree,
-  FilteredDialogueBank,
+  DialogueTable,
+  FilteredDialogueTable,
+  AnyDialogueStructure,
 } from "../../types";
 
 interface Header {
@@ -18,14 +17,9 @@ export type TreeNodeData = VariableSizeNodeData &
     nestingLevel: number;
   }>;
 
-export type RootDialogueCollection = DialogueBank[] | FilteredDialogueBank[];
+export type RootDialogueCollection = DialogueTable[] | FilteredDialogueTable[];
 
-export type TreeNode =
-  | DialogueBank
-  | FilteredDialogueBank
-  | DialogueTree
-  | DialogueNode
-  | Header;
+export type TreeNode = AnyDialogueStructure | Header;
 
 export type NodeMeta = Readonly<{
   nestingLevel: number;

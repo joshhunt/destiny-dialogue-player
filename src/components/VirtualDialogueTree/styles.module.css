@@ -73,3 +73,7 @@
 .bank {
   font-weight: 500;
 }
+
+.accessory {
+  white-space: nowrap;
+}

@@ -12,6 +12,7 @@ import { PlayButton } from "../PlayButton";
 import { pickColor } from "../../lib/color";
 import DialogueBankNode from "./DialogueBankNode";
 import { DownloadButton } from "../DownloadButton";
+import versionMap from "../../lib/versionMap";
 
 const Node: React.FC<
   NodeComponentProps<TreeNodeData, FixedSizeNodePublicState<TreeNodeData>>
@@ -44,8 +45,12 @@ const Node: React.FC<
     );
   }
 
-  if (!("type" in node)) {
-    // DialogueBank
+  // We don't render the header here, it's rendered separately
+  if (node.type === "Header") {
+    return null;
+  }
+
+  if (node.type === "ArchivedDialogueTable") {
     return (
       <div
         className={cx(s.row, s.bank, index % 2 && s.alternateRow)}
@@ -54,19 +59,13 @@ const Node: React.FC<
         <div className={s.rowMain} key="file">
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
-          <DialogueBankNode node={node} />
+          <DialogueBankNode node={node} id={id} />
         </div>
       </div>
     );
   }
 
-  // We don't render the header here, it's rendered separately
-  if (node.type === "Header") {
-    return null;
-  }
-
-  if (node.type === "FilteredDialogueBank") {
-    // DialogueBank
+  if (node.type === "FilteredDialogueTable") {
     return (
       <div
         className={cx(s.row, s.bank, index % 2 && s.alternateRow)}
@@ -75,13 +74,22 @@ const Node: React.FC<
         <div className={s.rowMain} key="glass">
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
-          <DialogueBankNode node={node} />
+          <DialogueBankNode node={node} id={id} />
         </div>
       </div>
     );
   }
 
-  if (node.type === "DialogueTree") {
+  if (node.type === "ArchivedDialogueTree") {
+    const firstVersion = node.versions.at(0) ?? "";
+    const lastVersion = node.versions.at(-1) ?? "";
+
+    const versionString =
+      firstVersion === lastVersion
+        ? versionMap[firstVersion] ?? "Unknown"
+        : `${versionMap[firstVersion] ?? "Unknown"} - ${
+            versionMap[lastVersion] ?? "Unknown"
+          }`;
     return (
       <div
         className={cx(s.row, s.faint, index % 2 && s.alternateRow)}
@@ -91,7 +99,7 @@ const Node: React.FC<
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
           <span className="Space" />
-          Dialogue Tree {node.contentHash}
+          Dialogue Tree {node.hash} ({versionString})
         </div>
       </div>
     );

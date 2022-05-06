@@ -3,10 +3,10 @@ import { createContext, useContext } from "react";
 interface SearchContext {
   narrators: string[];
   selectedNarrator: string | undefined;
-  setSelectedNarrator: (narrator: string) => void;
+  setSelectedNarrator: (narrator: string | undefined) => void;
 
   searchText: string | undefined;
-  setSearchText: (narrator: string) => void;
+  setSearchText: (narrator: string | undefined) => void;
 }
 
 const searchContext = createContext<SearchContext | undefined>(undefined);

@@ -2,7 +2,7 @@ import { delMany, get as idbGet, keys, set as idbSet } from "idb-keyval";
 import { orderBy } from "lodash";
 import pLimit from "p-limit";
 import { useEffect, useState } from "react";
-import { DialogueBank, DialogueManifest } from "../types";
+import { DialogueManifest, DialogueTable } from "../types";
 import { getDialogueBankURL, getManifestURL } from "./dialogueAPI";
 
 const maxVersion = 9999999;
@@ -33,9 +33,9 @@ function getIDBKey(fileName: string) {
   return `dialogue-bank-${fileName}`;
 }
 
-async function getDialogueBank(fileName: string): Promise<DialogueBank> {
+async function getDialogueBank(fileName: string): Promise<DialogueTable> {
   const idbKey = getIDBKey(fileName);
-  const cached = await idbGet<DialogueBank>(idbKey);
+  const cached = await idbGet<DialogueTable>(idbKey);
 
   if (cached) {
     return cached;
@@ -45,7 +45,7 @@ async function getDialogueBank(fileName: string): Promise<DialogueBank> {
   const data = await resp.json();
   await idbSet(idbKey, data);
 
-  return data as DialogueBank;
+  return data as DialogueTable;
 }
 
 async function getAllDialogueBanks(
@@ -95,17 +95,12 @@ async function getAllDialogueBanks(
     data.map((bank) => {
       return {
         ...bank,
-        entryKey: bank.entryKey.replace(/0x/g, ""),
         contentPath: bank.contentPath
           ?.replace(/^content\\dialog\\/, "")
           .replace(/\.dialog_table\.tft$/, ""),
       };
     }),
-    (v) => {
-      const version = getVersionNumberFromPath(v.contentPath);
-      console.log(version, v.contentPath);
-      return version;
-    }
+    (v) => getVersionNumberFromPath(v.contentPath)
   );
 }
 
@@ -125,7 +120,7 @@ export default function useDialogueBanks() {
   const [state, setState] = useState(LoadingState.NotStarted);
   const [error, setError] = useState<any>();
   const [progress, setProgress] = useState<LoadingProgress>();
-  const [dialogueBanks, setDialogueBanks] = useState<DialogueBank[]>([]);
+  const [dialogueBanks, setDialogueBanks] = useState<DialogueTable[]>([]);
 
   useEffect(() => {
     getAllDialogueBanks(setProgress)
