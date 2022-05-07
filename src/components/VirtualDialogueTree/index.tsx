@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useRef } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { Scrollbars } from "react-custom-scrollbars";
+import cx from "classnames";
 
 import { VariableSizeTree } from "@joshhunt/react-vtree";
 import {
@@ -23,23 +23,12 @@ interface VirtualDialogueTreeProps {
 }
 
 const outerElementType = forwardRef<HTMLDivElement, any>(
-  ({ style, ...rest }, ref) => {
-    const renderThumb = useCallback(({ style, ...props }) => {
-      return <div className={s.scrollerThumb} style={style} {...props} />;
-    }, []);
-
-    const renderTrack = useCallback(({ style, ...props }) => {
-      return <div className={s.scrollerTrack} style={style} {...props} />;
-    }, []);
-
+  ({ style, className, ...rest }, ref) => {
     return (
-      <Scrollbars
+      <div
         ref={ref}
-        style={{ ...style, overflow: "hidden" }}
-        className={s.scrollRoot}
-        autoHide
-        renderThumbVertical={renderThumb}
-        renderTrackVertical={renderTrack}
+        style={style}
+        className={cx(className, s.cssScrollBars)}
         {...rest}
       />
     );
@@ -98,6 +87,7 @@ const VirtualDialogueTree: React.FC<VirtualDialogueTreeProps> = ({
             }
             height={height}
             width="100%"
+            outerElementType={outerElementType}
             innerElementType={innerElementType}
           >
             {Node}

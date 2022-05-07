@@ -47,6 +47,39 @@
   color: #b7b7b7;
 }
 
+.cssScrollBars {
+  position: relative;
+  --scrollbarBG: transparent;
+  --thumbBG: #717071;
+}
+
+.cssScrollBars::-webkit-scrollbar {
+  width: 12px;
+}
+.cssScrollBars {
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+.cssScrollBars::-webkit-scrollbar-track {
+  background: var(--scrollbarBG);
+}
+.cssScrollBars::-webkit-scrollbar-thumb {
+  background-color: var(--thumbBG);
+  border-radius: 6px;
+}
+
+/* .cssScrollBars::-webkit-scrollbar {
+  width: 16px;
+  border: solid 4px blue;
+  background-color: red;
+}
+
+.cssScrollBars::-webkit-scrollbar-thumb {
+  border: solid 4px orange;
+  background-color: green;
+  border-radius: 8px;
+  min-height: 16px;
+} */
+
 .scrollerThumb {
   background-color: rgba(255, 255, 255, 0.4);
   border-radius: 100px;

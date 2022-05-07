@@ -49,6 +49,7 @@ export default function App() {
           nowNextDialogue={nowNextDialogue}
           playlist={playlist}
         />
+        <div className="scrollbarFillerHack" />
       </AudioContextProvider>
     </SearchContextProvider>
   );
