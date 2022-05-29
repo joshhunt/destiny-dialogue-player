@@ -1,5 +1,6 @@
 import { useAudioPlayer } from "../lib/audioContext";
 import { DialogueNode } from "../types";
+import { useSearchContext } from "../views/MainView/searchContext";
 import Button from "./Button";
 
 interface Props {
@@ -9,9 +10,11 @@ interface Props {
 }
 
 export function PlayButton({ node, label, playAllBranches }: Props) {
+  const { gender } = useSearchContext();
   const { playAudioNode } = useAudioPlayer();
+
   const handleClick = async () => {
-    playAudioNode(node, { playAllBranches });
+    playAudioNode(node, { playAllBranches, gender });
   };
 
   return (

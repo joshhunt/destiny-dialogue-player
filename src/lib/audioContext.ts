@@ -12,6 +12,7 @@ import {
   DialogueNode,
   DialogueTree,
   CurrentDialogueState,
+  Gender,
 } from "../types";
 import { getMP3URL } from "./dialogueAPI";
 
@@ -26,6 +27,7 @@ interface AudioContext {
 
 interface PlayAudioOptions {
   playAllBranches?: boolean;
+  gender: Gender;
 }
 
 export const audioContext = React.createContext<AudioContext | null>(null);
@@ -46,16 +48,30 @@ export const useAudioContext = () => {
 
 function getDialoguePlaylist(
   node: DialogueNode | DialogueTree,
+  gender: Gender,
   playAllBranches?: boolean
 ): DialogueLine[] {
   if (node.type === "DialogueLine") {
     return [node];
   } else if (node.type === "DialogueSequence") {
-    return node.sequence.flatMap((v) => getDialoguePlaylist(v));
+    return node.sequence.flatMap((v) => getDialoguePlaylist(v, gender));
   } else if (node.type === "DialogueBranch") {
+    if (node.hasGenderedOptions) {
+      const genderedNode =
+        node.options.find(
+          (v) => v.type === "DialogueLine" && v.gender === gender
+        ) ?? node.options[0];
+
+      if (genderedNode.type !== "DialogueLine") {
+        return [];
+      }
+
+      return [genderedNode];
+    }
+
     if (playAllBranches) {
       return node.options.flatMap((v) =>
-        getDialoguePlaylist(v, playAllBranches)
+        getDialoguePlaylist(v, gender, playAllBranches)
       );
     }
 
@@ -66,9 +82,9 @@ function getDialoguePlaylist(
         "Did not get a random child from DialogueBranch for some reason"
       );
     }
-    return getDialoguePlaylist(randomChild);
+    return getDialoguePlaylist(randomChild, gender);
   } else if (node.type === "ArchivedDialogueTree") {
-    return getDialoguePlaylist(node.dialogue);
+    return getDialoguePlaylist(node.dialogue, gender);
   }
 
   throw new Error("shouldn't be here!");
@@ -112,7 +128,12 @@ export const useAudioState = () => {
     async (node: DialogueNode, options?: PlayAudioOptions) => {
       stopPlayback();
 
-      const playlist = getDialoguePlaylist(node, options?.playAllBranches);
+      const gender = options?.gender ?? "Masculine";
+      const playlist = getDialoguePlaylist(
+        node,
+        gender,
+        options?.playAllBranches
+      );
       setPlaylist(playlist);
 
       function playSound(sound: Sound) {
