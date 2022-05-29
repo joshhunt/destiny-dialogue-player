@@ -15,5 +15,5 @@ export function getDialogueBankURL(file: string) {
 }
 
 export function getManifestURL() {
-  return `${URL_BASE}/manifest.json`;
+  return `${URL_BASE}/manifest.json?v2`;
 }
