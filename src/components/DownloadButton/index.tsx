@@ -1,6 +1,7 @@
 import { DialogueLine } from "../../types";
 import { getMP3URL } from "../../lib/dialogueAPI";
 import { Link } from "../Button";
+import s from "./styles.module.css";
 
 interface Props {
   node: DialogueLine;
@@ -16,7 +17,7 @@ export function DownloadButton({ node, className }: Props) {
       icon="fa-duotone fa-download"
       className={className}
     >
-      Download
+      <span className={s.downloadText}>Download</span>
     </Link>
   );
 }

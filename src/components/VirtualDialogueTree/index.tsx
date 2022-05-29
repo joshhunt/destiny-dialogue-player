@@ -8,6 +8,7 @@ import {
   ROW_HEIGHT,
   RootDialogueCollection,
   TreeNodeData,
+  SMALL_HEADER_ROW_HEIGHT,
 } from "./types";
 import Node from "./Node";
 
@@ -17,6 +18,7 @@ import useTreeWalker from "./useTreeWalker";
 import { GoToProvider } from "./useGoToNode";
 import { useSearchContext } from "../../views/MainView/searchContext";
 import { AnyDialogueStructure } from "../../types";
+import { useIsSmallScreen } from "../../lib/useMediaQuery";
 
 interface VirtualDialogueTreeProps {
   dialogueBanks: RootDialogueCollection;
@@ -50,6 +52,7 @@ const innerElementType = forwardRef<HTMLDivElement>(
 const VirtualDialogueTree: React.FC<VirtualDialogueTreeProps> = ({
   dialogueBanks,
 }) => {
+  const isSmall = useIsSmallScreen();
   const treeRef = useRef<VariableSizeTree<TreeNodeData> | null>();
   const { setSelectedNarrator, setSearchText, gender } = useSearchContext();
   const treeWalker = useTreeWalker(dialogueBanks, gender);
@@ -83,7 +86,11 @@ const VirtualDialogueTree: React.FC<VirtualDialogueTreeProps> = ({
             ref={(r) => (treeRef.current = r)}
             treeWalker={treeWalker}
             itemSize={(index: any) =>
-              index === 0 ? HEADER_ROW_HEIGHT : ROW_HEIGHT
+              index === 0
+                ? isSmall
+                  ? SMALL_HEADER_ROW_HEIGHT
+                  : HEADER_ROW_HEIGHT
+                : ROW_HEIGHT
             }
             height={height}
             width="100%"

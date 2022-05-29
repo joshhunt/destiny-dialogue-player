@@ -200,3 +200,48 @@
   opacity: 0.85;
   font-size: 0.9em;
 }
+
+@media only screen and (max-width: 1050px) {
+  .extraItems {
+    display: none;
+  }
+
+  .stickyHeader {
+    height: 53px;
+    padding: 6px 14px;
+  }
+
+  .main {
+    display: grid;
+    /* grid-template-columns: 1fr min-content; */
+    /* grid-template-rows: auto auto; */
+    grid-template-areas:
+      "title accessory"
+      "subtitle accessory";
+    width: 100%;
+    gap: 6px;
+  }
+
+  .title {
+    grid-area: title;
+  }
+
+  .subtitle {
+    grid-area: subtitle;
+    display: flex;
+    align-items: center;
+  }
+
+  .specificTable {
+    margin-right: 16px;
+  }
+
+  .chevron {
+    margin-left: 0px;
+  }
+
+  .aboutButton {
+    margin: -6px 0;
+    margin-left: -8px;
+  }
+}

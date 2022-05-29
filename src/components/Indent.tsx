@@ -1,8 +1,12 @@
+import { useIsSmallScreen } from "../lib/useMediaQuery";
+
 interface Props {
   level: number;
 }
 
 export default function Indent({ level }: Props) {
+  const isSmall = useIsSmallScreen();
+
   return (
     <span
       className="Indent"
@@ -14,7 +18,7 @@ export default function Indent({ level }: Props) {
         lineHeight: 1,
         background: "transparent",
         opacity: 0.5,
-        width: level * 16,
+        width: level * (isSmall ? 8 : 16),
       }}
     >
       {level}

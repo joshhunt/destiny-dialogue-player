@@ -36,3 +36,4 @@ export const HEADER_NODE: Header = {
 export const ROW_HEIGHT = 26;
 
 export const HEADER_ROW_HEIGHT = 47;
+export const SMALL_HEADER_ROW_HEIGHT = 53;

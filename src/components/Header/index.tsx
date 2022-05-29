@@ -67,18 +67,20 @@ const Header: React.FC<HeaderProps> = ({ hideControls }) => {
           Destiny Dialogue Archive
         </Link>
 
-        {params && (
-          <div className={s.specificTable}>
-            <span className={s.chevron}>
-              <i className="fa-regular fa-chevron-right" />
-            </span>
-            Table {params.tableHash}
-          </div>
-        )}
+        <div className={s.subtitle}>
+          {params && (
+            <div className={s.specificTable}>
+              <span className={s.chevron}>
+                <i className="fa-regular fa-chevron-right" />
+              </span>
+              Table {params.tableHash}
+            </div>
+          )}
 
-        <button className={s.aboutButton} onClick={openModal}>
-          About
-        </button>
+          <button className={s.aboutButton} onClick={openModal}>
+            About
+          </button>
+        </div>
       </div>
 
       <div className={s.extraItems}>
