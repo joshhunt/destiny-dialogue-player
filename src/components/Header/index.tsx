@@ -16,6 +16,7 @@ interface HeaderProps {
 const ALL_VALUE = "$$all";
 
 const Header: React.FC<HeaderProps> = ({ hideControls }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [match, params] = useDialogueRoute();
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
