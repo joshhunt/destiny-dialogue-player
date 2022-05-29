@@ -90,14 +90,14 @@ const Header: React.FC<HeaderProps> = ({ hideControls }) => {
             onClick={() => setGender("Masculine")}
             isSelected={gender === "Masculine"}
           >
-            Masculine
+            <span className={s.hideMedium}>Masculine</span>
           </ToggleButton>
           <ToggleButton
             icon="fa-regular fa-venus"
             onClick={() => setGender("Feminine")}
             isSelected={gender === "Feminine"}
           >
-            Feminine
+            <span className={s.hideMedium}>Feminine</span>
           </ToggleButton>
         </ToggleButtonGroup>
 

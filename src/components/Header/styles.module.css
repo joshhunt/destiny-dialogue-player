@@ -89,6 +89,7 @@
   font-family: inherit;
   color: rgba(255, 255, 255, 0.95);
   font-size: 14px;
+  width: 180px;
 }
 
 .searchBox:focus-within {
@@ -207,7 +208,7 @@
   align-items: center;
 }
 
-@media only screen and (max-width: 1050px) {
+@media only screen and (max-width: 900px) {
   .extraItems {
     display: none;
   }
@@ -247,5 +248,15 @@
   .aboutButton {
     margin: -6px 0;
     margin-left: -8px;
+  }
+}
+
+@media only screen and (max-width: 1220px) {
+  .hideMedium {
+    display: none;
+  }
+
+  .searchInput {
+    width: 150px;
   }
 }
