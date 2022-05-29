@@ -201,6 +201,12 @@
   font-size: 0.9em;
 }
 
+.subtitle {
+  grid-area: subtitle;
+  display: flex;
+  align-items: center;
+}
+
 @media only screen and (max-width: 1050px) {
   .extraItems {
     display: none;
@@ -228,8 +234,6 @@
 
   .subtitle {
     grid-area: subtitle;
-    display: flex;
-    align-items: center;
   }
 
   .specificTable {
