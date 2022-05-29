@@ -7,43 +7,23 @@ import DisclosureButton from "../DisclosureButton";
 import { formattedSummary } from "../../lib/utils";
 
 import s from "./styles.module.css";
-import { TreeNodeData, USE_DEFAULT_NODE } from "./types";
+import { TreeNodeData } from "./types";
 import { PlayButton } from "../PlayButton";
 import { pickColor } from "../../lib/color";
 import DialogueBankNode from "./DialogueBankNode";
 import { DownloadButton } from "../DownloadButton";
 import versionMap from "../../lib/versionMap";
+import { useCallback } from "react";
+import { saveNodeState } from "../../lib/sessionStorage";
 
 const Node: React.FC<
   NodeComponentProps<TreeNodeData, FixedSizeNodePublicState<TreeNodeData>>
-> = ({
-  data: { node, isLeaf, id, nestingLevel },
-  index,
-  isOpen,
-  style,
-  setOpen,
-}) => {
-  if (USE_DEFAULT_NODE) {
-    return (
-      <div
-        style={{
-          ...style,
-          alignItems: "center",
-          display: "flex",
-          marginLeft: nestingLevel * 30 + (isLeaf ? 24 : 0),
-        }}
-      >
-        {!isLeaf && (
-          <div>
-            <button type="button" onClick={() => setOpen(!isOpen)}>
-              {isOpen ? "-" : "+"}
-            </button>
-          </div>
-        )}
-        <div>{id}</div>
-      </div>
-    );
-  }
+> = ({ data: { node, id, nestingLevel }, index, isOpen, style, setOpen }) => {
+  const toggleOpen = useCallback(() => {
+    const newOpenness = !isOpen;
+    saveNodeState(id, newOpenness);
+    setOpen(newOpenness);
+  }, [id, isOpen, setOpen]);
 
   // We don't render the header here, it's rendered separately
   if (node.type === "Header") {
@@ -58,7 +38,7 @@ const Node: React.FC<
       >
         <div className={s.rowMain} key="file">
           <Indent level={nestingLevel} />
-          <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
+          <DisclosureButton isOpen={isOpen} onClick={toggleOpen} />
           <DialogueBankNode node={node} id={id} />
         </div>
       </div>
@@ -73,7 +53,7 @@ const Node: React.FC<
       >
         <div className={s.rowMain} key="glass">
           <Indent level={nestingLevel} />
-          <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
+          <DisclosureButton isOpen={isOpen} onClick={toggleOpen} />
           <DialogueBankNode node={node} id={id} />
         </div>
       </div>
@@ -97,7 +77,7 @@ const Node: React.FC<
       >
         <div className={s.rowMain}>
           <Indent level={nestingLevel} />
-          <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
+          <DisclosureButton isOpen={isOpen} onClick={toggleOpen} />
           <span className="Space" />
           Dialogue Tree {node.hash} ({versionString})
         </div>
@@ -114,7 +94,7 @@ const Node: React.FC<
       >
         <div className={s.rowMain}>
           <Indent level={nestingLevel} />
-          <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
+          <DisclosureButton isOpen={isOpen} onClick={toggleOpen} />
           <span className="Space" />
           {isOpen ? "Sequence" : summary}
         </div>
@@ -135,7 +115,7 @@ const Node: React.FC<
       >
         <div className={s.rowMain}>
           <Indent level={nestingLevel} />
-          <DisclosureButton isOpen={isOpen} onClick={() => setOpen(!isOpen)} />
+          <DisclosureButton isOpen={isOpen} onClick={toggleOpen} />
           <span className="Space" />
           {isOpen ? "Options" : summary}
         </div>
@@ -156,7 +136,17 @@ const Node: React.FC<
       <div className={cx(s.row, index % 2 && s.alternateRow)} style={style}>
         <div className={s.rowMain}>
           <Indent level={nestingLevel} />
-          <span className="toggleButtonSpacer" />
+          {node.gender ? (
+            <span className={s.gender}>
+              <i
+                className={`fa-regular ${
+                  node.gender === "Masculine" ? "fa-mars" : "fa-venus"
+                }`}
+              />
+            </span>
+          ) : (
+            <span className="toggleButtonSpacer" />
+          )}
           <span
             className={s.narrator}
             style={{

@@ -34,6 +34,8 @@ export type AnyDialogueStructure =
 
 export type LineID = string | number;
 
+export type Gender = "Masculine" | "Feminine";
+
 export interface DialogueLine {
   type: "DialogueLine";
   audioFileName: string;
@@ -42,6 +44,7 @@ export interface DialogueLine {
   narrator: string;
   postLineDelay: number;
   id: LineID;
+  gender?: Gender;
 }
 
 export interface DialogueSequence {
@@ -56,6 +59,7 @@ export interface DialogueBranch {
   contentHash: number;
   id: string;
   options: DialogueNode[];
+  hasGenderedOptions?: boolean;
 }
 
 export interface DialogueBankManifestEntry {
@@ -66,7 +70,7 @@ export interface DialogueBankManifestEntry {
 
 export interface DialogueManifest {
   version: number;
-  dialogueBanks: DialogueBankManifestEntry[];
+  dialoguePath: string;
 }
 
 export type CurrentDialogueState = {

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { Link } from "wouter";
 import { DialogueTable, FilteredDialogueTable } from "../../types";
-import Button from "../Button";
+import { useSearchContext } from "../../views/MainView/searchContext";
+import { AppLink } from "../Button";
 import s from "./styles.module.css";
-import { useGoTo } from "./useGoToNode";
 
 interface DialogueBankNodeProps {
   node: DialogueTable | FilteredDialogueTable;
@@ -10,7 +11,12 @@ interface DialogueBankNodeProps {
 }
 
 const DialogueBankNode: React.FC<DialogueBankNodeProps> = ({ node, id }) => {
-  const goTo = useGoTo();
+  const { setSelectedNarrator, setSearchText } = useSearchContext();
+
+  const clearSearch = useCallback(() => {
+    setSelectedNarrator(undefined);
+    setSearchText(undefined);
+  }, [setSearchText, setSelectedNarrator]);
 
   let icon =
     node.type === "FilteredDialogueTable"
@@ -22,7 +28,9 @@ const DialogueBankNode: React.FC<DialogueBankNodeProps> = ({ node, id }) => {
       <span className="Space" />
       <i className={`fa-duotone ${icon}`}></i>
       <span className="Space" />
-      Dialogue File {node.hash}
+      <Link className={s.link} to={`/d/${node.hash}`} onClick={clearSearch}>
+        Dialogue Table {node.hash}
+      </Link>
       {node.contentPath && (
         <>
           <span className="Space" />
@@ -34,12 +42,13 @@ const DialogueBankNode: React.FC<DialogueBankNodeProps> = ({ node, id }) => {
       {node.type === "FilteredDialogueTable" && (
         <>
           <span className="Space" />
-          <Button
+          <AppLink
             icon="fa-regular fa-arrow-right-to-arc"
-            onClick={() => goTo(node, id)}
+            to={`/d/${node.hash}`}
+            onClick={clearSearch}
           >
-            Go to
-          </Button>
+            Go to table
+          </AppLink>
         </>
       )}
     </>

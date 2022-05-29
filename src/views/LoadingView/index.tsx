@@ -21,7 +21,6 @@ const LoadingView: React.FC<LoadingViewProps> = ({ progress }) => {
           <div
             className={s.progressBarTrack}
             style={{ width: `${percent}%` }}
-            data-value={progress?.progress ?? 0}
           />
         </div>
       </div>

@@ -20,11 +20,33 @@
 }
 
 .button:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
   transition: background ease-in-out 0;
 }
 
 .icon {
   margin-right: 0.4ch;
   margin-left: 0.4ch;
+}
+
+.toggleButton {
+  composes: button;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0;
+  color: hsla(210, 6%, 93%, 85%);
+  padding: 4px 6px;
+}
+
+.toggleButton:first-of-type {
+  border-radius: 2px 0 0 2px;
+}
+
+.toggleButton:last-of-type {
+  border-radius: 0 2px 2px 0;
+}
+
+.selected {
+  background: rgba(255, 255, 255, 0.22);
+  color: white;
 }

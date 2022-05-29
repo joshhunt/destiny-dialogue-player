@@ -1,22 +1,21 @@
 import { delMany, get as idbGet, keys, set as idbSet } from "idb-keyval";
 import { orderBy } from "lodash";
-import pLimit from "p-limit";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DialogueManifest, DialogueTable } from "../types";
 import { getDialogueBankURL, getManifestURL } from "./dialogueAPI";
-
-const maxVersion = 9999999;
+import httpGetProgress from "./fetchProgress";
+import { useDialogueRoute } from "./useRoute";
 
 function getVersionNumberFromPath(contentPath?: string) {
   if (!contentPath) {
-    return maxVersion;
+    return Number.MAX_SAFE_INTEGER;
   }
 
   const matches = Array.from(contentPath.matchAll(/(d|v)(\d+)\\/g) ?? []);
   const lastMatch = matches.at(-1);
 
   if (!lastMatch) {
-    return maxVersion;
+    return Number.MAX_SAFE_INTEGER;
   }
 
   return parseInt(lastMatch[2]);
@@ -29,67 +28,43 @@ async function getManifest() {
   return data as DialogueManifest;
 }
 
-function getIDBKey(fileName: string) {
-  return `dialogue-bank-${fileName}`;
-}
-
-async function getDialogueBank(fileName: string): Promise<DialogueTable> {
-  const idbKey = getIDBKey(fileName);
-  const cached = await idbGet<DialogueTable>(idbKey);
+async function getAllDialogueBanks(
+  dispatchProgress: (p: LoadingProgress) => void
+): Promise<DialogueTable[]> {
+  const manifest = await getManifest();
+  const cached = await idbGet<DialogueTable[]>(manifest.dialoguePath);
 
   if (cached) {
     return cached;
   }
 
-  const resp = await fetch(getDialogueBankURL(fileName));
-  const data = await resp.json();
-  await idbSet(idbKey, data);
+  const data = (await httpGetProgress(
+    getDialogueBankURL(manifest.dialoguePath),
+    (total, progress) => dispatchProgress({ total, progress })
+  )) as DialogueTable[];
+  await idbSet(manifest.dialoguePath, data);
 
-  return data as DialogueTable;
-}
-
-async function getAllDialogueBanks(
-  dispatchProgress: (p: LoadingProgress) => void
-) {
-  const manifest = await getManifest();
-  const limit = pLimit(10);
-
-  const urlParams = new URLSearchParams(window.location.search.slice(1));
-  const specificHash = Number(urlParams.get("hash"));
-
-  const latestIDBKeys = manifest.dialogueBanks.map((v) =>
-    getIDBKey(v.fileName)
-  );
-
-  const banksToLoad = manifest.dialogueBanks
-    .filter((entry) => (specificHash > 0 ? entry.hash === specificHash : true))
-    .slice(0, 3000);
-
-  let loaded = 0;
   dispatchProgress({
-    progress: loaded,
-    total: banksToLoad.length,
+    progress: 90,
+    total: 100,
   });
 
-  const promises = banksToLoad.map((entry) =>
-    limit(async () => {
-      const bank = await getDialogueBank(entry.fileName);
-      loaded += 1;
-      dispatchProgress({
-        progress: loaded,
-        total: banksToLoad.length,
-      });
-      return bank;
-    })
-  );
-
-  const data = await Promise.all(promises);
-
   const allKeysInIDB = await keys<string>();
+
+  dispatchProgress({
+    progress: 95,
+    total: 100,
+  });
+
   const keysToDelete = allKeysInIDB.filter(
-    (key) => !latestIDBKeys.includes(key)
+    (key) => key !== manifest.dialoguePath
   );
   await delMany(keysToDelete);
+
+  dispatchProgress({
+    progress: 99,
+    total: 100,
+  });
 
   return orderBy(
     data.map((bank) => {
@@ -117,6 +92,9 @@ export interface LoadingProgress {
 }
 
 export default function useDialogueBanks() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [match, params] = useDialogueRoute();
+
   const [state, setState] = useState(LoadingState.NotStarted);
   const [error, setError] = useState<any>();
   const [progress, setProgress] = useState<LoadingProgress>();
@@ -135,9 +113,18 @@ export default function useDialogueBanks() {
       });
   }, []);
 
+  const routeDialogue = useMemo(() => {
+    const tableHash = parseInt(params?.tableHash ?? "0");
+    if (tableHash === 0) {
+      return dialogueBanks;
+    }
+
+    return dialogueBanks.filter((v) => v.hash === tableHash);
+  }, [dialogueBanks, params?.tableHash]);
+
   return {
     progress,
-    dialogueBanks,
+    dialogueBanks: routeDialogue,
     state,
     error,
   };

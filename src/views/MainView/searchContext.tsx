@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import { Gender } from "../../types";
 
 interface SearchContext {
   narrators: string[];
@@ -7,6 +8,9 @@ interface SearchContext {
 
   searchText: string | undefined;
   setSearchText: (narrator: string | undefined) => void;
+
+  gender: Gender;
+  setGender: (gender: Gender) => void;
 }
 
 const searchContext = createContext<SearchContext | undefined>(undefined);

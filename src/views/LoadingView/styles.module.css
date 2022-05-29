@@ -35,15 +35,6 @@
   transition: all 100ms ease-in-out;
 }
 
-.progressBarTrack::before {
-  color: rgba(255, 255, 255, 0.8);
-  content: attr(data-value);
-  position: absolute;
-  right: 0;
-  bottom: 100%;
-  margin-bottom: 8px;
-}
-
 @keyframes appear {
   from {
     opacity: 0;

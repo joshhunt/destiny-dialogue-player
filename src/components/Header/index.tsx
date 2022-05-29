@@ -1,7 +1,10 @@
 import React, { ChangeEvent, useCallback } from "react";
 import Modal from "react-modal";
+import { Link } from "wouter";
+import { useDialogueRoute } from "../../lib/useRoute";
 
 import { useSearchContext } from "../../views/MainView/searchContext";
+import ToggleButton, { ToggleButtonGroup } from "../Button/ToggleButton";
 
 import s from "./styles.module.css";
 
@@ -9,7 +12,10 @@ interface HeaderProps {
   hideControls?: boolean;
 }
 
+const ALL_VALUE = "$$all";
+
 const Header: React.FC<HeaderProps> = ({ hideControls }) => {
+  const [match, params] = useDialogueRoute();
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
   const {
@@ -18,12 +24,16 @@ const Header: React.FC<HeaderProps> = ({ hideControls }) => {
     setSelectedNarrator,
     searchText,
     setSearchText,
+    gender,
+    setGender,
   } = useSearchContext();
 
   const handleNarratorChange = useCallback(
     (ev: ChangeEvent) => {
       if (ev.target instanceof HTMLSelectElement) {
-        setSelectedNarrator(ev.target.value);
+        setSelectedNarrator(
+          ev.target.value === ALL_VALUE ? undefined : ev.target.value
+        );
       }
     },
     [setSelectedNarrator]
@@ -51,13 +61,42 @@ const Header: React.FC<HeaderProps> = ({ hideControls }) => {
   return (
     <div className={s.stickyHeader}>
       <div className={s.main}>
-        <div className={s.title}>Destiny Dialogue Archive</div>
+        <Link to="/" className={s.title}>
+          Destiny Dialogue Archive
+        </Link>
+
+        {params && (
+          <div className={s.specificTable}>
+            <span className={s.chevron}>
+              <i className="fa-regular fa-chevron-right" />
+            </span>
+            Table {params.tableHash}
+          </div>
+        )}
+
         <button className={s.aboutButton} onClick={openModal}>
           About
         </button>
       </div>
 
       <div className={s.extraItems}>
+        <ToggleButtonGroup>
+          <ToggleButton
+            icon="fa-regular fa-mars"
+            onClick={() => setGender("Masculine")}
+            isSelected={gender === "Masculine"}
+          >
+            Masculine
+          </ToggleButton>
+          <ToggleButton
+            icon="fa-regular fa-venus"
+            onClick={() => setGender("Feminine")}
+            isSelected={gender === "Feminine"}
+          >
+            Feminine
+          </ToggleButton>
+        </ToggleButtonGroup>
+
         <div className={s.searchBox}>
           <i className="fa-regular fa-magnifying-glass" />
 
@@ -77,7 +116,7 @@ const Header: React.FC<HeaderProps> = ({ hideControls }) => {
             value={selectedNarrator}
             onChange={handleNarratorChange}
           >
-            <option>All</option>
+            <option value={ALL_VALUE}>All</option>
             {narrators.map((narrator) => (
               <option key={narrator} value={narrator}>
                 {narrator || "Unknown"}

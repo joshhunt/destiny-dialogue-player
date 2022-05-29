@@ -4,13 +4,23 @@ import { AudioContextProvider, useAudioState } from "./lib/audioContext";
 import useNarratorFilter from "./views/MainView/useNarratorFilter";
 import useTextSearch from "./lib/useTextSearch";
 import { SearchContextProvider } from "./views/MainView/searchContext";
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { Gender } from "./types";
 
 export default function App() {
+  const [gender, setGenderState] = useState<Gender>(() => {
+    return (window.localStorage.getItem("dialogueGender") ??
+      "Masculine") as Gender;
+  });
   const { audioContext, nowNextDialogue, playlist } = useAudioState();
   const { dialogueBanks, progress, state, error } = useDialogueBanks();
   const { searchResultsDialogue, searchText, setSearchText } =
     useTextSearch(dialogueBanks);
+
+  const setGender = useCallback((gender: Gender) => {
+    window.localStorage.setItem("dialogueGender", gender);
+    setGenderState(gender);
+  }, []);
 
   const {
     narrators,
@@ -26,6 +36,8 @@ export default function App() {
       setSelectedNarrator,
       searchText,
       setSearchText,
+      gender,
+      setGender,
     }),
     [
       narrators,
@@ -33,6 +45,8 @@ export default function App() {
       setSelectedNarrator,
       searchText,
       setSearchText,
+      gender,
+      setGender,
     ]
   );
 
@@ -49,7 +63,6 @@ export default function App() {
           nowNextDialogue={nowNextDialogue}
           playlist={playlist}
         />
-        <div className="scrollbarFillerHack" />
       </AudioContextProvider>
     </SearchContextProvider>
   );

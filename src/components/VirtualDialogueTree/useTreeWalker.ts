@@ -1,5 +1,7 @@
 import { TreeWalker, TreeWalkerValue } from "@joshhunt/react-vtree";
 import { useMemo } from "react";
+import { getNodeState } from "../../lib/sessionStorage";
+import { Gender } from "../../types";
 
 import {
   HEADER_NODE,
@@ -12,14 +14,29 @@ import {
 } from "./types";
 
 const getNodeData = (
-  node: TreeNode,
-  nestingLevel: number
+  _node: TreeNode,
+  nestingLevel: number,
+  gender: Gender
 ): TreeWalkerValue<TreeNodeData, NodeMeta> => {
+  let node: TreeNode;
+
+  if (_node.type === "DialogueBranch" && _node.hasGenderedOptions) {
+    node =
+      _node.options.find(
+        (v) => v.type === "DialogueLine" && v.gender === gender
+      ) ?? _node.options[0];
+  } else {
+    node = _node;
+  }
+
+  const nodeId = typeof node.id === "number" ? node.id.toString() : node.id;
+  const previousNodeOpenState = getNodeState(nodeId);
+
   const data = {
     data: {
-      id: typeof node.id === "number" ? node.id.toString() : node.id,
+      id: nodeId,
       isLeaf: "type" in node && node.type === "DialogueLine",
-      isOpenByDefault: nestingLevel < 3,
+      isOpenByDefault: previousNodeOpenState || nestingLevel < 3,
       //isOpenByDefault: false,
       nestingLevel,
       node,
@@ -32,22 +49,18 @@ const getNodeData = (
     node,
   };
 
-  if (data.data.id === "iOtuxg9p") {
-    console.log("here's the node", data);
-  }
-
   return data;
 };
 
-function makeTreeWalker(dialogueBanks: RootDialogueCollection) {
+function makeTreeWalker(dialogueBanks: RootDialogueCollection, gender: Gender) {
   function* treeWalker(): ReturnType<TreeWalker<TreeNodeData, NodeMeta>> {
-    yield getNodeData(HEADER_NODE, 0);
+    yield getNodeData(HEADER_NODE, 0, gender);
 
     if ("type" in dialogueBanks) {
-      yield getNodeData(dialogueBanks, 0);
+      yield getNodeData(dialogueBanks, 0, gender);
     } else {
       for (let i = 0; i < dialogueBanks.length; i++) {
-        yield getNodeData(dialogueBanks[i], 0);
+        yield getNodeData(dialogueBanks[i], 0, gender);
       }
     }
 
@@ -64,7 +77,7 @@ function makeTreeWalker(dialogueBanks: RootDialogueCollection) {
         for (let index = 0; index < dialogueBank.dialogues.length; index++) {
           const dialogueTree = dialogueBank.dialogues[index];
 
-          yield getNodeData(dialogueTree, parentMeta.nestingLevel + 1);
+          yield getNodeData(dialogueTree, parentMeta.nestingLevel + 1, gender);
         }
       }
 
@@ -78,7 +91,7 @@ function makeTreeWalker(dialogueBanks: RootDialogueCollection) {
         handled = true;
         const dialogueBank = parentNode;
         for (const childNode of dialogueBank.lines) {
-          yield getNodeData(childNode, parentMeta.nestingLevel + 1);
+          yield getNodeData(childNode, parentMeta.nestingLevel + 1, gender);
         }
       }
 
@@ -86,7 +99,11 @@ function makeTreeWalker(dialogueBanks: RootDialogueCollection) {
       if (parentNode.type === "ArchivedDialogueTree") {
         handled = true;
         const dialogueTree = parentNode;
-        yield getNodeData(dialogueTree.dialogue, parentMeta.nestingLevel + 1);
+        yield getNodeData(
+          dialogueTree.dialogue,
+          parentMeta.nestingLevel + 1,
+          gender
+        );
       }
 
       // It's a DialogueSequence
@@ -95,7 +112,7 @@ function makeTreeWalker(dialogueBanks: RootDialogueCollection) {
         const dialogueSequence = parentNode;
 
         for (const childNode of dialogueSequence.sequence) {
-          yield getNodeData(childNode, parentMeta.nestingLevel + 1);
+          yield getNodeData(childNode, parentMeta.nestingLevel + 1, gender);
         }
       }
 
@@ -104,9 +121,16 @@ function makeTreeWalker(dialogueBanks: RootDialogueCollection) {
         handled = true;
         const dialogueBranch = parentNode;
 
+        // if (dialogueBranch.hasGenderedOptions) {
+        //   yield getNodeData(
+        //     dialogueBranch.options[0],
+        //     parentMeta.nestingLevel + 1
+        //   );
+        // } else {
         for (const childNode of dialogueBranch.options) {
-          yield getNodeData(childNode, parentMeta.nestingLevel + 1);
+          yield getNodeData(childNode, parentMeta.nestingLevel + 1, gender);
         }
+        // }
       }
 
       // It's a DialogueLine
@@ -124,10 +148,13 @@ function makeTreeWalker(dialogueBanks: RootDialogueCollection) {
   return treeWalker;
 }
 
-export default function useTreeWalker(dialogueBanks: RootDialogueCollection) {
+export default function useTreeWalker(
+  dialogueBanks: RootDialogueCollection,
+  gender: Gender
+) {
   const treeWalker = useMemo(
-    () => makeTreeWalker(dialogueBanks),
-    [dialogueBanks]
+    () => makeTreeWalker(dialogueBanks, gender),
+    [dialogueBanks, gender]
   );
 
   return treeWalker;

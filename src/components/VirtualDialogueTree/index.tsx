@@ -51,8 +51,8 @@ const VirtualDialogueTree: React.FC<VirtualDialogueTreeProps> = ({
   dialogueBanks,
 }) => {
   const treeRef = useRef<VariableSizeTree<TreeNodeData> | null>();
-  const treeWalker = useTreeWalker(dialogueBanks);
-  const { setSelectedNarrator, setSearchText } = useSearchContext();
+  const { setSelectedNarrator, setSearchText, gender } = useSearchContext();
+  const treeWalker = useTreeWalker(dialogueBanks, gender);
 
   (window as any).treeRef = treeRef;
 
@@ -89,6 +89,7 @@ const VirtualDialogueTree: React.FC<VirtualDialogueTreeProps> = ({
             width="100%"
             outerElementType={outerElementType}
             innerElementType={innerElementType}
+            overscanCount={50}
           >
             {Node}
           </VariableSizeTree>

@@ -119,6 +119,11 @@ td + td {
   display: inline-block;
 }
 
+.smallToggleButtonSpacer {
+  width: 12.75px;
+  display: inline-block;
+}
+
 .toggleButton:hover {
   background: rgba(255, 255, 255, 0.15);
   transition: background 0ms ease-in-out;
@@ -139,17 +144,4 @@ td + td {
 
 .dialogue-column {
   width: 100%;
-}
-
-.scrollbarFillerHack {
-  position: fixed;
-  top: 0;
-  right: 0;
-  display: block;
-  width: 12px;
-  height: 46px;
-  background: hsl(13deg 1% 14%);
-  border-bottom: 1px solid hsla(24deg, 1%, 50%, 0.25);
-  z-index: -1;
-  pointer-events: none;
 }
