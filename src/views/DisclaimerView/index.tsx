@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../../components/Header";
+import IncludedDialogue from "../../components/IncludedDialogue";
 
 import s from "./styles.module.css";
 
@@ -23,12 +24,8 @@ const DisclaimerView: React.FC<DisclaimerViewProps> = ({ onApprove }) => {
             "datamine" or share spoilers. Currently it contains dialogue from
             the releases:
           </p>
-          <ul>
-            <li>2.6.1.1 (Undying/Shadowkeep)</li>
-            <li>2.9.2.1 (Arrivals)</li>
-            <li>3.4.0.4 (Lost/30th Anniversary)</li>
-            <li>4.0.1.2 (Risen/Witch Queen)</li>
-          </ul>
+
+          <IncludedDialogue />
 
           <p className={s.desc}>
             This website should not contain spoilers, however no guarentees can

@@ -17,7 +17,7 @@ interface MainViewLoadingStatesProps {
 }
 
 const DISCLAIMER_APPROVAL_KEY = "disclaimer-approval";
-const DISCLAIMER_APPROVAL_VALUE = "agree-2";
+const DISCLAIMER_APPROVAL_VALUE = "agree-3";
 
 const MainViewLoadingState: React.FC<MainViewLoadingStatesProps> = ({
   dialogueBanks,
