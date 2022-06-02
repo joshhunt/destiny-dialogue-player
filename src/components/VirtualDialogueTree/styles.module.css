@@ -132,3 +132,15 @@
     display: none;
   }
 }
+
+.permalink {
+  color: inherit;
+  font-size: 13px;
+  opacity: 0.85;
+  transition: opacity ease-in-out 50ms;
+}
+
+.permalink:hover {
+  opacity: 1;
+  transition: opacity ease-in-out 0;
+}

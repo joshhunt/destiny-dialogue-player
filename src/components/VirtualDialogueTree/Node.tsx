@@ -12,13 +12,20 @@ import { PlayButton } from "../PlayButton";
 import { pickColor } from "../../lib/color";
 import DialogueBankNode from "./DialogueBankNode";
 import { DownloadButton } from "../DownloadButton";
-import versionMap from "../../lib/versionMap";
+import { getVersionName } from "../../lib/versionMap";
 import { useCallback } from "react";
 import { saveNodeState } from "../../lib/sessionStorage";
+import { Link } from "wouter";
 
 const Node: React.FC<
   NodeComponentProps<TreeNodeData, FixedSizeNodePublicState<TreeNodeData>>
-> = ({ data: { node, id, nestingLevel }, index, isOpen, style, setOpen }) => {
+> = ({
+  data: { node, parent, id, nestingLevel },
+  index,
+  isOpen,
+  style,
+  setOpen,
+}) => {
   const toggleOpen = useCallback(() => {
     const newOpenness = !isOpen;
     saveNodeState(id, newOpenness);
@@ -41,6 +48,12 @@ const Node: React.FC<
           <DisclosureButton isOpen={isOpen} onClick={toggleOpen} />
           <DialogueBankNode node={node} id={id} />
         </div>
+
+        <div className={s.rowAccessory}>
+          <Link to={`/d/${node.hash}`} className={s.permalink}>
+            Permalink
+          </Link>
+        </div>
       </div>
     );
   }
@@ -56,6 +69,12 @@ const Node: React.FC<
           <DisclosureButton isOpen={isOpen} onClick={toggleOpen} />
           <DialogueBankNode node={node} id={id} />
         </div>
+
+        <div className={s.rowAccessory}>
+          <Link to={`/d/${node.hash}`} className={s.permalink}>
+            Permalink
+          </Link>
+        </div>
       </div>
     );
   }
@@ -66,21 +85,38 @@ const Node: React.FC<
 
     const versionString =
       firstVersion === lastVersion
-        ? versionMap[firstVersion] ?? "Unknown"
-        : `${versionMap[firstVersion] ?? "Unknown"} - ${
-            versionMap[lastVersion] ?? "Unknown"
-          }`;
+        ? getVersionName(firstVersion)
+        : `${getVersionName(firstVersion)} - ${getVersionName(lastVersion)}`;
+
+    const link =
+      parent &&
+      parent.type === "ArchivedDialogueTable" &&
+      `/d/${parent.hash}/${node.hash}`;
+
+    const content = `Dialogue Tree ${node.hash} (${versionString})`;
+
     return (
-      <div
-        className={cx(s.row, s.faint, index % 2 && s.alternateRow)}
-        style={style}
-      >
-        <div className={s.rowMain}>
+      <div className={cx(s.row, index % 2 && s.alternateRow)} style={style}>
+        <div className={cx(s.rowMain, s.faint)}>
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={toggleOpen} />
           <span className="Space" />
-          Dialogue Tree {node.hash} ({versionString})
+          {link ? (
+            <Link className={s.link} to={link}>
+              {content}
+            </Link>
+          ) : (
+            content
+          )}
         </div>
+
+        {link && (
+          <div className={s.rowAccessory}>
+            <Link to={link} className={s.permalink}>
+              Permalink
+            </Link>
+          </div>
+        )}
       </div>
     );
   }
@@ -156,7 +192,8 @@ const Node: React.FC<
             {narrator || <em>Unknown</em>}:
           </span>{" "}
           {node.caption}
-        </div>{" "}
+        </div>
+
         <div className={s.accessory}>
           <DownloadButton className={s.downloadButton} node={node} />
           <span className="Space" />

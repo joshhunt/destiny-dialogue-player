@@ -115,12 +115,30 @@ export default function useDialogueBanks() {
 
   const routeDialogue = useMemo(() => {
     const tableHash = parseInt(params?.tableHash ?? "0");
+    const treeHash = parseInt(params?.treeHash ?? "0");
+
     if (tableHash === 0) {
       return dialogueBanks;
     }
 
-    return dialogueBanks.filter((v) => v.hash === tableHash);
-  }, [dialogueBanks, params?.tableHash]);
+    const table = dialogueBanks.filter((v) => v.hash === tableHash);
+
+    if (treeHash === 0 || table.length === 0) {
+      return table;
+    }
+
+    const firstTable = table[0];
+    const specificTree = firstTable.dialogues.filter(
+      (v) => v.hash === treeHash
+    );
+
+    return [
+      {
+        ...firstTable,
+        dialogues: specificTree,
+      },
+    ];
+  }, [dialogueBanks, params?.tableHash, params?.treeHash]);
 
   return {
     progress,

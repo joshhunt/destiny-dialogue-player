@@ -1,11 +1,9 @@
 import React, { ChangeEvent, useCallback } from "react";
-import Modal from "react-modal";
 import { Link } from "wouter";
 import { useDialogueRoute } from "../../lib/useRoute";
 
 import { useSearchContext } from "../../views/MainView/searchContext";
-import ToggleButton, { ToggleButtonGroup } from "../Button/ToggleButton";
-import IncludedDialogue from "../IncludedDialogue";
+import AboutModal from "../AboutModal";
 
 import s from "./styles.module.css";
 
@@ -26,8 +24,6 @@ const Header: React.FC<HeaderProps> = ({ hideControls }) => {
     setSelectedNarrator,
     searchText,
     setSearchText,
-    gender,
-    setGender,
   } = useSearchContext();
 
   const handleNarratorChange = useCallback(
@@ -54,8 +50,6 @@ const Header: React.FC<HeaderProps> = ({ hideControls }) => {
     setIsOpen(true);
   }
 
-  function afterOpenModal() {}
-
   function closeModal() {
     setIsOpen(false);
   }
@@ -74,6 +68,14 @@ const Header: React.FC<HeaderProps> = ({ hideControls }) => {
                 <i className="fa-regular fa-chevron-right" />
               </span>
               Table {params.tableHash}
+              {params.treeHash && (
+                <>
+                  <span className={s.chevron}>
+                    <i className="fa-regular fa-chevron-right" />
+                  </span>
+                  {params.treeHash}
+                </>
+              )}
             </div>
           )}
 
@@ -84,23 +86,6 @@ const Header: React.FC<HeaderProps> = ({ hideControls }) => {
       </div>
 
       <div className={s.extraItems}>
-        <ToggleButtonGroup>
-          <ToggleButton
-            icon="fa-regular fa-mars"
-            onClick={() => setGender("Masculine")}
-            isSelected={gender === "Masculine"}
-          >
-            <span className={s.hideMedium}>Masculine</span>
-          </ToggleButton>
-          <ToggleButton
-            icon="fa-regular fa-venus"
-            onClick={() => setGender("Feminine")}
-            isSelected={gender === "Feminine"}
-          >
-            <span className={s.hideMedium}>Feminine</span>
-          </ToggleButton>
-        </ToggleButtonGroup>
-
         <div className={s.searchBox}>
           <i className="fa-regular fa-magnifying-glass" />
 
@@ -130,49 +115,7 @@ const Header: React.FC<HeaderProps> = ({ hideControls }) => {
         </div>
       </div>
 
-      <Modal
-        isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
-        overlayClassName={s.modalOverlay}
-        portalClassName={s.modalRoot}
-        className={s.modal}
-      >
-        <h2 className={s.modalTitle}>Hello, world :) </h2>
-
-        <p className={s.desc}>
-          Destiny Dialogue Archive is a fan-made archive of Destiny's dialogue
-          from multiple versions. The intent for this site is to archive
-          dialogue as it is removed from the game, not to "datamine" or share
-          spoilers. Minimal effort has been put into keeping spoilers off the
-          site, but read at your own risk.
-        </p>
-
-        <p>Destiny Dialogue Archive contains dialogue from the releases:</p>
-        <IncludedDialogue />
-
-        <p className={s.desc}>
-          Many thanks to montague, ginsor, Phillip, and all the others who have
-          helped on this project.
-        </p>
-
-        <p className={s.altDesc}>
-          Note: for technical reasons, the narrator sometimes might be missing,
-          or incorrect. If you have knowledge of Destiny's dialogue tables, feel
-          free to DM me and help out :)
-        </p>
-
-        <p className={s.desc}>
-          <a href="https://twitter.com/joshhunt">@joshhunt</a>
-        </p>
-
-        <button className={s.closeButton} onClick={closeModal}>
-          <span className={s.stopIcon}>
-            <i className="fa-regular fa-xmark"></i>
-          </span>
-          Close
-        </button>
-      </Modal>
+      <AboutModal isOpen={modalIsOpen} onRequestClose={closeModal} />
     </div>
   );
 };

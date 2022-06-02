@@ -15,6 +15,7 @@ import {
 
 const getNodeData = (
   _node: TreeNode,
+  parentNode: TreeNode | null,
   nestingLevel: number,
   gender: Gender
 ): TreeWalkerValue<TreeNodeData, NodeMeta> => {
@@ -37,9 +38,9 @@ const getNodeData = (
       id: nodeId,
       isLeaf: "type" in node && node.type === "DialogueLine",
       isOpenByDefault: previousNodeOpenState || nestingLevel < 3,
-      //isOpenByDefault: false,
       nestingLevel,
       node,
+      parent: parentNode,
       defaultHeight:
         "type" in node && node.type === "Header"
           ? HEADER_ROW_HEIGHT
@@ -54,13 +55,13 @@ const getNodeData = (
 
 function makeTreeWalker(dialogueBanks: RootDialogueCollection, gender: Gender) {
   function* treeWalker(): ReturnType<TreeWalker<TreeNodeData, NodeMeta>> {
-    yield getNodeData(HEADER_NODE, 0, gender);
+    yield getNodeData(HEADER_NODE, null, 0, gender);
 
     if ("type" in dialogueBanks) {
-      yield getNodeData(dialogueBanks, 0, gender);
+      yield getNodeData(dialogueBanks, null, 0, gender);
     } else {
       for (let i = 0; i < dialogueBanks.length; i++) {
-        yield getNodeData(dialogueBanks[i], 0, gender);
+        yield getNodeData(dialogueBanks[i], null, 0, gender);
       }
     }
 
@@ -77,7 +78,12 @@ function makeTreeWalker(dialogueBanks: RootDialogueCollection, gender: Gender) {
         for (let index = 0; index < dialogueBank.dialogues.length; index++) {
           const dialogueTree = dialogueBank.dialogues[index];
 
-          yield getNodeData(dialogueTree, parentMeta.nestingLevel + 1, gender);
+          yield getNodeData(
+            dialogueTree,
+            parentNode,
+            parentMeta.nestingLevel + 1,
+            gender
+          );
         }
       }
 
@@ -91,7 +97,12 @@ function makeTreeWalker(dialogueBanks: RootDialogueCollection, gender: Gender) {
         handled = true;
         const dialogueBank = parentNode;
         for (const childNode of dialogueBank.lines) {
-          yield getNodeData(childNode, parentMeta.nestingLevel + 1, gender);
+          yield getNodeData(
+            childNode,
+            parentNode,
+            parentMeta.nestingLevel + 1,
+            gender
+          );
         }
       }
 
@@ -101,6 +112,7 @@ function makeTreeWalker(dialogueBanks: RootDialogueCollection, gender: Gender) {
         const dialogueTree = parentNode;
         yield getNodeData(
           dialogueTree.dialogue,
+          parentNode,
           parentMeta.nestingLevel + 1,
           gender
         );
@@ -112,7 +124,12 @@ function makeTreeWalker(dialogueBanks: RootDialogueCollection, gender: Gender) {
         const dialogueSequence = parentNode;
 
         for (const childNode of dialogueSequence.sequence) {
-          yield getNodeData(childNode, parentMeta.nestingLevel + 1, gender);
+          yield getNodeData(
+            childNode,
+            parentNode,
+            parentMeta.nestingLevel + 1,
+            gender
+          );
         }
       }
 
@@ -128,7 +145,12 @@ function makeTreeWalker(dialogueBanks: RootDialogueCollection, gender: Gender) {
         //   );
         // } else {
         for (const childNode of dialogueBranch.options) {
-          yield getNodeData(childNode, parentMeta.nestingLevel + 1, gender);
+          yield getNodeData(
+            childNode,
+            parentNode,
+            parentMeta.nestingLevel + 1,
+            gender
+          );
         }
         // }
       }

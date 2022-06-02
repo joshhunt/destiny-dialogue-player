@@ -13,6 +13,7 @@ interface Header {
 export type TreeNodeData = VariableSizeNodeData &
   Readonly<{
     node: TreeNode;
+    parent: TreeNode | null;
     isLeaf: boolean;
     nestingLevel: number;
   }>;
