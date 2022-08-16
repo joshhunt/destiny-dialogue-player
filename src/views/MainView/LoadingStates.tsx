@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import MainView from ".";
 import { RootDialogueCollection } from "../../components/VirtualDialogueTree/types";
 import { LoadingProgress, LoadingState } from "../../lib/useDialogueBanks";
+import { latestBuildId } from "../../lib/versionMap";
 import { CurrentDialogueState, DialogueLine } from "../../types";
 import DisclaimerView from "../DisclaimerView";
 import ErrorView from "../ErrorView";
@@ -17,7 +18,7 @@ interface MainViewLoadingStatesProps {
 }
 
 const DISCLAIMER_APPROVAL_KEY = "disclaimer-approval";
-const DISCLAIMER_APPROVAL_VALUE = "agree-3";
+const DISCLAIMER_APPROVAL_VALUE = "agree-" + latestBuildId;
 
 const MainViewLoadingState: React.FC<MainViewLoadingStatesProps> = ({
   dialogueBanks,
