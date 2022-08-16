@@ -1,38 +1,52 @@
 interface VersionSpec {
+  routeName: string;
   shortName: string;
   verboseName: string;
+  version: string;
   hideInVersionList?: boolean;
 }
 
 export const versions: Record<string, VersionSpec> = {
   "78698.19.10.18.1444.d2_rc": {
-    shortName: "Undying",
-    verboseName: "2.6.1.1 (Undying/Shadowkeep)",
+    routeName: "undying",
+    version: "78698.19.10.18.1444.d2_rc",
+    shortName: "Shadowkeep",
+    verboseName: "2.6.1.1 (Shadowkeep/Undying)",
   },
 
   "87221.20.09.10.1506.d2_live": {
+    routeName: "arrivals",
+    version: "87221.20.09.10.1506.d2_live",
     shortName: "Arrivals",
     verboseName: "2.9.2.1 (Arrivals)",
   },
 
   "101478.22.01.22.2200.v500_live.main": {
+    routeName: "lost",
+    version: "101478.22.01.22.2200.v500_live.main",
     shortName: "Lost",
     verboseName: "3.4.0.4 (Lost/30th Anniversary)",
   },
 
   "104642.22.04.26.1901.v500_live.main": {
-    shortName: "Risen",
-    verboseName: "4.0.1.2 (Risen/Witch Queen)",
+    routeName: "witch-queen",
+    version: "104642.22.04.26.1901.v500_live.main",
+    shortName: "Witch Queen",
+    verboseName: "4.0.1.2 (Witch Queen/Risen)",
   },
 
   // shouldn't be used anymore
   "105043.22.05.11.1611.v500_rc.main": {
+    routeName: "haunted-early",
+    version: "105043.22.05.11.1611.v500_rc.main",
     shortName: "Haunted",
     verboseName: "4.1.0.0 ()",
     hideInVersionList: true,
   },
 
   "107233.22.07.27.1901.v500_live.main": {
+    routeName: "haunted",
+    version: "107233.22.07.27.1901.v500_live.main",
     shortName: "Haunted",
     verboseName: "4.1.5.0 (Haunted)",
   },

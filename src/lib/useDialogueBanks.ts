@@ -4,7 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { DialogueManifest, DialogueTable } from "../types";
 import { getDialogueBankURL, getManifestURL } from "./dialogueAPI";
 import httpGetProgress from "./fetchProgress";
-import { useDialogueRoute } from "./useRoute";
+import { useDialogueRoute, useReleaseDialogueRoute } from "./useRoute";
+import { versions } from "./versionMap";
 
 function getVersionNumberFromPath(contentPath?: string) {
   if (!contentPath) {
@@ -92,8 +93,8 @@ export interface LoadingProgress {
 }
 
 export default function useDialogueBanks() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [match, params] = useDialogueRoute();
+  const [matchesDialogueRoute, dialougeParams] = useDialogueRoute();
+  const [matchesReleaseRoute, releaseParams] = useReleaseDialogueRoute();
 
   const [state, setState] = useState(LoadingState.NotStarted);
   const [error, setError] = useState<any>();
@@ -114,31 +115,57 @@ export default function useDialogueBanks() {
   }, []);
 
   const routeDialogue = useMemo(() => {
-    const tableHash = parseInt(params?.tableHash ?? "0");
-    const treeHash = parseInt(params?.treeHash ?? "0");
+    if (matchesDialogueRoute && dialougeParams) {
+      const tableHash = parseInt(dialougeParams.tableHash);
+      const treeHash = parseInt(dialougeParams.treeHash ?? "0");
 
-    if (tableHash === 0) {
+      const table = dialogueBanks.filter((v) => v.hash === tableHash);
+
+      if (treeHash === 0 || table.length === 0) {
+        return table;
+      }
+
+      const firstTable = table[0];
+      const specificTree = firstTable.dialogues.filter(
+        (v) => v.hash === treeHash
+      );
+
+      return [
+        {
+          ...firstTable,
+          dialogues: specificTree,
+        },
+      ];
+    } else if (matchesReleaseRoute && releaseParams) {
+      const version = Object.values(versions).find(
+        (v) => v.routeName === releaseParams.releaseName
+      );
+
+      if (!version) return dialogueBanks;
+
+      const filtered = dialogueBanks
+        .map((bank) => {
+          const dialogueTreesForVersion = bank.dialogues.filter(
+            (tree) => tree.versions[0] === version.version
+          );
+          return {
+            ...bank,
+            dialogues: dialogueTreesForVersion,
+          };
+        })
+        .filter((v) => v.dialogues.length);
+
+      return filtered;
+    } else {
       return dialogueBanks;
     }
-
-    const table = dialogueBanks.filter((v) => v.hash === tableHash);
-
-    if (treeHash === 0 || table.length === 0) {
-      return table;
-    }
-
-    const firstTable = table[0];
-    const specificTree = firstTable.dialogues.filter(
-      (v) => v.hash === treeHash
-    );
-
-    return [
-      {
-        ...firstTable,
-        dialogues: specificTree,
-      },
-    ];
-  }, [dialogueBanks, params?.tableHash, params?.treeHash]);
+  }, [
+    matchesDialogueRoute,
+    dialougeParams,
+    matchesReleaseRoute,
+    releaseParams,
+    dialogueBanks,
+  ]);
 
   return {
     progress,

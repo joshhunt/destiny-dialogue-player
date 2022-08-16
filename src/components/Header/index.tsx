@@ -1,6 +1,7 @@
-import React, { ChangeEvent, useCallback } from "react";
+import React, { ChangeEvent, useCallback, useMemo } from "react";
 import { Link } from "wouter";
-import { useDialogueRoute } from "../../lib/useRoute";
+import { useDialogueRoute, useReleaseDialogueRoute } from "../../lib/useRoute";
+import { versions } from "../../lib/versionMap";
 
 import { useSearchContext } from "../../views/MainView/searchContext";
 import AboutModal from "../AboutModal";
@@ -14,8 +15,8 @@ interface HeaderProps {
 const ALL_VALUE = "$$all";
 
 const Header: React.FC<HeaderProps> = ({ hideControls }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [match, params] = useDialogueRoute();
+  const [, dialougeRouteParams] = useDialogueRoute();
+  const [, releaseRouteParams] = useReleaseDialogueRoute();
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
   const {
@@ -46,6 +47,14 @@ const Header: React.FC<HeaderProps> = ({ hideControls }) => {
     [setSearchText]
   );
 
+  const selectedVersion = useMemo(() => {
+    if (!releaseRouteParams) return undefined;
+
+    return Object.values(versions).find(
+      (v) => v.routeName === releaseRouteParams.releaseName
+    );
+  }, [releaseRouteParams]);
+
   function openModal() {
     setIsOpen(true);
   }
@@ -62,18 +71,27 @@ const Header: React.FC<HeaderProps> = ({ hideControls }) => {
         </Link>
 
         <div className={s.subtitle}>
-          {params && (
+          {selectedVersion && (
             <div className={s.specificTable}>
               <span className={s.chevron}>
                 <i className="fa-regular fa-chevron-right" />
               </span>
-              Table {params.tableHash}
-              {params.treeHash && (
+              {selectedVersion.verboseName}
+            </div>
+          )}
+
+          {dialougeRouteParams && (
+            <div className={s.specificTable}>
+              <span className={s.chevron}>
+                <i className="fa-regular fa-chevron-right" />
+              </span>
+              Table {dialougeRouteParams.tableHash}
+              {dialougeRouteParams.treeHash && (
                 <>
                   <span className={s.chevron}>
                     <i className="fa-regular fa-chevron-right" />
                   </span>
-                  {params.treeHash}
+                  {dialougeRouteParams.treeHash}
                 </>
               )}
             </div>
