@@ -1,3 +1,5 @@
+import { latestBuildId } from "./versionMap";
+
 const NEXT_API = process.env.REACT_APP_NEXT_API === "true";
 
 export const URL_BASE = NEXT_API
@@ -15,5 +17,5 @@ export function getDialogueBankURL(file: string) {
 }
 
 export function getManifestURL() {
-  return `${URL_BASE}/manifest.json?v2`;
+  return `${URL_BASE}/manifest.json?${latestBuildId}`;
 }

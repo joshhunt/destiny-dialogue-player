@@ -7,6 +7,15 @@ export const versionMap: Record<string, string> = {
   "107233.22.07.27.1901.v500_live.main": "Haunted", // 4150, end of season
 };
 
+export const latestBuildId = Math.max(
+  ...Object.keys(versionMap)
+    .map((versionString) => {
+      return versionString.match(/(\d+)\./)?.[1];
+    })
+    .map((v) => parseInt(v ?? "0"))
+    .filter(Boolean)
+);
+
 export function getVersionName(versionId: string) {
   return versionMap[versionId] ?? "Unknown";
 }
