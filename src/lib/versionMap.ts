@@ -50,6 +50,14 @@ export const versions: Record<string, VersionSpec> = {
     shortName: "Haunted",
     verboseName: "4.1.5.0 (Haunted)",
   },
+
+  "107914.22.08.23.1604.v500_live.main": {
+    routeName: "plunder-pre",
+    version: "107914.22.08.23.1604.v500_live.main",
+    shortName: "Plunder (pre)",
+    verboseName: "6.2.0.1",
+    hideInVersionList: true,
+  },
 };
 
 export const latestBuildId = Math.max(

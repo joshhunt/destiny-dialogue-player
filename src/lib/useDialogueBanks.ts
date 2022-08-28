@@ -4,7 +4,12 @@ import { useEffect, useMemo, useState } from "react";
 import { DialogueManifest, DialogueTable } from "../types";
 import { getDialogueBankURL, getManifestURL } from "./dialogueAPI";
 import httpGetProgress from "./fetchProgress";
-import { useDialogueRoute, useReleaseDialogueRoute } from "./useRoute";
+import {
+  useDialogueBankURLOverride,
+  useDialogueRoute,
+  useQueryParams,
+  useReleaseDialogueRoute,
+} from "./useRoute";
 import { versions } from "./versionMap";
 
 function getVersionNumberFromPath(contentPath?: string) {
@@ -30,20 +35,29 @@ async function getManifest() {
 }
 
 async function getAllDialogueBanks(
-  dispatchProgress: (p: LoadingProgress) => void
+  dispatchProgress: (p: LoadingProgress) => void,
+  dialogueBankURLOverride?: string | undefined
 ): Promise<DialogueTable[]> {
-  const manifest = await getManifest();
-  const cached = await idbGet<DialogueTable[]>(manifest.dialoguePath);
+  let dialoguePath: string;
+
+  if (dialogueBankURLOverride) {
+    dialoguePath = dialogueBankURLOverride;
+  } else {
+    const manifest = await getManifest();
+    dialoguePath = manifest.dialoguePath;
+  }
+
+  const cached = await idbGet<DialogueTable[]>(dialoguePath);
 
   if (cached) {
     return cached;
   }
 
   const data = (await httpGetProgress(
-    getDialogueBankURL(manifest.dialoguePath),
+    getDialogueBankURL(dialoguePath),
     (total, progress) => dispatchProgress({ total, progress })
   )) as DialogueTable[];
-  await idbSet(manifest.dialoguePath, data);
+  await idbSet(dialoguePath, data);
 
   dispatchProgress({
     progress: 90,
@@ -57,10 +71,11 @@ async function getAllDialogueBanks(
     total: 100,
   });
 
-  const keysToDelete = allKeysInIDB.filter(
-    (key) => key !== manifest.dialoguePath
-  );
-  await delMany(keysToDelete);
+  // Don't clear keys if we're visiting an override
+  if (!dialogueBankURLOverride) {
+    const keysToDelete = allKeysInIDB.filter((key) => key !== dialoguePath);
+    await delMany(keysToDelete);
+  }
 
   dispatchProgress({
     progress: 99,
@@ -95,6 +110,8 @@ export interface LoadingProgress {
 export default function useDialogueBanks() {
   const [matchesDialogueRoute, dialougeParams] = useDialogueRoute();
   const [matchesReleaseRoute, releaseParams] = useReleaseDialogueRoute();
+  useQueryParams();
+  const dialogueBankURLOverride = useDialogueBankURLOverride();
 
   const [state, setState] = useState(LoadingState.NotStarted);
   const [error, setError] = useState<any>();
@@ -102,7 +119,7 @@ export default function useDialogueBanks() {
   const [dialogueBanks, setDialogueBanks] = useState<DialogueTable[]>([]);
 
   useEffect(() => {
-    getAllDialogueBanks(setProgress)
+    getAllDialogueBanks(setProgress, dialogueBankURLOverride)
       .then((allData) => {
         setDialogueBanks(allData);
         setState(LoadingState.Done);
