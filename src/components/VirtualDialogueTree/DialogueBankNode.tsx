@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { Link } from "wouter";
+import { useDialogueBankURLOverride } from "../../lib/useRoute";
 import { DialogueTable, FilteredDialogueTable } from "../../types";
 import { useSearchContext } from "../../views/MainView/searchContext";
 import { AppLink } from "../Button";
@@ -11,6 +12,7 @@ interface DialogueBankNodeProps {
 }
 
 const DialogueBankNode: React.FC<DialogueBankNodeProps> = ({ node, id }) => {
+  const dialogueBankURLOverride = useDialogueBankURLOverride();
   const { setSelectedNarrator, setSearchText } = useSearchContext();
 
   const clearSearch = useCallback(() => {
@@ -23,12 +25,17 @@ const DialogueBankNode: React.FC<DialogueBankNodeProps> = ({ node, id }) => {
       ? "fa-file-magnifying-glass"
       : "fa-file";
 
+  const nodeLinkSuffix = dialogueBankURLOverride
+    ? `?dialogueBankURLOverride=${dialogueBankURLOverride}`
+    : "";
+  const nodeLink = `/d/${node.hash}${nodeLinkSuffix}`;
+
   return (
     <>
       <span className="Space" />
       <i className={`fa-duotone ${icon}`}></i>
       <span className="Space" />
-      <Link className={s.link} to={`/d/${node.hash}`} onClick={clearSearch}>
+      <Link className={s.link} to={nodeLink} onClick={clearSearch}>
         Dialogue Table {node.hash}
       </Link>
       {node.contentPath && (
@@ -44,7 +51,7 @@ const DialogueBankNode: React.FC<DialogueBankNodeProps> = ({ node, id }) => {
           <span className="Space" />
           <AppLink
             icon="fa-regular fa-arrow-right-to-arc"
-            to={`/d/${node.hash}`}
+            to={nodeLink}
             onClick={clearSearch}
           >
             Go to table

@@ -16,6 +16,7 @@ import { getVersionName } from "../../lib/versionMap";
 import { useCallback } from "react";
 import { saveNodeState } from "../../lib/sessionStorage";
 import { Link } from "wouter";
+import { useDialogueBankURLOverride } from "../../lib/useRoute";
 
 const Node: React.FC<
   NodeComponentProps<TreeNodeData, FixedSizeNodePublicState<TreeNodeData>>
@@ -26,6 +27,7 @@ const Node: React.FC<
   style,
   setOpen,
 }) => {
+  const dialogueBankURLOverride = useDialogueBankURLOverride();
   const toggleOpen = useCallback(() => {
     const newOpenness = !isOpen;
     saveNodeState(id, newOpenness);
@@ -88,10 +90,13 @@ const Node: React.FC<
         ? getVersionName(firstVersion)
         : `${getVersionName(firstVersion)} - ${getVersionName(lastVersion)}`;
 
+    const linkSuffix = dialogueBankURLOverride
+      ? `?dialogueBankURLOverride=${dialogueBankURLOverride}`
+      : "";
     const link =
       parent &&
       parent.type === "ArchivedDialogueTable" &&
-      `/d/${parent.hash}/${node.hash}`;
+      `/d/${parent.hash}/${node.hash}${linkSuffix}`;
 
     const content = `Dialogue Tree ${node.hash} (${versionString})`;
 
