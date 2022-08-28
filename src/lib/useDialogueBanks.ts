@@ -129,7 +129,7 @@ export default function useDialogueBanks() {
         setError(err);
         setState(LoadingState.Error);
       });
-  }, []);
+  }, [dialogueBankURLOverride]);
 
   const routeDialogue = useMemo(() => {
     if (matchesDialogueRoute && dialougeParams) {
