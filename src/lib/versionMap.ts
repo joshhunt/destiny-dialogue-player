@@ -52,7 +52,7 @@ export const versions: Record<string, VersionSpec> = {
     verboseName: "4.1.5.0 (Haunted)",
   },
 
-  "107914.22.08.23.1604.v500_live.main": {
+  "109859.22.11.01.1900.v500_live.main": {
     routeName: "plunder",
     version: "109859.22.11.01.1900.v500_live.main",
     shortName: "Plunder",
