@@ -56,7 +56,7 @@ export const versions: Record<string, VersionSpec> = {
     routeName: "plunder",
     version: "109859.22.11.01.1900.v500_live.main",
     shortName: "Plunder",
-    verboseName: "6.2.0.1 (Plunder)",
+    verboseName: "6.2.5.3 (Plunder)",
   },
 };
 
