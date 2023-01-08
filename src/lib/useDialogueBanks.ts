@@ -119,6 +119,14 @@ export default function useDialogueBanks() {
   const [dialogueBanks, setDialogueBanks] = useState<DialogueTable[]>([]);
 
   useEffect(() => {
+    console.log("dialougeParams useEffect");
+  }, [dialougeParams]);
+
+  useEffect(() => {
+    console.log("releaseParams useEffect");
+  }, [releaseParams]);
+
+  useEffect(() => {
     getAllDialogueBanks(setProgress, dialogueBankURLOverride)
       .then((allData) => {
         setDialogueBanks(allData);
@@ -132,7 +140,8 @@ export default function useDialogueBanks() {
   }, [dialogueBankURLOverride]);
 
   const routeDialogue = useMemo(() => {
-    if (matchesDialogueRoute && dialougeParams) {
+    console.log("route dialogue useMemo triggered");
+    if (matchesDialogueRoute && dialougeParams?.tableHash) {
       const tableHash = parseInt(dialougeParams.tableHash);
       const treeHash = parseInt(dialougeParams.treeHash ?? "0");
 

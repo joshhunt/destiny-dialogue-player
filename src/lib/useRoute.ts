@@ -1,12 +1,42 @@
 import { useEffect, useState } from "react";
-import { useRoute } from "wouter";
+import { Match, useRoute } from "wouter";
+import isEqual from "lodash/isEqual";
+
+type RouterParams = Match[1];
+
+function useFixedRoute(route: string): Match {
+  const [matches, instableParams] = useRoute(route);
+  const [stableParams, setStableParams] = useState<RouterParams>(
+    () => instableParams
+  );
+
+  useEffect(() => {
+    setStableParams((oldParams) => {
+      if (isEqual(oldParams, instableParams)) {
+        return oldParams;
+      } else {
+        return instableParams;
+      }
+    });
+  }, [instableParams]);
+
+  if (matches && stableParams) {
+    return [true, stableParams];
+  }
+
+  if (!matches && !stableParams) {
+    return [false, null];
+  }
+
+  throw new Error("useFixedRoute invalid condition");
+}
 
 export function useDialogueRoute() {
-  return useRoute("/d/:tableHash/:treeHash?/:lineHash?");
+  return useFixedRoute("/d/:tableHash/:treeHash?/:lineHash?");
 }
 
 export function useReleaseDialogueRoute() {
-  return useRoute("/release/:releaseName");
+  return useFixedRoute("/release/:releaseName");
 }
 
 export function useQueryParams() {
