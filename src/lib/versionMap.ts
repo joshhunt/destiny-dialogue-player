@@ -44,7 +44,6 @@ export const versions: Record<string, VersionSpec> = {
     hideInVersionList: true,
   },
 
-  // shouldn't be used anymore
   "107233.22.07.27.1901.v500_live.main": {
     routeName: "haunted",
     version: "107233.22.07.27.1901.v500_live.main",
@@ -57,6 +56,14 @@ export const versions: Record<string, VersionSpec> = {
     version: "109859.22.11.01.1900.v500_live.main",
     shortName: "Plunder",
     verboseName: "6.2.5.3 (Plunder)",
+  },
+
+  "111215.22.12.12.1450.v500_live.main": {
+    routeName: "seraph-pre",
+    version: "111215.22.12.12.1450.v500_live.main",
+    shortName: "Plunder",
+    verboseName: "6.3.x.x (Seraph Prerelease)",
+    hideInVersionList: true,
   },
 };
 
