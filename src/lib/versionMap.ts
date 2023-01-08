@@ -61,7 +61,7 @@ export const versions: Record<string, VersionSpec> = {
   "111215.22.12.12.1450.v500_live.main": {
     routeName: "seraph-pre",
     version: "111215.22.12.12.1450.v500_live.main",
-    shortName: "Plunder",
+    shortName: "Seraph (Prerelease)",
     verboseName: "6.3.x.x (Seraph Prerelease)",
     hideInVersionList: true,
   },
