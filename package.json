@@ -43,6 +43,7 @@
       "react-app/jest"
     ]
   },
+  "packageManager": "pnpm@7.27.1",
   "browserslist": {
     "production": [
       ">0.2%",
