@@ -1,6 +1,5 @@
 import React, { forwardRef, useCallback, useRef } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
-import cx from "classnames";
 
 import { VariableSizeTree } from "@joshhunt/react-vtree";
 import {
@@ -12,7 +11,6 @@ import {
 } from "./types";
 import Node from "./Node";
 
-import s from "./styles.module.css";
 import Header from "../Header";
 import useTreeWalker from "./useTreeWalker";
 import { GoToProvider } from "./useGoToNode";
@@ -26,14 +24,7 @@ interface VirtualDialogueTreeProps {
 
 const outerElementType = forwardRef<HTMLDivElement, any>(
   ({ style, className, ...rest }, ref) => {
-    return (
-      <div
-        ref={ref}
-        style={style}
-        className={cx(className, s.cssScrollBars)}
-        {...rest}
-      />
-    );
+    return <div ref={ref} style={style} className={className} {...rest} />;
   }
 );
 

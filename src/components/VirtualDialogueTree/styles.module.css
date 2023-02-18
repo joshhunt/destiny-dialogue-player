@@ -11,7 +11,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background 25ms ease-in-out;
+  transition: background-color 25ms ease-in-out;
   border-radius: 2px;
   padding-right: 16px;
   padding-left: 8px;
@@ -34,7 +34,7 @@
 
 .row:not(.stickyHeader):hover {
   background-color: hsl(20, 1%, 13%);
-  transition: background 0ms ease-in-out;
+  transition: background-color 0ms ease-in-out;
 }
 
 .rowMain {
@@ -45,62 +45,6 @@
 
 .narrator {
   color: #b7b7b7;
-}
-
-.cssScrollBars {
-  position: relative;
-  --scrollbarBG: transparent;
-  --thumbBG: #717071;
-}
-
-.cssScrollBars::-webkit-scrollbar {
-  width: 12px;
-}
-.cssScrollBars {
-  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
-}
-.cssScrollBars::-webkit-scrollbar-track {
-  background: var(--scrollbarBG);
-}
-.cssScrollBars::-webkit-scrollbar-thumb {
-  background-color: var(--thumbBG);
-  border-radius: 6px;
-}
-
-/* .cssScrollBars::-webkit-scrollbar {
-  width: 16px;
-  border: solid 4px blue;
-  background-color: red;
-}
-
-.cssScrollBars::-webkit-scrollbar-thumb {
-  border: solid 4px orange;
-  background-color: green;
-  border-radius: 8px;
-  min-height: 16px;
-} */
-
-.scrollerThumb {
-  background-color: rgba(255, 255, 255, 0.4);
-  border-radius: 100px;
-  width: 8px !important;
-}
-
-.scrollerRoot:hover .scrollerThumb {
-  background-color: rgba(255, 255, 255, 0.6);
-  border-radius: 100px;
-}
-
-.scrollerTrack {
-  right: 4px;
-  bottom: 2px;
-  top: 2px;
-  border-radius: 3px;
-  z-index: 20;
-}
-
-.scrollerRoot:hover .scrollerTrack {
-  opacity: 1 !important;
 }
 
 .bank {
