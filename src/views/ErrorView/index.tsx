@@ -16,7 +16,7 @@ const ErrorView: React.FC<ErrorViewProps> = ({ error }) => {
 
   return (
     <div className={s.root}>
-      <Header hideControls={true} />
+      <Header />
 
       <div className={s.main}>
         <div className={s.box}>

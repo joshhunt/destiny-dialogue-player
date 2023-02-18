@@ -1,24 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Match, useRoute } from "wouter";
 import isEqual from "lodash/isEqual";
 
-type RouterParams = Match[1];
+function useStableValue<T>(value: T): T {
+  const stableRef = useRef<T>(value);
+
+  if (!isEqual(stableRef.current, value)) {
+    stableRef.current = value;
+  }
+
+  return stableRef.current;
+}
 
 function useFixedRoute(route: string): Match {
   const [matches, instableParams] = useRoute(route);
-  const [stableParams, setStableParams] = useState<RouterParams>(
-    () => instableParams
-  );
-
-  useEffect(() => {
-    setStableParams((oldParams) => {
-      if (isEqual(oldParams, instableParams)) {
-        return oldParams;
-      } else {
-        return instableParams;
-      }
-    });
-  }, [instableParams]);
+  const stableParams = useStableValue(instableParams);
+  console.log("useFixedRoute", {
+    route,
+    matches,
+    stableParams,
+    instableParams,
+  });
 
   if (matches && stableParams) {
     return [true, stableParams];

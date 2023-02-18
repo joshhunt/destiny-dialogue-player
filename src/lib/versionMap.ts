@@ -35,15 +35,6 @@ export const versions: Record<string, VersionSpec> = {
     verboseName: "4.0.1.2 (Witch Queen/Risen)",
   },
 
-  // shouldn't be used anymore
-  "105043.22.05.11.1611.v500_rc.main": {
-    routeName: "haunted-early",
-    version: "105043.22.05.11.1611.v500_rc.main",
-    shortName: "Haunted",
-    verboseName: "4.1.0.0 ()",
-    hideInVersionList: true,
-  },
-
   "107233.22.07.27.1901.v500_live.main": {
     routeName: "haunted",
     version: "107233.22.07.27.1901.v500_live.main",
@@ -58,12 +49,11 @@ export const versions: Record<string, VersionSpec> = {
     verboseName: "6.2.5.3 (Plunder)",
   },
 
-  "111215.22.12.12.1450.v500_live.main": {
-    routeName: "seraph-pre",
-    version: "111215.22.12.12.1450.v500_live.main",
-    shortName: "Seraph (Prerelease)",
-    verboseName: "6.3.x.x (Seraph Prerelease)",
-    hideInVersionList: true,
+  "112555.23.01.25.1701.v500_live.main": {
+    routeName: "seraph",
+    version: "112555.23.01.25.1701.v500_live.main",
+    shortName: "Seraph",
+    verboseName: "6.3.0.9 (Seraph)",
   },
 };
 

@@ -109,6 +109,9 @@ export interface LoadingProgress {
 
 export default function useDialogueBanks() {
   const [matchesDialogueRoute, dialougeParams] = useDialogueRoute();
+  // const matchesDialogueRoute = false;
+  // const dialougeParams: any = null;
+
   const [matchesReleaseRoute, releaseParams] = useReleaseDialogueRoute();
   useQueryParams();
   const dialogueBankURLOverride = useDialogueBankURLOverride();
@@ -117,14 +120,6 @@ export default function useDialogueBanks() {
   const [error, setError] = useState<any>();
   const [progress, setProgress] = useState<LoadingProgress>();
   const [dialogueBanks, setDialogueBanks] = useState<DialogueTable[]>([]);
-
-  useEffect(() => {
-    console.log("dialougeParams useEffect");
-  }, [dialougeParams]);
-
-  useEffect(() => {
-    console.log("releaseParams useEffect");
-  }, [releaseParams]);
 
   useEffect(() => {
     getAllDialogueBanks(setProgress, dialogueBankURLOverride)
@@ -140,7 +135,6 @@ export default function useDialogueBanks() {
   }, [dialogueBankURLOverride]);
 
   const routeDialogue = useMemo(() => {
-    console.log("route dialogue useMemo triggered");
     if (matchesDialogueRoute && dialougeParams?.tableHash) {
       const tableHash = parseInt(dialougeParams.tableHash);
       const treeHash = parseInt(dialougeParams.treeHash ?? "0");

@@ -8,14 +8,11 @@ import AboutModal from "../AboutModal";
 
 import s from "./styles.module.css";
 
-interface HeaderProps {
-  hideControls?: boolean;
-}
-
 const ALL_VALUE = "$$all";
 
-const Header: React.FC<HeaderProps> = ({ hideControls }) => {
+const Header = React.memo(() => {
   const [, dialougeRouteParams] = useDialogueRoute();
+
   const [, releaseRouteParams] = useReleaseDialogueRoute();
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
@@ -65,77 +62,79 @@ const Header: React.FC<HeaderProps> = ({ hideControls }) => {
 
   return (
     <div className={s.stickyHeader}>
-      <div className={s.main}>
-        <Link to="/" className={s.title}>
-          Destiny Dialogue Archive
-        </Link>
+      <div className={s.headerInner}>
+        <div className={s.main}>
+          <Link to="/" className={s.title}>
+            Destiny Dialogue Archive
+          </Link>
 
-        <div className={s.subtitle}>
-          {selectedVersion && (
-            <div className={s.specificTable}>
-              <span className={s.chevron}>
-                <i className="fa-regular fa-chevron-right" />
-              </span>
-              {selectedVersion.verboseName}
-            </div>
-          )}
+          <div className={s.subtitle}>
+            {selectedVersion && (
+              <div className={s.specificTable}>
+                <span className={s.chevron}>
+                  <i className="fa-regular fa-chevron-right" />
+                </span>
+                {selectedVersion.verboseName}
+              </div>
+            )}
 
-          {dialougeRouteParams && (
-            <div className={s.specificTable}>
-              <span className={s.chevron}>
-                <i className="fa-regular fa-chevron-right" />
-              </span>
-              Table {dialougeRouteParams.tableHash}
-              {dialougeRouteParams.treeHash && (
-                <>
-                  <span className={s.chevron}>
-                    <i className="fa-regular fa-chevron-right" />
-                  </span>
-                  {dialougeRouteParams.treeHash}
-                </>
-              )}
-            </div>
-          )}
+            {dialougeRouteParams && (
+              <div className={s.specificTable}>
+                <span className={s.chevron}>
+                  <i className="fa-regular fa-chevron-right" />
+                </span>
+                Table {dialougeRouteParams.tableHash}
+                {dialougeRouteParams.treeHash && (
+                  <>
+                    <span className={s.chevron}>
+                      <i className="fa-regular fa-chevron-right" />
+                    </span>
+                    {dialougeRouteParams.treeHash}
+                  </>
+                )}
+              </div>
+            )}
 
-          <button className={s.aboutButton} onClick={openModal}>
-            About
-          </button>
+            <button className={s.aboutButton} onClick={openModal}>
+              About
+            </button>
+          </div>
         </div>
+
+        <div className={s.extraItems}>
+          <div className={s.searchBox}>
+            <i className="fa-regular fa-magnifying-glass" />
+
+            <input
+              type="text"
+              value={searchText ?? ""}
+              onChange={handleSearchChange}
+              className={s.searchInput}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="narrator-select">Narrator:</label>
+            <select
+              id="narrator-select"
+              className={s.narratorSelect}
+              value={selectedNarrator}
+              onChange={handleNarratorChange}
+            >
+              <option value={ALL_VALUE}>All</option>
+              {narrators.map((narrator) => (
+                <option key={narrator} value={narrator}>
+                  {narrator || "Unknown"}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <AboutModal isOpen={modalIsOpen} onRequestClose={closeModal} />
       </div>
-
-      <div className={s.extraItems}>
-        <div className={s.searchBox}>
-          <i className="fa-regular fa-magnifying-glass" />
-
-          <input
-            type="text"
-            value={searchText ?? ""}
-            onChange={handleSearchChange}
-            className={s.searchInput}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="narrator-select">Narrator:</label>
-          <select
-            id="narrator-select"
-            className={s.narratorSelect}
-            value={selectedNarrator}
-            onChange={handleNarratorChange}
-          >
-            <option value={ALL_VALUE}>All</option>
-            {narrators.map((narrator) => (
-              <option key={narrator} value={narrator}>
-                {narrator || "Unknown"}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <AboutModal isOpen={modalIsOpen} onRequestClose={closeModal} />
     </div>
   );
-};
+});
 
 export default Header;

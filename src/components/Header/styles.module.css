@@ -2,15 +2,20 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: hsl(13deg 1% 14%);
-  color: hsl(210 6% 99%);
-  height: 46px;
-  padding: 8px 16px;
+  padding: 6px;
   line-height: 1;
+}
+
+.headerInner {
+  padding: 8px 16px;
+  background: hsla(0, 1%, 14%, 0.7);
+  color: hsl(210 6% 99%);
+  border: 1px solid hsla(0, 1%, 16%, 0.9);
+  backdrop-filter: blur(2px);
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid hsla(24deg, 1%, 50%, 0.25);
 }
 
 .main {
@@ -48,7 +53,7 @@
   color: rgba(255, 255, 255, 0.95);
   min-width: 140px;
   height: 24px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: hsla(0, 2%, 20%, 0.95);
   box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px;
   border-radius: 4px;
   border: none;
@@ -69,7 +74,7 @@
 }
 
 .searchBox {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: hsla(0, 2%, 20%, 0.95);
   border-radius: 4px;
   padding: 0px 6px;
   font-size: 12px;
@@ -141,8 +146,7 @@
   }
 
   .stickyHeader {
-    height: 53px;
-    padding: 6px 14px;
+    padding: 8px;
   }
 
   .main {

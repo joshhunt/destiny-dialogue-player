@@ -141,7 +141,6 @@ export const useAudioState = () => {
         sound.sound.play();
 
         sound.sound.once("play", () => {
-          console.log("Playing sound", sound);
           setNowNextDialogue((v) => ({
             ...v,
             loading: false,
@@ -151,7 +150,6 @@ export const useAudioState = () => {
         });
 
         sound.sound.once("end", async () => {
-          console.log("Sound ended", sound);
           if (!soundsPlaylistRef.current) return;
 
           const delay = (sound.line.postLineDelay ?? 0) * 100;

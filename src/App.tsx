@@ -4,7 +4,7 @@ import { AudioContextProvider, useAudioState } from "./lib/audioContext";
 import useNarratorFilter from "./views/MainView/useNarratorFilter";
 import useTextSearch from "./lib/useTextSearch";
 import { SearchContextProvider } from "./views/MainView/searchContext";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Gender } from "./types";
 
 export default function App() {
@@ -15,16 +15,8 @@ export default function App() {
   const { audioContext, nowNextDialogue, playlist } = useAudioState();
   const { dialogueBanks, progress, state, error } = useDialogueBanks();
 
-  useEffect(() => {
-    console.log("dialogueBanks useEffect");
-  }, [dialogueBanks]);
-
   const { searchResultsDialogue, searchText, setSearchText } =
     useTextSearch(dialogueBanks);
-
-  useEffect(() => {
-    console.log("searchResultsDialogue useEffect");
-  }, [searchResultsDialogue]);
 
   const setGender = useCallback((gender: Gender) => {
     window.localStorage.setItem("dialogueGender", gender);
@@ -37,10 +29,6 @@ export default function App() {
     narratorFilteredDialogue,
     setSelectedNarrator,
   } = useNarratorFilter(searchResultsDialogue);
-
-  useEffect(() => {
-    console.log("narratorFilteredDialogue useEffect");
-  }, [narratorFilteredDialogue]);
 
   const searchContextValue = useMemo(
     () => ({

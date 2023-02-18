@@ -11,7 +11,7 @@ interface DisclaimerViewProps {
 const DisclaimerView: React.FC<DisclaimerViewProps> = ({ onApprove }) => {
   return (
     <div className={s.root}>
-      <Header hideControls />
+      <Header />
 
       <div className={s.main}>
         <div className={s.box}>

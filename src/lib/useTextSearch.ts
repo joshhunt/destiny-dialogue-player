@@ -67,7 +67,6 @@ export default function useTextSearch(dialogueBanks: DialogueTable[]) {
 
       const rawResults = await flexsearch.searchAsync(searchText);
       const resultsByField = keyBy(rawResults, "field");
-      console.log(resultsByField);
 
       const {
         caption: captionResults,
