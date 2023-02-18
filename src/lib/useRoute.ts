@@ -15,12 +15,6 @@ function useStableValue<T>(value: T): T {
 function useFixedRoute(route: string): Match {
   const [matches, instableParams] = useRoute(route);
   const stableParams = useStableValue(instableParams);
-  console.log("useFixedRoute", {
-    route,
-    matches,
-    stableParams,
-    instableParams,
-  });
 
   if (matches && stableParams) {
     return [true, stableParams];
