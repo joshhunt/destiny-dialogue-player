@@ -20,7 +20,7 @@ const Button: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   return (
-    <button {...rest} className={cx(className, s.button, icon && s.withIcon)}>
+    <button {...rest} className={cx(className, s.button)}>
       {icon && <i className={cx(icon, s.icon)} />} {children}
     </button>
   );

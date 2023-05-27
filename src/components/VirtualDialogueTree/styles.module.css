@@ -1,5 +1,5 @@
 .faint {
-  color: #949495;
+  color: var(--text-color-faint);
 }
 
 .selectBoundry {
@@ -7,21 +7,21 @@
 }
 
 .row {
-  height: 26px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   transition: background-color 25ms ease-in-out;
-  border-radius: 2px;
   padding-right: 16px;
   padding-left: 8px;
-  background-color: hsl(240, 2%, 9%);
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
 }
 
 .alternateRow {
-  background: none;
+  background-color: var(--bg-color-alt);
+}
+
+.row:not(.stickyHeader):hover {
+  /* background-color: var(--bg-color-hover); */
+  transition: background-color 0ms ease-in-out;
 }
 
 .downloadButton {
@@ -30,11 +30,6 @@
 
 .row:hover .downloadButton {
   opacity: 1;
-}
-
-.row:not(.stickyHeader):hover {
-  background-color: hsl(20, 1%, 13%);
-  transition: background-color 0ms ease-in-out;
 }
 
 .rowMain {

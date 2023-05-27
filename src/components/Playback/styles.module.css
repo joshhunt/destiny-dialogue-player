@@ -1,3 +1,7 @@
+.root {
+  --playback-bg: var(--app-bg);
+}
+
 .line {
   margin: 32px 16px;
   transition: 50ms all ease-in-out;
@@ -38,12 +42,7 @@
 .controls {
   position: sticky;
   bottom: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(16, 16, 18, 0),
-    rgba(16, 16, 18, 0.6) 40%,
-    rgba(16, 16, 18, 1) 100%
-  );
+  background: linear-gradient(to bottom, transparent, var(--bg-color) 100%);
   padding: 16px;
   padding-top: 32px;
   display: flex;
@@ -69,7 +68,7 @@
 
 .controlsExitDone {
   opacity: 0 !important;
-  display: none;
+  display: none !important;
 }
 
 .loading {

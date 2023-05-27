@@ -71,22 +71,22 @@ export default function Playback({
         </div>
       ))}
 
-      <div className={s.controls}>
-        <CSSTransition
-          in={playing}
-          timeout={200}
-          classNames={{
-            appear: s.controlsAppear,
-            appearActive: s.controlsAppearActive,
-            appearDone: s.controlsAppearDone,
-            enter: s.controlsEnter,
-            enterActive: s.controlsEnterActive,
-            enterDone: s.controlsEnterDone,
-            exit: s.controlsExit,
-            exitActive: s.controlsExitActive,
-            exitDone: s.controlsExitDone,
-          }}
-        >
+      <CSSTransition
+        in={playing}
+        timeout={200}
+        classNames={{
+          appear: s.controlsAppear,
+          appearActive: s.controlsAppearActive,
+          appearDone: s.controlsAppearDone,
+          enter: s.controlsEnter,
+          enterActive: s.controlsEnterActive,
+          enterDone: s.controlsEnterDone,
+          exit: s.controlsExit,
+          exitActive: s.controlsExitActive,
+          exitDone: s.controlsExitDone,
+        }}
+      >
+        <div className={s.controls}>
           <button
             className={cx(playing ? s.stopButton : s.stopButtonInactive)}
             onClick={stopPlayback}
@@ -96,15 +96,15 @@ export default function Playback({
             </span>
             Stop playback
           </button>
-        </CSSTransition>
+        </div>
+      </CSSTransition>
 
-        <button className={s.closeButton} onClick={clearDialogue}>
-          <span className={s.stopIcon}>
-            <i className="fa-regular fa-xmark"></i>
-          </span>
-          Close
-        </button>
-      </div>
+      <button className={s.closeButton} onClick={clearDialogue}>
+        <span className={s.stopIcon}>
+          <i className="fa-regular fa-xmark"></i>
+        </span>
+        Close
+      </button>
     </div>
   );
 }

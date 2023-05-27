@@ -1,14 +1,28 @@
+@import "@radix-ui/colors/slateDark.css";
+@import "@radix-ui/colors/slateDarkA.css";
+@import "@radix-ui/colors/blueDark.css";
+
 * {
   box-sizing: border-box;
 }
 
 html {
-  --bg-color: hsl(255, 3.7%, 7%);
+  --bg-color: var(--slate1);
+  --bg-color-alt: var(--slateA2); /* alternate rows */
+  --bg-color-alt-alpha: var(--slateA2); /* header bg */
+  --bg-color-hover: var(--slate3);
+
+  --border-color: var(--slate6);
+
+  --text-color: var(--slate12);
+  --text-color-faint: var(--slate11);
+
+  --blur: 5px;
 
   font-family: "Inter", sans-serif;
   font-size: 14px;
   background: var(--bg-color);
-  color: hsl(210 6% 93%);
+  color: var(--text-color);
   line-height: 1.588;
   font-weight: 400;
   font-feature-settings: "tnum" 1;

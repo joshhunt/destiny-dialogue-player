@@ -55,6 +55,21 @@ export const versions: Record<string, VersionSpec> = {
     shortName: "Seraph",
     verboseName: "6.3.0.9 (Seraph)",
   },
+
+  "114814.23.04.02.1900.v500_rc.main": {
+    routeName: "defiance",
+    version: "114814.23.04.02.1900.v500_rc.main",
+    shortName: "Defiance",
+    verboseName: "7.0.5.0 (Defiance)",
+  },
+
+  "115651.23.05.10.1700.v500_rc.main": {
+    routeName: "deep",
+    version: "114814.23.04.02.1900.v500_rc.main",
+    shortName: "Deep",
+    verboseName: "7.1.0.0 (Deep)",
+    hideInVersionList: true,
+  },
 };
 
 export const latestBuildId = Math.max(

@@ -39,12 +39,11 @@ const Node: React.FC<
     return null;
   }
 
+  const className = cx(s.row, index % 2 === 0 && s.alternateRow);
+
   if (node.type === "ArchivedDialogueTable") {
     return (
-      <div
-        className={cx(s.row, s.bank, index % 2 && s.alternateRow)}
-        style={style}
-      >
+      <div className={cx(className, s.bank)} style={style}>
         <div className={s.rowMain} key="file">
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={toggleOpen} />
@@ -62,10 +61,7 @@ const Node: React.FC<
 
   if (node.type === "FilteredDialogueTable") {
     return (
-      <div
-        className={cx(s.row, s.bank, index % 2 && s.alternateRow)}
-        style={style}
-      >
+      <div className={cx(className, s.bank)} style={style}>
         <div className={s.rowMain} key="glass">
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={toggleOpen} />
@@ -101,7 +97,7 @@ const Node: React.FC<
     const content = `Dialogue Tree ${node.hash} (${versionString})`;
 
     return (
-      <div className={cx(s.row, index % 2 && s.alternateRow)} style={style}>
+      <div className={cx(className)} style={style}>
         <div className={cx(s.rowMain, s.faint)}>
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={toggleOpen} />
@@ -129,10 +125,7 @@ const Node: React.FC<
   if (node.type === "DialogueSequence") {
     const summary = formattedSummary(node.sequence);
     return (
-      <div
-        className={cx(s.row, s.faint, index % 2 && s.alternateRow)}
-        style={style}
-      >
+      <div className={cx(className, s.faint)} style={style}>
         <div className={s.rowMain}>
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={toggleOpen} />
@@ -150,10 +143,7 @@ const Node: React.FC<
   if (node.type === "DialogueBranch") {
     const summary = formattedSummary(node.options);
     return (
-      <div
-        className={cx(s.row, s.faint, index % 2 && s.alternateRow)}
-        style={style}
-      >
+      <div className={cx(className, s.faint)} style={style}>
         <div className={s.rowMain}>
           <Indent level={nestingLevel} />
           <DisclosureButton isOpen={isOpen} onClick={toggleOpen} />
@@ -174,7 +164,7 @@ const Node: React.FC<
     const narrator = node.narrator?.trim();
 
     return (
-      <div className={cx(s.row, index % 2 && s.alternateRow)} style={style}>
+      <div className={cx(className)} style={style}>
         <div className={s.rowMain}>
           <Indent level={nestingLevel} />
           {node.gender ? (

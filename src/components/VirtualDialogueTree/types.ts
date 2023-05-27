@@ -34,7 +34,7 @@ export const HEADER_NODE: Header = {
   id: "$$header",
 };
 
-export const ROW_HEIGHT = 26;
+export const ROW_HEIGHT = 30;
 
 export const HEADER_ROW_HEIGHT = 56;
 export const SMALL_HEADER_ROW_HEIGHT = 74;

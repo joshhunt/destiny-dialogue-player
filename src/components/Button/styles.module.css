@@ -1,28 +1,36 @@
 .button {
-  appearance: none;
-  color: inherit;
-  background: rgba(255, 255, 255, 0.08);
-  border: none;
-  color: hsla(210, 6%, 93%, 90%);
+  all: unset;
+
+  background: var(--slateA3);
+  background: var(--slate4);
+
+  color: var(--text-color);
   white-space: nowrap;
   font-size: 13px;
-  border-radius: 2px;
-  padding: 2px 6px;
-  transition: background ease-in-out 50ms;
+  border-radius: 3px;
+  padding: 6px 8px;
+  transition: background-color ease-in-out 50ms;
   cursor: pointer;
   font-weight: 500;
   font-family: inherit;
   text-decoration: none;
-}
-
-.withIcon {
-  padding-left: calc(6px - 0.4ch);
+  line-height: 1;
+  display: inline-block;
 }
 
 .button:hover {
-  background: rgba(255, 255, 255, 0.25);
-  color: white;
+  background: var(--slate5);
   transition: background ease-in-out 0;
+}
+
+.button:active {
+  background: var(--slate6);
+  transition: background ease-in-out 0;
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--slate7);
+  outline-offset: 1px;
 }
 
 .icon {

@@ -8,10 +8,10 @@
 
 .headerInner {
   padding: 8px 16px;
-  background: hsla(0, 1%, 14%, 0.7);
+  background: var(--bg-color-alt-alpha);
   color: hsl(210 6% 99%);
-  border: 1px solid hsla(0, 1%, 16%, 0.9);
-  backdrop-filter: blur(2px);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(var(--blur));
   border-radius: 4px;
   display: flex;
   align-items: center;
