@@ -1,5 +1,4 @@
 import { delMany, get as idbGet, keys, set as idbSet } from "idb-keyval";
-import { orderBy } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import { DialogueManifest, DialogueTable } from "../types";
 import { getDialogueBankURL, getManifestURL } from "./dialogueAPI";
@@ -10,7 +9,7 @@ import {
   useQueryParams,
   useReleaseDialogueRoute,
 } from "./useRoute";
-import { versions } from "./versionMap";
+import { versions, editions, Edition } from "./versionMap";
 
 function getVersionNumberFromPath(contentPath?: string) {
   if (!contentPath) {
@@ -27,37 +26,51 @@ function getVersionNumberFromPath(contentPath?: string) {
   return parseInt(lastMatch[2]);
 }
 
-async function getManifest() {
-  const resp = await fetch(getManifestURL());
+async function getManifest(manifestName: string) {
+  const resp = await fetch(getManifestURL(manifestName));
   const data = await resp.json();
 
   return data as DialogueManifest;
 }
 
-async function getAllDialogueBanks(
+async function getDialogueEdition(
   dispatchProgress: (p: LoadingProgress) => void,
-  dialogueBankURLOverride?: string | undefined
-): Promise<DialogueTable[]> {
-  let dialoguePath: string;
-
-  if (dialogueBankURLOverride) {
-    dialoguePath = dialogueBankURLOverride;
-  } else {
-    const manifest = await getManifest();
-    dialoguePath = manifest.dialoguePath;
-  }
-
-  const cached = await idbGet<DialogueTable[]>(dialoguePath);
+  manifestName: string
+) {
+  const manifest = await getManifest(manifestName);
+  const cached = await idbGet<DialogueTable[]>(manifest.dialoguePath);
 
   if (cached) {
-    return cached;
+    return [manifest.dialoguePath, cached] as const;
   }
 
-  const data = (await httpGetProgress(
-    getDialogueBankURL(dialoguePath),
+  let data = (await httpGetProgress(
+    getDialogueBankURL(manifest.dialoguePath),
     (total, progress) => dispatchProgress({ total, progress })
   )) as DialogueTable[];
-  await idbSet(dialoguePath, data);
+
+  data = data.map((bank) => {
+    return {
+      ...bank,
+      contentPath: bank.contentPath
+        ?.replace(/^content\\dialog\\/, "")
+        .replace(/\.dialog_table\.tft$/, ""),
+    };
+  });
+
+  await idbSet(manifest.dialoguePath, data);
+
+  return [manifest.dialoguePath, data] as const;
+}
+
+async function getAllDialogueBanks(
+  dispatchProgress: (p: LoadingProgress) => void,
+  edition: Edition
+): Promise<DialogueTable[]> {
+  const [dialoguePath, dialogueTables] = await getDialogueEdition(
+    dispatchProgress,
+    edition.manifestName
+  );
 
   dispatchProgress({
     progress: 90,
@@ -71,28 +84,15 @@ async function getAllDialogueBanks(
     total: 100,
   });
 
-  // Don't clear keys if we're visiting an override
-  if (!dialogueBankURLOverride) {
-    const keysToDelete = allKeysInIDB.filter((key) => key !== dialoguePath);
-    await delMany(keysToDelete);
-  }
+  const keysToDelete = allKeysInIDB.filter((key) => key !== dialoguePath);
+  await delMany(keysToDelete);
 
   dispatchProgress({
     progress: 99,
     total: 100,
   });
 
-  return orderBy(
-    data.map((bank) => {
-      return {
-        ...bank,
-        contentPath: bank.contentPath
-          ?.replace(/^content\\dialog\\/, "")
-          .replace(/\.dialog_table\.tft$/, ""),
-      };
-    }),
-    (v) => getVersionNumberFromPath(v.contentPath)
-  );
+  return dialogueTables;
 }
 
 export enum LoadingState {
@@ -107,14 +107,11 @@ export interface LoadingProgress {
   total: number;
 }
 
-export default function useDialogueBanks() {
+export default function useDialogueBanks(edition: Edition) {
   const [matchesDialogueRoute, dialougeParams] = useDialogueRoute();
-  // const matchesDialogueRoute = false;
-  // const dialougeParams: any = null;
 
   const [matchesReleaseRoute, releaseParams] = useReleaseDialogueRoute();
   useQueryParams();
-  const dialogueBankURLOverride = useDialogueBankURLOverride();
 
   const [state, setState] = useState(LoadingState.NotStarted);
   const [error, setError] = useState<any>();
@@ -122,7 +119,7 @@ export default function useDialogueBanks() {
   const [dialogueBanks, setDialogueBanks] = useState<DialogueTable[]>([]);
 
   useEffect(() => {
-    getAllDialogueBanks(setProgress, dialogueBankURLOverride)
+    getAllDialogueBanks(setProgress, edition)
       .then((allData) => {
         setDialogueBanks(allData);
         setState(LoadingState.Done);
@@ -132,7 +129,7 @@ export default function useDialogueBanks() {
         setError(err);
         setState(LoadingState.Error);
       });
-  }, [dialogueBankURLOverride]);
+  }, [edition]);
 
   const routeDialogue = useMemo(() => {
     if (matchesDialogueRoute && dialougeParams?.tableHash) {

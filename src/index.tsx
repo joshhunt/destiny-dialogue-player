@@ -1,13 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-// import App from "./App";
-import App from "./Offline";
+import AppRouter from "./AppRouter";
 
-// import "@fortawesome/fontawesome-pro/css/fontawesome.css";
-// import "@fortawesome/fontawesome-pro/css/regular.css";
-// import "@fortawesome/fontawesome-pro/css/duotone.css";
+import "@fortawesome/fontawesome-pro/css/fontawesome.css";
+import "@fortawesome/fontawesome-pro/css/regular.css";
+import "@fortawesome/fontawesome-pro/css/duotone.css";
 
 import "inter-ui/inter.css";
 import "./index.css";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<AppRouter />, document.getElementById("root"));

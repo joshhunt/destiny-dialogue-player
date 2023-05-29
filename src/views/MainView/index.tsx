@@ -7,7 +7,6 @@ import { spring } from "motion";
 import { Animation } from "@motionone/animation";
 import _MainViewLoadingStates from "./LoadingStates";
 import { RootDialogueCollection } from "../../components/VirtualDialogueTree/types";
-import Header from "../../components/Header";
 
 export const MainViewLoadingStates = _MainViewLoadingStates;
 

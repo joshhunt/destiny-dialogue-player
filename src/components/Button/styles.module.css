@@ -1,7 +1,6 @@
 .button {
   all: unset;
 
-  background: var(--slateA3);
   background: var(--slate4);
 
   color: var(--text-color);
@@ -19,17 +18,17 @@
 }
 
 .button:hover {
-  background: var(--slate5);
+  background: var(--slate8);
   transition: background ease-in-out 0;
 }
 
 .button:active {
-  background: var(--slate6);
+  background: var(--slate7);
   transition: background ease-in-out 0;
 }
 
 .button:focus-visible {
-  outline: 3px solid var(--slate7);
+  outline: 3px solid var(--slate11);
   outline-offset: 1px;
 }
 

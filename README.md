@@ -44,3 +44,14 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+Links to keep stable
+
+- Failsafe vendor dialogue http://localhost:3000/d/18263354
+- Failsafe greetings http://localhost:3000/d/18263354/1042316109 ("Hello", "Hello, Captain!", "Yeah?" etc)
+
+- DSC http://localhost:3000/d/479921286
+- DSC "the wrong hands" bit http://localhost:3000/d/479921286/2785199775
+
+- Gambit dialogue http://localhost:3000/d/1104324627
+- Invader two kills http://localhost:3000/d/1104324627/1051392527

@@ -6,6 +6,22 @@ interface VersionSpec {
   hideInVersionList?: boolean;
 }
 
+export interface Edition {
+  id: string;
+  manifestName: string;
+}
+
+export const editions: Edition[] = [
+  {
+    id: "edition-one",
+    manifestName: "manifest-edition-one",
+  },
+  {
+    id: "edition-two",
+    manifestName: "manifest-edition-two",
+  },
+];
+
 export const versions: Record<string, VersionSpec> = {
   "78698.19.10.18.1444.d2_rc": {
     routeName: "undying",
