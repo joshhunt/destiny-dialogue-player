@@ -9,22 +9,7 @@ import {
   useQueryParams,
   useReleaseDialogueRoute,
 } from "./useRoute";
-import { versions, editions, Edition } from "./versionMap";
-
-function getVersionNumberFromPath(contentPath?: string) {
-  if (!contentPath) {
-    return Number.MAX_SAFE_INTEGER;
-  }
-
-  const matches = Array.from(contentPath.matchAll(/(d|v)(\d+)\\/g) ?? []);
-  const lastMatch = matches.at(-1);
-
-  if (!lastMatch) {
-    return Number.MAX_SAFE_INTEGER;
-  }
-
-  return parseInt(lastMatch[2]);
-}
+import { versions, editions } from "./versionMap";
 
 async function getManifest(manifestName: string) {
   const resp = await fetch(getManifestURL(manifestName));
@@ -65,12 +50,18 @@ async function getDialogueEdition(
 
 async function getAllDialogueBanks(
   dispatchProgress: (p: LoadingProgress) => void,
-  edition: Edition
+  dialogueBankURLOverride?: string | undefined
 ): Promise<DialogueTable[]> {
-  const [dialoguePath, dialogueTables] = await getDialogueEdition(
-    dispatchProgress,
-    edition.manifestName
+  if (dialogueBankURLOverride) {
+    throw new Error("Dialogue bank url override is no longer supported");
+  }
+
+  const allDialogueResults = await Promise.all(
+    editions.map((v) => getDialogueEdition(dispatchProgress, v.manifestName))
   );
+
+  const allDialoguePaths = allDialogueResults.map((v) => v[0]);
+  const allDialogueTables = allDialogueResults.flatMap((v) => v[1]);
 
   dispatchProgress({
     progress: 90,
@@ -84,15 +75,20 @@ async function getAllDialogueBanks(
     total: 100,
   });
 
-  const keysToDelete = allKeysInIDB.filter((key) => key !== dialoguePath);
-  await delMany(keysToDelete);
+  // Don't clear keys if we're visiting an override
+  if (!dialogueBankURLOverride) {
+    const keysToDelete = allKeysInIDB.filter(
+      (key) => !allDialoguePaths.includes(key)
+    );
+    await delMany(keysToDelete);
+  }
 
   dispatchProgress({
     progress: 99,
     total: 100,
   });
 
-  return dialogueTables;
+  return allDialogueTables;
 }
 
 export enum LoadingState {
@@ -107,11 +103,14 @@ export interface LoadingProgress {
   total: number;
 }
 
-export default function useDialogueBanks(edition: Edition) {
+export default function useDialogueBanks() {
   const [matchesDialogueRoute, dialougeParams] = useDialogueRoute();
+  // const matchesDialogueRoute = false;
+  // const dialougeParams: any = null;
 
   const [matchesReleaseRoute, releaseParams] = useReleaseDialogueRoute();
   useQueryParams();
+  const dialogueBankURLOverride = useDialogueBankURLOverride();
 
   const [state, setState] = useState(LoadingState.NotStarted);
   const [error, setError] = useState<any>();
@@ -119,7 +118,7 @@ export default function useDialogueBanks(edition: Edition) {
   const [dialogueBanks, setDialogueBanks] = useState<DialogueTable[]>([]);
 
   useEffect(() => {
-    getAllDialogueBanks(setProgress, edition)
+    getAllDialogueBanks(setProgress, dialogueBankURLOverride)
       .then((allData) => {
         setDialogueBanks(allData);
         setState(LoadingState.Done);
@@ -129,7 +128,7 @@ export default function useDialogueBanks(edition: Edition) {
         setError(err);
         setState(LoadingState.Error);
       });
-  }, [edition]);
+  }, [dialogueBankURLOverride]);
 
   const routeDialogue = useMemo(() => {
     if (matchesDialogueRoute && dialougeParams?.tableHash) {

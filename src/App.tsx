@@ -1,45 +1,19 @@
-import { MainViewLoadingStates } from "../../views/MainView";
-import useDialogueBanks from "../../lib/useDialogueBanks";
-import { AudioContextProvider, useAudioState } from "../../lib/audioContext";
-import useNarratorFilter from "../MainView/useNarratorFilter";
-import useTextSearch from "../../lib/useTextSearch";
-import { SearchContextProvider } from "../MainView/searchContext";
+import { MainViewLoadingStates } from "./views/MainView";
+import useDialogueBanks from "./lib/useDialogueBanks";
+import { AudioContextProvider, useAudioState } from "./lib/audioContext";
+import useNarratorFilter from "./views/MainView/useNarratorFilter";
+import useTextSearch from "./lib/useTextSearch";
+import { SearchContextProvider } from "./views/MainView/searchContext";
 import { useCallback, useMemo, useState } from "react";
-import { Gender } from "../../types";
-import { type Edition, editions } from "../../lib/versionMap";
+import { Gender } from "./types";
 
-interface EditionValidatorProps {
-  params: {
-    edition: string;
-  };
-}
-
-interface EditionDialogueProps {
-  edition: Edition;
-}
-
-export default function EditionValidator({
-  params: { edition },
-}: EditionValidatorProps) {
-  const editionData = useMemo(
-    () => editions.find((v) => v.id === edition),
-    [edition]
-  );
-
-  return editionData ? (
-    <EditionDialogue edition={editionData} />
-  ) : (
-    <div>404 edition not found</div>
-  );
-}
-
-function EditionDialogue({ edition }: EditionDialogueProps) {
+export default function App() {
   const [gender, setGenderState] = useState<Gender>(() => {
     return (window.localStorage.getItem("dialogueGender") ??
       "Masculine") as Gender;
   });
   const { audioContext, nowNextDialogue, playlist } = useAudioState();
-  const { dialogueBanks, progress, state, error } = useDialogueBanks(edition);
+  const { dialogueBanks, progress, state, error } = useDialogueBanks();
 
   const { searchResultsDialogue, searchText, setSearchText } =
     useTextSearch(dialogueBanks);

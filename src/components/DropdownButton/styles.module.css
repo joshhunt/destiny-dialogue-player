@@ -1,0 +1,30 @@
+.menu {
+  background: var(--slate7);
+  color: var(--slate12);
+  z-index: 999;
+  box-shadow: rgba(0, 0, 0, 0.8) 0px 10px 38px -10px,
+    rgba(0, 0, 0, 0.8) 0px 10px 20px -15px, rgba(0, 0, 0) 0px 0px 3px -1px;
+  border-radius: 3px;
+  padding: 4px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.item {
+  all: unset;
+  display: block;
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.item:hover {
+  background: var(--slate8);
+}
+
+.icon {
+  margin-inline-end: 0.8ch;
+}

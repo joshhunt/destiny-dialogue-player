@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ForwardedRef, forwardRef } from "react";
 import cx from "classnames";
 import { Link as WouterLink, LinkProps as WouterLinkProps } from "wouter";
 
@@ -13,18 +13,22 @@ interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   icon?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({
-  icon,
-  children,
-  className,
-  ...rest
-}) => {
+function Button(
+  { icon, children, className, ...rest }: ButtonProps,
+  ref: ForwardedRef<HTMLButtonElement>
+) {
+  const isIconButton = icon && !children;
+
   return (
-    <button {...rest} className={cx(className, s.button)}>
+    <button
+      ref={ref}
+      {...rest}
+      className={cx(className, s.button, isIconButton && s.iconButton)}
+    >
       {icon && <i className={cx(icon, s.icon)} />} {children}
     </button>
   );
-};
+}
 
 export const Link: React.FC<LinkProps> = ({
   icon,
@@ -52,4 +56,8 @@ export const AppLink: React.FC<WouterLinkProps & { icon?: string }> = ({
   );
 };
 
-export default Button;
+export default forwardRef<HTMLButtonElement, ButtonProps>(Button);
+
+export function ButtonGroup({ children }: { children: React.ReactNode }) {
+  return <div className={s.buttonGroupRoot}>{children}</div>;
+}

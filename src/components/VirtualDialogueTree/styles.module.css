@@ -10,7 +10,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background-color 25ms ease-in-out;
+  transition: background-color 0 ease-in-out;
   padding-right: 16px;
   padding-left: 8px;
 }
@@ -24,12 +24,9 @@
   transition: background-color 0ms ease-in-out;
 }
 
-.downloadButton {
-  opacity: 0;
-}
-
-.row:hover .downloadButton {
-  opacity: 1;
+.row:hover {
+  background-color: var(--slate3);
+  transition: background-color 0 ease-in-out;
 }
 
 .rowMain {

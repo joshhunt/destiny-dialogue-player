@@ -8,15 +8,20 @@ import { formattedSummary } from "../../lib/utils";
 
 import s from "./styles.module.css";
 import { TreeNodeData } from "./types";
-import { PlayButton } from "../PlayButton";
+import { PlayButton, usePlayAudio } from "../PlayButton";
 import { pickColor } from "../../lib/color";
 import DialogueBankNode from "./DialogueBankNode";
-import { DownloadButton } from "../DownloadButton";
+import { useDownloadProps } from "../DownloadButton";
 import { getVersionName } from "../../lib/versionMap";
 import { useCallback } from "react";
 import { saveNodeState } from "../../lib/sessionStorage";
 import { Link } from "wouter";
 import { useDialogueBankURLOverride } from "../../lib/useRoute";
+import { ButtonGroup } from "../Button";
+import DropdownButton, {
+  MenuItemButton,
+  MenuItemLink,
+} from "../DropdownButton";
 
 const Node: React.FC<
   NodeComponentProps<TreeNodeData, FixedSizeNodePublicState<TreeNodeData>>
@@ -33,6 +38,9 @@ const Node: React.FC<
     saveNodeState(id, newOpenness);
     setOpen(newOpenness);
   }, [id, isOpen, setOpen]);
+
+  const playAllAudio = usePlayAudio({ node, playAllBranches: true });
+  const downloadProps = useDownloadProps(node);
 
   // We don't render the header here, it's rendered separately
   if (node.type === "Header") {
@@ -152,9 +160,19 @@ const Node: React.FC<
         </div>
 
         <div className={s.accessory}>
-          <PlayButton node={node} label="Play All" playAllBranches />
-          <span className="Space" />
-          <PlayButton node={node} label="Branch" />
+          <ButtonGroup>
+            <PlayButton node={node} label="Play" />
+
+            <DropdownButton
+              menuItems={
+                <>
+                  <MenuItemButton icon="far fa-play" onClick={playAllAudio}>
+                    Play all
+                  </MenuItemButton>
+                </>
+              }
+            />
+          </ButtonGroup>
         </div>
       </div>
     );
@@ -190,9 +208,22 @@ const Node: React.FC<
         </div>
 
         <div className={s.accessory}>
-          <DownloadButton className={s.downloadButton} node={node} />
-          <span className="Space" />
-          <PlayButton node={node} />
+          <ButtonGroup>
+            <PlayButton node={node} label="Play" />
+
+            <DropdownButton
+              menuItems={
+                <>
+                  <MenuItemLink
+                    icon="fa-duotone fa-download"
+                    {...downloadProps}
+                  >
+                    Download
+                  </MenuItemLink>
+                </>
+              }
+            />
+          </ButtonGroup>
         </div>
       </div>
     );

@@ -1,12 +1,14 @@
 .button {
   all: unset;
 
-  background: var(--slate4);
+  background: var(--slate5); /* restore to this */
 
   color: var(--text-color);
+
+  border-radius: 3px; /* restore to this */
+
   white-space: nowrap;
   font-size: 13px;
-  border-radius: 3px;
   padding: 6px 8px;
   transition: background-color ease-in-out 50ms;
   cursor: pointer;
@@ -15,6 +17,11 @@
   text-decoration: none;
   line-height: 1;
   display: inline-block;
+}
+
+.iconButton {
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 .button:hover {
@@ -56,4 +63,19 @@
 .selected {
   background: rgba(255, 255, 255, 0.22);
   color: white;
+}
+
+.buttonGroupRoot {
+  display: inline;
+}
+
+.buttonGroupRoot > .button:not(:first-of-type) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: 1px solid var(--slate2);
+}
+
+.buttonGroupRoot > .button:not(:last-of-type) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
