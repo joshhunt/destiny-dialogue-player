@@ -79,12 +79,11 @@ export const versions: Record<string, VersionSpec> = {
     verboseName: "7.0.5.0 (Defiance)",
   },
 
-  "115651.23.05.10.1700.v500_rc.main": {
+  "117519.23.07.26.1701.v500_live.main": {
     routeName: "deep",
-    version: "114814.23.04.02.1900.v500_rc.main",
+    version: "117519.23.07.26.1701.v500_live.main",
     shortName: "Deep",
-    verboseName: "7.1.0.0 (Deep)",
-    hideInVersionList: true,
+    verboseName: "7.1.5.2 (Deep)",
   },
 };
 
